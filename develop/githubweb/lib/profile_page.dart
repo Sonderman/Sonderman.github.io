@@ -88,7 +88,7 @@ class NavHeader extends StatelessWidget {
               ? Row(
                   children: navButtons,
                 )
-              : null
+              : Text("")
         ],
       ),
     );
