@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:githubweb/MyTestPage.dart';
 import 'package:githubweb/responsive_widget.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key key}) : super(key: key);
-
   List<Widget> navButtons() => [
         NavButton(
           text: "about",

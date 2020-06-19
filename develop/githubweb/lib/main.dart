@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:githubweb/MyTestPage.dart';
 import 'package:githubweb/profile_page.dart';
 
 main() {
-  runApp(MyApp());
+  runApp(MyTestApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +17,16 @@ class MyApp extends StatelessWidget {
         fontFamily: "GoogleSansRegular",
       ),
       home: ProfilePage(),
+    );
+  }
+}
+
+class MyTestApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: TestPage(),
     );
   }
 }
