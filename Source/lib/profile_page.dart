@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:githubweb/MyTestPage.dart';
 import 'package:githubweb/responsive_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
   List<Widget> navButtons() => [
         NavButton(
           text: "about",
-          onPressed: () {
-            //  html.window.open("https://pawan.live", "Pk");
+          onPressed: () async {
+            await launch("https://docdro.id/cUeToaL");
           },
         ),
         NavButton(
@@ -18,8 +18,8 @@ class ProfilePage extends StatelessWidget {
         ),
         NavButton(
           text: "contact",
-          onPressed: () {
-            //  html.window.open("https://pawan.live", "Pk");
+          onPressed: () async {
+            await launch("https://mailto:alihaydar338@gmail.com");
           },
         ),
       ];
@@ -29,10 +29,6 @@ class ProfilePage extends StatelessWidget {
     return ResponsiveWidget(
       largeScreen: Scaffold(
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.black,
-        ),
         drawer: ResponsiveWidget.isSmallScreen(context)
             ? Drawer(
                 child: ListView(
@@ -44,7 +40,7 @@ class ProfilePage extends StatelessWidget {
         body: SingleChildScrollView(
           child: AnimatedPadding(
             duration: Duration(seconds: 1),
-            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.1),
+            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.05),
             child: ResponsiveWidget(
               largeScreen: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -137,13 +133,16 @@ class NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlineButton(
-      child: Text(text),
-      borderSide: BorderSide(
-        color: color,
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: OutlineButton(
+        child: Text(text),
+        borderSide: BorderSide(
+          color: color,
+        ),
+        onPressed: onPressed,
+        highlightedBorderColor: color,
       ),
-      onPressed: onPressed,
-      highlightedBorderColor: color,
     );
   }
 }
@@ -190,7 +189,7 @@ class ProfileInfo extends StatelessWidget {
         height: 10,
       ),
       Text(
-        "I am Mobile Developer.",
+        "I am Flutter Developer.",
         softWrap: true,
         textScaleFactor: 1.5,
         style: TextStyle(color: Colors.white70),
@@ -205,7 +204,9 @@ class ProfileInfo extends StatelessWidget {
             shape: StadiumBorder(),
             child: Text("Resume"),
             color: Colors.red,
-            onPressed: () {},
+            onPressed: () async {
+              await launch("https://docdro.id/cUeToaL");
+            },
             padding: EdgeInsets.all(10),
           ),
           SizedBox(
@@ -218,8 +219,8 @@ class ProfileInfo extends StatelessWidget {
             shape: StadiumBorder(),
             child: Text("Say Hi!"),
             color: Colors.red,
-            onPressed: () {
-              // html.window.open("https://pawan.live", "Pk");
+            onPressed: () async {
+              await launch("https://mailto:alihaydar338@gmail.com");
             },
             padding: EdgeInsets.all(10),
           )
@@ -256,22 +257,15 @@ class SocialInfo extends StatelessWidget {
     return [
       NavButton(
         text: "Github",
-        onPressed: () {
-          // html.window.open("https://github.com/iampawan", "Git");
+        onPressed: () async {
+          await launch("https://github.com/Sonderman");
         },
         color: Colors.blue,
       ),
       NavButton(
-        text: "Twitter",
-        onPressed: () {
-          // html.window.open("https://twitter.com/imthepk", "Twitter");
-        },
-        color: Colors.blue,
-      ),
-      NavButton(
-        text: "Facebook",
-        onPressed: () {
-          //  html.window.open("https://facebook.com/thepawankumaar", "Fb");
+        text: "Linkedin",
+        onPressed: () async {
+          await launch("https://www.linkedin.com/in/alihaydar-ayar-b45a4315b/");
         },
         color: Colors.blue,
       ),

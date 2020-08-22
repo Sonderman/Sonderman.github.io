@@ -3,7 +3,7 @@ import 'package:githubweb/MyTestPage.dart';
 import 'package:githubweb/profile_page.dart';
 
 main() {
-  runApp(MyTestApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
