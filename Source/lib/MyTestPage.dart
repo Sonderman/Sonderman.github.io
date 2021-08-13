@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TestPage extends StatefulWidget {
-  TestPage({Key key}) : super(key: key);
+  TestPage({Key? key}) : super(key: key);
 
   @override
   _TestPageState createState() => _TestPageState();

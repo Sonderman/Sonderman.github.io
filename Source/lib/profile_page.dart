@@ -67,7 +67,7 @@ class ProfilePage extends StatelessWidget {
 class NavHeader extends StatelessWidget {
   final List<Widget> navButtons;
 
-  const NavHeader({Key key, this.navButtons}) : super(key: key);
+  const NavHeader({Key? key, required this.navButtons}) : super(key: key);
 
   Widget build(BuildContext context) {
     return ResponsiveWidget(
@@ -125,7 +125,7 @@ class NavButton extends StatelessWidget {
   final Color color;
 
   const NavButton(
-      {Key key,
+      {Key? key,
       @required this.text,
       @required this.onPressed,
       this.color = Colors.orange})
@@ -273,7 +273,7 @@ class SocialInfo extends StatelessWidget {
   }
 
   Widget copyRightText() => Text(
-        "Ali Haydar AYAR ©️2020",
+        "Ali Haydar AYAR ©️2021",
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.grey,
