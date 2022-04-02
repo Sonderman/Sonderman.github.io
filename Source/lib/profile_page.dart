@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:githubweb/responsive_widget.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   List<Widget> navButtons() => [
-        NavButton(
-          text: "about",
-          onPressed: () async {
-            await launch("https://docdro.id/cUeToaL");
-          },
-        ),
-        NavButton(
-          text: "work",
-          onPressed: () {
-            // html.window.open("https://pawan.live", "Pk");
-          },
-        ),
         NavButton(
           text: "contact",
           onPressed: () async {
@@ -32,14 +19,6 @@ class ProfilePage extends StatelessWidget {
     return ResponsiveWidget(
       largeScreen: Scaffold(
         backgroundColor: Colors.black,
-        drawer: ResponsiveWidget.isSmallScreen(context)
-            ? Drawer(
-                child: ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: navButtons(),
-                ),
-              )
-            : null,
         body: SingleChildScrollView(
           child: AnimatedPadding(
             duration: const Duration(seconds: 1),
@@ -47,16 +26,17 @@ class ProfilePage extends StatelessWidget {
             child: ResponsiveWidget(
               largeScreen: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   NavHeader(navButtons: navButtons()),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
                   ),
-                  ProfileInfo(),
+                  const ProfileInfo(),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.2,
                   ),
-                  SocialInfo(),
+                  const SocialInfo(),
                 ],
               ),
             ),
@@ -79,16 +59,7 @@ class NavHeader extends StatelessWidget {
         mainAxisAlignment: ResponsiveWidget.isSmallScreen(context)
             ? MainAxisAlignment.center
             : MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          const PKDot(),
-//          Spacer(),
-          ResponsiveWidget.isSmallScreen(context) == false
-              ? Row(
-                  children: navButtons,
-                )
-              : const Text("")
-        ],
+        children: const <Widget>[PKDot()],
       ),
     );
   }
@@ -96,7 +67,6 @@ class NavHeader extends StatelessWidget {
 
 class PKDot extends StatelessWidget {
   const PKDot({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -143,7 +113,7 @@ class NavButton extends StatelessWidget {
         padding: const EdgeInsets.all(4.0),
         child: OutlinedButton(
           child: Text(text),
-          onPressed: () {},
+          onPressed: onPressed,
         ));
   }
 }
@@ -151,7 +121,7 @@ class NavButton extends StatelessWidget {
 class ProfileInfo extends StatelessWidget {
   const ProfileInfo({Key? key}) : super(key: key);
 
-  profileImage(context) => Container(
+  Widget profileImage(context) => Container(
         height: ResponsiveWidget.isSmallScreen(context)
             ? MediaQuery.of(context).size.height * 0.25
             : MediaQuery.of(context).size.width * 0.25,
@@ -164,8 +134,7 @@ class ProfileInfo extends StatelessWidget {
 //            borderRadius: BorderRadius.circular(40),
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: NetworkImage(
-                "https://miro.medium.com/max/1187/1*0FqDC0_r1f5xFz3IywLYRA.jpeg"),
+            image: AssetImage("profile.jpeg"),
             alignment: Alignment.center,
             fit: BoxFit.cover,
           ),
@@ -174,7 +143,9 @@ class ProfileInfo extends StatelessWidget {
 
   Widget profileData(context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: ResponsiveWidget.isSmallScreen(context)
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       children: <Widget>[
         const Text(
           "Hi there! My name is",
@@ -211,29 +182,13 @@ class ProfileInfo extends StatelessWidget {
               child: const Text("Resume"),
               onPressed: () async {
                 //await launch("https://docdro.id/cUeToaL");
-
                 showDialog(
                     context: context,
-                    builder: (dcontext) => SimpleDialog(
-                          backgroundColor: Colors.blue,
-                          children: [
-                            SizedBox(
-                                width: 600,
-                                height: 800,
-                                child: SfPdfViewer.asset("mycv.pdf"))
-                          ],
+                    builder: (dcontext) => AlertDialog(
+                          content: Image.asset("assets/cv.png"),
                         ));
               },
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            OutlinedButton(
-              child: const Text("Say Hi!"),
-              onPressed: () async {
-                await launch("https://mailto:alihaydar338@gmail.com");
-              },
-            )
           ],
         )
       ],
@@ -249,14 +204,14 @@ class ProfileInfo extends StatelessWidget {
         children: <Widget>[profileImage(context), profileData(context)],
       ),
       smallScreen: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           profileImage(context),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
           ),
-          profileData(context)
+          profileData(context),
         ],
       ),
     );
@@ -282,11 +237,17 @@ class SocialInfo extends StatelessWidget {
         },
         color: Colors.blue,
       ),
+      NavButton(
+        text: "contact",
+        onPressed: () async {
+          await launch("https://mailto:alihaydar338@gmail.com");
+        },
+      ),
     ];
   }
 
   Widget copyRightText() => const Text(
-        "Ali Haydar AYAR ©️2021",
+        "Ali Haydar AYAR ©️2022",
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.grey,
