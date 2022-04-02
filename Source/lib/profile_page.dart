@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:githubweb/responsive_widget.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+
   List<Widget> navButtons() => [
         NavButton(
           text: "about",
@@ -39,7 +42,7 @@ class ProfilePage extends StatelessWidget {
             : null,
         body: SingleChildScrollView(
           child: AnimatedPadding(
-            duration: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
             padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.05),
             child: ResponsiveWidget(
               largeScreen: Column(
@@ -69,6 +72,7 @@ class NavHeader extends StatelessWidget {
 
   const NavHeader({Key? key, required this.navButtons}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
       largeScreen: Row(
@@ -77,13 +81,13 @@ class NavHeader extends StatelessWidget {
             : MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          PKDot(),
+          const PKDot(),
 //          Spacer(),
           ResponsiveWidget.isSmallScreen(context) == false
               ? Row(
                   children: navButtons,
                 )
-              : Text("")
+              : const Text("")
         ],
       ),
     );
@@ -91,25 +95,27 @@ class NavHeader extends StatelessWidget {
 }
 
 class PKDot extends StatelessWidget {
+  const PKDot({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Text(
+        const Text(
           "Online",
           textScaleFactor: 2,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 5,
         ),
         AnimatedContainer(
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           height: 8,
           width: 8,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.orange,
           ),
@@ -126,28 +132,25 @@ class NavButton extends StatelessWidget {
 
   const NavButton(
       {Key? key,
-      @required this.text,
-      @required this.onPressed,
+      required this.text,
+      required this.onPressed,
       this.color = Colors.orange})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: OutlineButton(
-        child: Text(text),
-        borderSide: BorderSide(
-          color: color,
-        ),
-        onPressed: onPressed,
-        highlightedBorderColor: color,
-      ),
-    );
+        padding: const EdgeInsets.all(4.0),
+        child: OutlinedButton(
+          child: Text(text),
+          onPressed: () {},
+        ));
   }
 }
 
 class ProfileInfo extends StatelessWidget {
+  const ProfileInfo({Key? key}) : super(key: key);
+
   profileImage(context) => Container(
         height: ResponsiveWidget.isSmallScreen(context)
             ? MediaQuery.of(context).size.height * 0.25
@@ -155,7 +158,7 @@ class ProfileInfo extends StatelessWidget {
         width: ResponsiveWidget.isSmallScreen(context)
             ? MediaQuery.of(context).size.height * 0.25
             : MediaQuery.of(context).size.width * 0.25,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           backgroundBlendMode: BlendMode.luminosity,
           color: Colors.deepOrange,
 //            borderRadius: BorderRadius.circular(40),
@@ -169,65 +172,73 @@ class ProfileInfo extends StatelessWidget {
         ),
       );
 
-  final profileData = Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        "Hi there! My name is",
-        textScaleFactor: 2,
-        style: TextStyle(color: Colors.orange),
-      ),
-      Text(
-        "AliHaydar\nAYAR",
-        textScaleFactor: 5,
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+  Widget profileData(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Text(
+          "Hi there! My name is",
+          textScaleFactor: 2,
+          style: TextStyle(color: Colors.orange),
         ),
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      Text(
-        "I am Flutter Developer.",
-        softWrap: true,
-        textScaleFactor: 1.5,
-        style: TextStyle(color: Colors.white70),
-      ),
-      SizedBox(
-        height: 20,
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          RaisedButton(
-            shape: StadiumBorder(),
-            child: Text("Resume"),
-            color: Colors.red,
-            onPressed: () async {
-              await launch("https://docdro.id/cUeToaL");
-            },
-            padding: EdgeInsets.all(10),
+        const Text(
+          "AliHaydar\nAYAR",
+          textScaleFactor: 5,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
-          SizedBox(
-            width: 20,
-          ),
-          OutlineButton(
-            borderSide: BorderSide(
-              color: Colors.red,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text(
+          "I am Software Developer.",
+          softWrap: true,
+          textScaleFactor: 1.5,
+          style: TextStyle(color: Colors.white70),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+              ),
+              child: const Text("Resume"),
+              onPressed: () async {
+                //await launch("https://docdro.id/cUeToaL");
+
+                showDialog(
+                    context: context,
+                    builder: (dcontext) => SimpleDialog(
+                          backgroundColor: Colors.blue,
+                          children: [
+                            SizedBox(
+                                width: 600,
+                                height: 800,
+                                child: SfPdfViewer.asset("mycv.pdf"))
+                          ],
+                        ));
+              },
             ),
-            shape: StadiumBorder(),
-            child: Text("Say Hi!"),
-            color: Colors.red,
-            onPressed: () async {
-              await launch("https://mailto:alihaydar338@gmail.com");
-            },
-            padding: EdgeInsets.all(10),
-          )
-        ],
-      )
-    ],
-  );
+            const SizedBox(
+              width: 20,
+            ),
+            OutlinedButton(
+              child: const Text("Say Hi!"),
+              onPressed: () async {
+                await launch("https://mailto:alihaydar338@gmail.com");
+              },
+            )
+          ],
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +246,7 @@ class ProfileInfo extends StatelessWidget {
       largeScreen: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[profileImage(context), profileData],
+        children: <Widget>[profileImage(context), profileData(context)],
       ),
       smallScreen: Column(
         mainAxisSize: MainAxisSize.max,
@@ -245,7 +256,7 @@ class ProfileInfo extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
           ),
-          profileData
+          profileData(context)
         ],
       ),
     );
@@ -253,6 +264,8 @@ class ProfileInfo extends StatelessWidget {
 }
 
 class SocialInfo extends StatelessWidget {
+  const SocialInfo({Key? key}) : super(key: key);
+
   List<Widget> socialMediaWidgets() {
     return [
       NavButton(
@@ -272,7 +285,7 @@ class SocialInfo extends StatelessWidget {
     ];
   }
 
-  Widget copyRightText() => Text(
+  Widget copyRightText() => const Text(
         "Ali Haydar AYAR ©️2021",
         textAlign: TextAlign.center,
         style: TextStyle(
