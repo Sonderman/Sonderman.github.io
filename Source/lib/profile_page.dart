@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:githubweb/responsive_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webviewx/webviewx.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -36,6 +37,10 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.2,
                   ),
+                  const Projects(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                  ),
                   const SocialInfo(),
                 ],
               ),
@@ -43,6 +48,73 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Projects extends StatelessWidget {
+  const Projects({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Text(
+          "Games made by me",
+          textScaleFactor: 2,
+          style: TextStyle(color: Colors.green),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+          ),
+          child: const Text("Play Angry Bird Game Clone"),
+          onPressed: () async {
+            double frameHeight = 700.0;
+            double frameWidth = 1000.0;
+            String src =
+                """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="assets/assets/games/angrybird/index.html"></iframe>""";
+            showDialog(
+                context: context,
+                builder: (dcontext) => AlertDialog(
+                      content: WebViewX(
+                        height: frameHeight,
+                        width: frameWidth,
+                        initialContent: src,
+                        initialSourceType: SourceType.html,
+                      ),
+                    ));
+          },
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+          ),
+          child: const Text("Play Platformer"),
+          onPressed: () async {
+            double frameHeight = 700.0;
+            double frameWidth = 1000.0;
+            String src =
+                """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="assets/assets/games/platformer/index.html"></iframe>""";
+            showDialog(
+                context: context,
+                builder: (dcontext) => AlertDialog(
+                      content: WebViewX(
+                        height: frameHeight,
+                        width: frameWidth,
+                        initialContent: src,
+                        initialSourceType: SourceType.html,
+                      ),
+                    ));
+          },
+        ),
+      ],
     );
   }
 }
@@ -134,7 +206,7 @@ class ProfileInfo extends StatelessWidget {
 //            borderRadius: BorderRadius.circular(40),
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: AssetImage("assets/profile.jpeg"),
+            image: AssetImage("assets/profile2.jpg"),
             alignment: Alignment.center,
             fit: BoxFit.cover,
           ),
@@ -153,7 +225,7 @@ class ProfileInfo extends StatelessWidget {
           style: TextStyle(color: Colors.orange),
         ),
         const Text(
-          "AliHaydar\nAYAR",
+          "Ali Haydar",
           textScaleFactor: 5,
           style: TextStyle(
             color: Colors.white,
@@ -164,7 +236,7 @@ class ProfileInfo extends StatelessWidget {
           height: 10,
         ),
         const Text(
-          "I am Software Developer.",
+          "I am Game Developer.",
           softWrap: true,
           textScaleFactor: 1.5,
           style: TextStyle(color: Colors.white70),
@@ -185,12 +257,12 @@ class ProfileInfo extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (dcontext) => AlertDialog(
-                          content: Image.asset("assets/cv.png"),
+                          content: Image.asset("assets/cv-game.png"),
                         ));
               },
             ),
           ],
-        )
+        ),
       ],
     );
   }

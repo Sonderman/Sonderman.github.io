@@ -3,6 +3,7 @@ import 'package:githubweb/MyTestPage.dart';
 import 'package:githubweb/profile_page.dart';
 
 main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Github Web Page',
+      title: 'Welcome',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
