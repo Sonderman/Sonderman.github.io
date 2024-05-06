@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webviewx/webviewx.dart';
 
 class TestPage extends StatefulWidget {
-  const TestPage({Key? key}) : super(key: key);
+  const TestPage({super.key});
 
   @override
   _TestPageState createState() => _TestPageState();

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:githubweb/responsive_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webviewx/webviewx.dart';
+import 'Globals.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   List<Widget> navButtons() => [
         NavButton(
           text: "contact",
-          onPressed: () async {
-            await launch("https://mailto:alihaydar338@gmail.com");
+          onPressed: () {
+            launchUrl(Uri.parse("https://mailto:alihaydar338@gmail.com"));
           },
         ),
       ];
@@ -35,11 +36,11 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const ProfileInfo(),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.1,
                   ),
                   const Projects(),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.1,
                   ),
                   const SocialInfo(),
                 ],
@@ -53,7 +54,7 @@ class ProfilePage extends StatelessWidget {
 }
 
 class Projects extends StatelessWidget {
-  const Projects({Key? key}) : super(key: key);
+  const Projects({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,16 +62,14 @@ class Projects extends StatelessWidget {
       children: [
         const Text(
           "Games made by me",
-          textScaleFactor: 2,
+          textScaler: TextScaler.linear(2),
           style: TextStyle(color: Colors.green),
         ),
         const SizedBox(
           height: 20,
         ),
         ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-          ),
+          style: projectsButtonStyleGreen,
           child: const Text("Play Angry Bird Game Clone"),
           onPressed: () async {
             double frameHeight = 700.0;
@@ -93,10 +92,8 @@ class Projects extends StatelessWidget {
           height: 20,
         ),
         ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-          ),
-          child: const Text("Play Platformer"),
+          style: projectsButtonStyleGreen,
+          child: const Text("Play Platformer Game"),
           onPressed: () async {
             double frameHeight = 700.0;
             double frameWidth = 1000.0;
@@ -114,6 +111,36 @@ class Projects extends StatelessWidget {
                     ));
           },
         ),
+        const SizedBox(
+          height: 40,
+        ),
+        const Text(
+          "Games that i have contributed",
+          textScaler: TextScaler.linear(2),
+          style: TextStyle(color: Colors.green),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(
+          style: projectsButtonStyleGreen,
+          child: const Text("Sky Wars Online : Istanbul (Google Play)"),
+          onPressed: () {
+            launchUrl(Uri.parse(
+                "https://play.google.com/store/apps/details?id=com.atlasyazilim.SkyConqueror&hl=en_US"));
+          },
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(
+          style: projectsButtonStyleGreen,
+          child: const Text("Zombie Rush Drive (Google Play)"),
+          onPressed: () {
+            launchUrl(Uri.parse(
+                "https://play.google.com/store/apps/details?id=com.AtlasGameStudios.ZombieRushDrive&hl=en"));
+          },
+        ),
       ],
     );
   }
@@ -122,7 +149,7 @@ class Projects extends StatelessWidget {
 class NavHeader extends StatelessWidget {
   final List<Widget> navButtons;
 
-  const NavHeader({Key? key, required this.navButtons}) : super(key: key);
+  const NavHeader({super.key, required this.navButtons});
 
   @override
   Widget build(BuildContext context) {
@@ -138,14 +165,14 @@ class NavHeader extends StatelessWidget {
 }
 
 class PKDot extends StatelessWidget {
-  const PKDot({Key? key}) : super(key: key);
+  const PKDot({super.key});
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         const Text(
           "Online",
-          textScaleFactor: 2,
+          textScaler: TextScaler.linear(2),
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -168,30 +195,29 @@ class PKDot extends StatelessWidget {
 }
 
 class NavButton extends StatelessWidget {
-  final text;
-  final onPressed;
+  final String text;
+  final Function() onPressed;
   final Color color;
 
   const NavButton(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.onPressed,
-      this.color = Colors.orange})
-      : super(key: key);
+      this.color = Colors.orange});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(4.0),
         child: OutlinedButton(
-          child: Text(text),
           onPressed: onPressed,
+          child: Text(text),
         ));
   }
 }
 
 class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({Key? key}) : super(key: key);
+  const ProfileInfo({super.key});
 
   Widget profileImage(context) => Container(
         height: ResponsiveWidget.isSmallScreen(context)
@@ -217,16 +243,18 @@ class ProfileInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: ResponsiveWidget.isSmallScreen(context)
           ? CrossAxisAlignment.center
-          : CrossAxisAlignment.start,
+          : ResponsiveWidget.isMediumScreen(context)
+              ? CrossAxisAlignment.center
+              : CrossAxisAlignment.start,
       children: <Widget>[
         const Text(
           "Hi there! My name is",
-          textScaleFactor: 2,
+          textScaler: TextScaler.linear(2),
           style: TextStyle(color: Colors.orange),
         ),
         const Text(
           "Ali Haydar",
-          textScaleFactor: 5,
+          textScaler: TextScaler.linear(5),
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -236,9 +264,9 @@ class ProfileInfo extends StatelessWidget {
           height: 10,
         ),
         const Text(
-          "I am Game Developer.",
+          "I am Game & Mobile Application Developer.",
           softWrap: true,
-          textScaleFactor: 1.5,
+          textScaler: TextScaler.linear(1.5),
           style: TextStyle(color: Colors.white70),
         ),
         const SizedBox(
@@ -248,9 +276,7 @@ class ProfileInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-              ),
+              style: projectsButtonStyleRed,
               child: const Text("Resume"),
               onPressed: () async {
                 //await launch("https://docdro.id/cUeToaL");
@@ -291,35 +317,36 @@ class ProfileInfo extends StatelessWidget {
 }
 
 class SocialInfo extends StatelessWidget {
-  const SocialInfo({Key? key}) : super(key: key);
+  const SocialInfo({super.key});
 
   List<Widget> socialMediaWidgets() {
     return [
       NavButton(
         text: "Github",
-        onPressed: () async {
-          await launch("https://github.com/Sonderman");
+        onPressed: () {
+          launchUrl(Uri.parse("https://github.com/Sonderman"));
         },
         color: Colors.blue,
       ),
       NavButton(
         text: "Linkedin",
-        onPressed: () async {
-          await launch("https://www.linkedin.com/in/alihaydar-ayar-b45a4315b/");
+        onPressed: () {
+          launchUrl(Uri.parse(
+              "https://www.linkedin.com/in/alihaydar-ayar-b45a4315b/"));
         },
         color: Colors.blue,
       ),
       NavButton(
         text: "contact",
-        onPressed: () async {
-          await launch("https://mailto:alihaydar338@gmail.com");
+        onPressed: () {
+          launchUrl(Uri.parse("https://mailto:alihaydar338@gmail.com"));
         },
       ),
     ];
   }
 
   Widget copyRightText() => const Text(
-        "Ali Haydar AYAR ©️2022",
+        "Ali Haydar AYAR ©️2024",
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.grey,
