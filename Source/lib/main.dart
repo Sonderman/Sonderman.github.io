@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:githubweb/MyTestPage.dart';
-import 'package:githubweb/profile_page.dart';
+import 'package:myportfolio/MyTestPage.dart';
+import 'package:myportfolio/profile_page.dart';
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();

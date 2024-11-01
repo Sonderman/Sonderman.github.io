@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:githubweb/responsive_widget.dart';
+import 'package:myportfolio/responsive_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webviewx/webviewx.dart';
 import 'Globals.dart';
