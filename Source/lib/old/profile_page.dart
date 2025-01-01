@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myportfolio/responsive_widget.dart';
+import 'package:myportfolio/old/responsive_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webviewx/webviewx.dart';
-import 'Globals.dart';
+import '../globals.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
