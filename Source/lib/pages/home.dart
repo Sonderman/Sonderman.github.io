@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedPage = 2;
+  int selectedPage = 0;
   List pages = [
     const AboutPage(),
     const ResumePage(),
