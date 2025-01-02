@@ -38,7 +38,7 @@ class ProjectModel {
           double frameHeight = 700.0;
           double frameWidth = 1000.0;
           String src =
-              """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="assets/assets/games/$gameFolder/index.html "></iframe>""";
+              """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="games/$gameFolder/index.html "></iframe>""";
           showDialog(
               context: context,
               builder: (dcontext) => AlertDialog(
