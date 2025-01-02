@@ -28,7 +28,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
           images: ["assets/images/games/angrybird-1.png"],
           createdDate: DateTime(2022),
           category: ProjectCategory.madeByMe,
-          platform: ProjectPlatform.desktop,
+          platforms: [ProjectPlatform.desktop],
           type: ProjectType.game,
           githubLink: "https://github.com/Sonderman/AngryBirdGameUnity",
           playable: ProjectModel.playButton(
@@ -39,7 +39,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
           images: ["assets/images/games/platformer-1.png"],
           createdDate: DateTime(2021),
           category: ProjectCategory.madeByMe,
-          platform: ProjectPlatform.desktop,
+          platforms: [ProjectPlatform.desktop],
           type: ProjectType.game,
           githubLink: "https://github.com/Sonderman/PlatformerUnityGame",
           playable: ProjectModel.playButton(
@@ -50,10 +50,11 @@ class _ProjectsPageState extends State<ProjectsPage> {
           images: ["assets/images/games/skw-1.png"],
           createdDate: DateTime(2023),
           category: ProjectCategory.contributed,
-          platform: ProjectPlatform.android,
+          platforms: [ProjectPlatform.android],
           type: ProjectType.game,
-          storeLink:
-              "https://play.google.com/store/apps/details?id=com.atlasyazilim.SkyConqueror&hl=en_US"),
+          storeLinks: [
+            "https://play.google.com/store/apps/details?id=com.atlasyazilim.SkyConqueror&hl=en_US"
+          ]),
       ProjectModel(
           title: "Zombie Rush Drive",
           description: "",
@@ -65,40 +66,45 @@ class _ProjectsPageState extends State<ProjectsPage> {
           ],
           createdDate: DateTime(2023),
           category: ProjectCategory.contributed,
-          platform: ProjectPlatform.android,
+          platforms: [ProjectPlatform.android],
           type: ProjectType.game,
-          storeLink:
-              "https://play.google.com/store/apps/details?id=com.AtlasGameStudios.ZombieRushDrive&hl=en"),
+          storeLinks: [
+            "https://play.google.com/store/apps/details?id=com.AtlasGameStudios.ZombieRushDrive&hl=en"
+          ]),
       ProjectModel(
           title: "Yaren: Tanışma・Sohbet",
           description: "",
           type: ProjectType.app,
           category: ProjectCategory.contributed,
-          platform: ProjectPlatform.android,
+          platforms: [ProjectPlatform.android],
           createdDate: DateTime(2024, 11, 26),
           images: ["assets/images/apps/yaren-1.png"],
-          storeLink:
-              "https://play.google.com/store/apps/details?id=com.yaren.chatapp"),
+          storeLinks: [
+            "https://play.google.com/store/apps/details?id=com.yaren.chatapp"
+          ]),
       ProjectModel(
           title: "Collector: Haberin Merkezi",
           description: "",
           type: ProjectType.app,
           category: ProjectCategory.contributed,
-          platform: ProjectPlatform.android,
+          platforms: [ProjectPlatform.android, ProjectPlatform.ios],
           createdDate: DateTime(2024, 12, 20),
           images: ["assets/images/apps/collector-1.png"],
-          storeLink:
-              "https://play.google.com/store/apps/details?id=com.collector.collector.mobile&hl=tr"),
+          storeLinks: [
+            "https://play.google.com/store/apps/details?id=com.collector.collector.mobile&hl=tr",
+            "https://apps.apple.com/tr/app/collector-haberin-merkezi/id6450546836?l=tr"
+          ]),
       ProjectModel(
           title: "Tekx - Flört ve Arkadaşlık",
           description: "",
           type: ProjectType.app,
           category: ProjectCategory.contributed,
-          platform: ProjectPlatform.android,
+          platforms: [ProjectPlatform.android],
           createdDate: DateTime(2024, 12, 29),
           images: ["assets/images/apps/tekx-1.png"],
-          storeLink:
-              "https://play.google.com/store/apps/details?id=com.tekx.chatapp&hl=tr"),
+          storeLinks: [
+            "https://play.google.com/store/apps/details?id=com.tekx.chatapp&hl=tr"
+          ]),
     ];
     //projects.shuffle();
     sortByDate();
@@ -361,32 +367,57 @@ class _ProjectsPageState extends State<ProjectsPage> {
                       ),
                       Row(
                         children: [
-                          Icon(project.type == ProjectType.game
-                              ? Icons.games
-                              : Icons.phone_android),
-                          const Spacer(),
-                          if (project.githubLink != null)
-                            IconButton(
-                                onPressed: () {
-                                  launchUrl(Uri.parse(project.githubLink!));
-                                },
-                                icon: Image.asset(
-                                  "assets/icons/github.png",
-                                  color: titleColor,
-                                  width: isMobile ? 75.sp : 25.sp,
-                                )),
-                          if (project.storeLink != null)
-                            IconButton(
-                                onPressed: () {
-                                  launchUrl(Uri.parse(project.storeLink!));
-                                },
-                                icon: Image.asset(
-                                  project.platform == ProjectPlatform.android
-                                      ? "assets/icons/google_play.png"
-                                      : "assets/icons/app_store.png",
-                                  width: isMobile ? 75.sp : 25.sp,
-                                )),
-                        ],
+                              Icon(project.type == ProjectType.game
+                                  ? Icons.games
+                                  : Icons.phone_android),
+                              const Spacer(),
+                              if (project.githubLink != null)
+                                IconButton(
+                                    onPressed: () {
+                                      launchUrl(Uri.parse(project.githubLink!));
+                                    },
+                                    icon: Image.asset(
+                                      "assets/icons/github.png",
+                                      color: titleColor,
+                                      width: isMobile ? 75.sp : 25.sp,
+                                    )),
+                            ] +
+                            (project.storeLinks != null
+                                ? project.storeLinks!
+                                    .asMap()
+                                    .entries
+                                    .map(
+                                      (e) => IconButton(
+                                          onPressed: () {
+                                            launchUrl(Uri.parse(e.value));
+                                          },
+                                          icon: Image.asset(
+                                            project.platforms[e.key] ==
+                                                    ProjectPlatform.android
+                                                ? "assets/icons/google_play.png"
+                                                : "assets/icons/app_store.png",
+                                            width: isMobile ? 75.sp : 25.sp,
+                                          )),
+                                    )
+                                    .toList()
+                                : [])
+                        /*(project.storeLinks != null
+                                ? [
+                                    IconButton(
+                                        onPressed: () {
+                                          launchUrl(
+                                              Uri.parse(project.storeLinks!));
+                                        },
+                                        icon: Image.asset(
+                                          project.platforms ==
+                                                  ProjectPlatform.android
+                                              ? "assets/icons/google_play.png"
+                                              : "assets/icons/app_store.png",
+                                          width: isMobile ? 75.sp : 25.sp,
+                                        ))
+                                  ]
+                                : [])*/
+                        ,
                       ),
                     ],
                   ),

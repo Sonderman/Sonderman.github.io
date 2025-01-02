@@ -12,23 +12,23 @@ class ProjectModel {
   String description;
   ProjectType type;
   ProjectCategory category;
-  ProjectPlatform platform;
+  List<ProjectPlatform> platforms;
   DateTime createdDate;
   List<String> images;
   String? githubLink;
-  String? storeLink;
+  List<String>? storeLinks;
   Widget? playable;
   ProjectModel({
     required this.title,
     required this.description,
     required this.type,
     required this.category,
-    required this.platform,
+    required this.platforms,
     required this.createdDate,
     required this.images,
     this.playable,
     this.githubLink,
-    this.storeLink,
+    this.storeLinks,
   });
 
   static Widget playButton(
