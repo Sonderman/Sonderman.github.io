@@ -22,41 +22,27 @@ class _ResumePageState extends State<ResumePage> {
           Text(
             "Resume",
             style: TextStyle(
-                color: titleColor,
-                fontSize: isMobile ? 80.sp : 30.sp,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          Card(
-            color: Colors.yellow,
-            child: SizedBox(
-              width: isMobile ? 180.w : 60.w,
-              height: 10.h,
+              color: titleColor,
+              fontSize: isMobile ? 80.sp : 30.sp,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(
-            height: 20.h,
-          ),
+          SizedBox(height: 20.h),
+          Card(color: Colors.yellow, child: SizedBox(width: isMobile ? 180.w : 60.w, height: 10.h)),
+          SizedBox(height: 20.h),
           educationTimeline(),
-          SizedBox(
-            height: 50.h,
-          ),
+          SizedBox(height: 50.h),
           experienceTimeline(),
-          SizedBox(
-            height: 50.h,
-          ),
+          SizedBox(height: 50.h),
           Text(
             "My Skills",
             style: TextStyle(
-                color: titleColor,
-                fontSize: isMobile ? 75.sp : 30.sp,
-                fontWeight: FontWeight.bold),
+              color: titleColor,
+              fontSize: isMobile ? 75.sp : 30.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          SizedBox(
-            height: 20.h,
-          ),
+          SizedBox(height: 20.h),
           Card(
             shadowColor: Colors.white,
             elevation: 2,
@@ -69,30 +55,20 @@ class _ResumePageState extends State<ResumePage> {
               child: Column(
                 children: [
                   skillItem(name: "Flutter", skillValue: 4),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   skillItem(name: "Dart", skillValue: 4),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   skillItem(name: "Unity Engine", skillValue: 3),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   skillItem(name: "C#", skillValue: 4),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   skillItem(name: "Java", skillValue: 3),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  SizedBox(height: 10.h),
                   skillItem(name: "Firebase", skillValue: 4),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -102,10 +78,7 @@ class _ResumePageState extends State<ResumePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          name,
-          style: TextStyle(fontSize: isMobile ? 60.sp : 20.sp),
-        ),
+        Text(name, style: TextStyle(fontSize: isMobile ? 60.sp : 20.sp)),
         LinearProgressIndicator(
           value: skillValue * 0.2,
           borderRadius: BorderRadius.circular(20),
@@ -135,40 +108,31 @@ class _ResumePageState extends State<ResumePage> {
                       color: const Color(0xff2B2B2C),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          "assets/icons/book.png",
-                          color: Colors.yellow,
-                        ),
+                        child: Image.asset("assets/icons/book.png", color: Colors.yellow),
                       ),
                     ),
                   ),
-                  Container(
-                    height: 40.h,
-                    width: isMobile ? 10.sp : 1.sp,
-                    color: Colors.yellow,
+                  Container(height: 40.h, width: isMobile ? 10.sp : 1.sp, color: Colors.yellow),
+                ],
+              ),
+            ),
+            SizedBox(width: 30.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 15.sp),
+                  Text(
+                    "Education",
+                    style: TextStyle(
+                      color: titleColor,
+                      fontSize: isMobile ? 100.sp : 40.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              width: 30.w,
-            ),
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 15.sp,
-                ),
-                Text(
-                  "Education",
-                  style: TextStyle(
-                      color: titleColor,
-                      fontSize: isMobile ? 100.sp : 40.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            )),
           ],
         ),
         Row(
@@ -179,10 +143,7 @@ class _ResumePageState extends State<ResumePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: isMobile ? 50.sp : 15.sp,
-                    backgroundColor: Colors.yellow,
-                  ),
+                  CircleAvatar(radius: isMobile ? 50.sp : 15.sp, backgroundColor: Colors.yellow),
                   /*Container(
                     height: 60.h,
                     width: 1.w,
@@ -191,31 +152,26 @@ class _ResumePageState extends State<ResumePage> {
                 ],
               ),
             ),
-            SizedBox(
-              width: 30.w,
-            ),
+            SizedBox(width: 30.w),
             Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Karabuk University, Karabuk/Turkey",
-                  style: TextStyle(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Karabuk University, Karabuk/Turkey",
+                    style: TextStyle(
                       color: titleColor,
                       fontSize: isMobile ? 75.sp : 20.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  "2015 - 2020",
-                  style: TextStyle(color: Colors.orange),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                const Text("Bachelor of Computer Engineering")
-              ],
-            )),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text("2015 - 2020", style: TextStyle(color: Colors.orange)),
+                  SizedBox(height: 15.h),
+                  const Text("Bachelor of Computer Engineering"),
+                ],
+              ),
+            ),
           ],
         ),
       ],
@@ -240,62 +196,56 @@ class _ResumePageState extends State<ResumePage> {
                       color: const Color(0xff2B2B2C),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          "assets/icons/suitcase.png",
-                          color: Colors.yellow,
-                        ),
+                        child: Image.asset("assets/icons/suitcase.png", color: Colors.yellow),
                       ),
                     ),
                   ),
-                  Container(
-                    height: 40.h,
-                    width: isMobile ? 10.sp : 1.sp,
-                    color: Colors.yellow,
+                  Container(height: 40.h, width: isMobile ? 10.sp : 1.sp, color: Colors.yellow),
+                ],
+              ),
+            ),
+            SizedBox(width: 30.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 15.sp),
+                  Text(
+                    "Experiences",
+                    style: TextStyle(
+                      color: titleColor,
+                      fontSize: isMobile ? 100.sp : 40.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              width: 30.w,
-            ),
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 15.sp,
-                ),
-                Text(
-                  "Experiences",
-                  style: TextStyle(
-                      color: titleColor,
-                      fontSize: isMobile ? 100.sp : 40.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            )),
           ],
         ),
         experienceItem(
-            title: "Flutter & Unity Game Developer | Freelancer",
-            year: "Apr 2024 - Present",
-            extras: "Have published 80+ apps on mobile platforms."),
+          title: "Flutter & Unity Game Developer | Freelancer",
+          year: "Apr 2024 - Present",
+          extras: "Have published 80+ apps on mobile platforms.",
+        ),
         experienceItem(
-            isLast: true,
-            title: "Game Developer",
-            year: "Mar 2023 - Mar 2024",
-            extras: '''I took part in the development process of 2 mobile games.
+          isLast: true,
+          title: "Game Developer",
+          year: "Mar 2023 - Mar 2024",
+          extras: '''I took part in the development process of 2 mobile games.
   - Sky Wars Online: Istanbul
-  - Zombie Rush Drive'''),
+  - Zombie Rush Drive''',
+        ),
       ],
     );
   }
 
-  Row experienceItem(
-      {bool isLast = false,
-      required String title,
-      required String year,
-      required String extras}) {
+  Row experienceItem({
+    bool isLast = false,
+    required String title,
+    required String year,
+    required String extras,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -304,44 +254,32 @@ class _ResumePageState extends State<ResumePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: isMobile ? 50.sp : 15.sp,
-                backgroundColor: Colors.yellow,
-              ),
+              CircleAvatar(radius: isMobile ? 50.sp : 15.sp, backgroundColor: Colors.yellow),
               if (!isLast)
-                Container(
-                  height: 100.h,
-                  width: isMobile ? 10.sp : 1.sp,
-                  color: Colors.yellow,
-                ),
+                Container(height: 100.h, width: isMobile ? 10.sp : 1.sp, color: Colors.yellow),
             ],
           ),
         ),
-        SizedBox(
-          width: 30.w,
-        ),
+        SizedBox(width: 30.w),
         Expanded(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
                   color: titleColor,
                   fontSize: isMobile ? 75.sp : 20.sp,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              year,
-              style: const TextStyle(color: Colors.orange),
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-            Text(extras)
-          ],
-        )),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(year, style: const TextStyle(color: Colors.orange)),
+              SizedBox(height: 15.h),
+              Text(extras),
+            ],
+          ),
+        ),
       ],
     );
   }

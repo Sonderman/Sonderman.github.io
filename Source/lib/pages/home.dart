@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myportfolio/globals.dart';
 import 'package:myportfolio/pages/about_page.dart';
-import 'package:myportfolio/pages/activityPreview/activity_preview_view.dart';
+import 'package:myportfolio/pages/activity_page.dart';
 import 'package:myportfolio/pages/projects_page.dart';
 import 'package:myportfolio/pages/resume_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,12 +39,7 @@ class _HomePageState extends State<HomePage> {
   /// List of page widgets that can be displayed
   ///
   /// Ordered as: About, Resume, Projects, Activity Preview
-  List pages = [
-    const AboutPage(),
-    const ResumePage(),
-    const ProjectsPage(),
-    const ActivityPreviewPage(),
-  ];
+  List pages = [const AboutPage(), const ResumePage(), const ProjectsPage(), const ActivityPage()];
 
   /// Builds the responsive home page layout
   ///
