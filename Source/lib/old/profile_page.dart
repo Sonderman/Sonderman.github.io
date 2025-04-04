@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:myportfolio/old/responsive_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webviewx/webviewx.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import '../globals.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   List<Widget> navButtons() => [
-        NavButton(
-          text: "contact",
-          onPressed: () {
-            launchUrl(Uri.parse("https://mailto:alihaydar338@gmail.com"));
-          },
-        ),
-      ];
+    NavButton(
+      text: "contact",
+      onPressed: () {
+        launchUrl(Uri.parse("https://mailto:alihaydar338@gmail.com"));
+      },
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +31,11 @@ class ProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   NavHeader(navButtons: navButtons()),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                   const ProfileInfo(),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                   const Projects(),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                   const SocialInfo(),
                 ],
               ),
@@ -65,9 +59,7 @@ class Projects extends StatelessWidget {
           textScaler: TextScaler.linear(2),
           style: TextStyle(color: Colors.green),
         ),
-        const SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         ElevatedButton(
           style: projectsButtonStyleGreen,
           child: const Text("Play Angry Bird Game Clone"),
@@ -77,20 +69,20 @@ class Projects extends StatelessWidget {
             String src =
                 """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="assets/assets/games/angrybird/index.html"></iframe>""";
             showDialog(
-                context: context,
-                builder: (dcontext) => AlertDialog(
-                      content: WebViewX(
-                        height: frameHeight,
-                        width: frameWidth,
-                        initialContent: src,
-                        initialSourceType: SourceType.html,
-                      ),
-                    ));
+              context: context,
+              builder:
+                  (dcontext) => AlertDialog(
+                    content: WebViewX(
+                      height: frameHeight,
+                      width: frameWidth,
+                      initialContent: src,
+                      initialSourceType: SourceType.html,
+                    ),
+                  ),
+            );
           },
         ),
-        const SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         ElevatedButton(
           style: projectsButtonStyleGreen,
           child: const Text("Play Platformer Game"),
@@ -100,45 +92,47 @@ class Projects extends StatelessWidget {
             String src =
                 """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="assets/assets/games/platformer/index.html"></iframe>""";
             showDialog(
-                context: context,
-                builder: (dcontext) => AlertDialog(
-                      content: WebViewX(
-                        height: frameHeight,
-                        width: frameWidth,
-                        initialContent: src,
-                        initialSourceType: SourceType.html,
-                      ),
-                    ));
+              context: context,
+              builder:
+                  (dcontext) => AlertDialog(
+                    content: WebViewX(
+                      height: frameHeight,
+                      width: frameWidth,
+                      initialContent: src,
+                      initialSourceType: SourceType.html,
+                    ),
+                  ),
+            );
           },
         ),
-        const SizedBox(
-          height: 40,
-        ),
+        const SizedBox(height: 40),
         const Text(
           "Games that i have contributed",
           textScaler: TextScaler.linear(2),
           style: TextStyle(color: Colors.green),
         ),
-        const SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         ElevatedButton(
           style: projectsButtonStyleGreen,
           child: const Text("Sky Wars Online : Istanbul (Google Play)"),
           onPressed: () {
-            launchUrl(Uri.parse(
-                "https://play.google.com/store/apps/details?id=com.atlasyazilim.SkyConqueror&hl=en_US"));
+            launchUrl(
+              Uri.parse(
+                "https://play.google.com/store/apps/details?id=com.atlasyazilim.SkyConqueror&hl=en_US",
+              ),
+            );
           },
         ),
-        const SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         ElevatedButton(
           style: projectsButtonStyleGreen,
           child: const Text("Zombie Rush Drive (Google Play)"),
           onPressed: () {
-            launchUrl(Uri.parse(
-                "https://play.google.com/store/apps/details?id=com.AtlasGameStudios.ZombieRushDrive&hl=en"));
+            launchUrl(
+              Uri.parse(
+                "https://play.google.com/store/apps/details?id=com.AtlasGameStudios.ZombieRushDrive&hl=en",
+              ),
+            );
           },
         ),
       ],
@@ -155,9 +149,10 @@ class NavHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveWidget(
       largeScreen: Row(
-        mainAxisAlignment: ResponsiveWidget.isSmallScreen(context)
-            ? MainAxisAlignment.center
-            : MainAxisAlignment.spaceBetween,
+        mainAxisAlignment:
+            ResponsiveWidget.isSmallScreen(context)
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.spaceBetween,
         children: const <Widget>[PKDot()],
       ),
     );
@@ -173,21 +168,14 @@ class PKDot extends StatelessWidget {
         const Text(
           "Online",
           textScaler: TextScaler.linear(2),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(
-          width: 5,
-        ),
+        const SizedBox(width: 5),
         AnimatedContainer(
           duration: const Duration(seconds: 1),
           height: 8,
           width: 8,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.orange,
-          ),
+          decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.orange),
         ),
       ],
     );
@@ -199,20 +187,19 @@ class NavButton extends StatelessWidget {
   final Function() onPressed;
   final Color color;
 
-  const NavButton(
-      {super.key,
-      required this.text,
-      required this.onPressed,
-      this.color = Colors.orange});
+  const NavButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.color = Colors.orange,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: OutlinedButton(
-          onPressed: onPressed,
-          child: Text(text),
-        ));
+      padding: const EdgeInsets.all(4.0),
+      child: OutlinedButton(onPressed: onPressed, child: Text(text)),
+    );
   }
 }
 
@@ -220,30 +207,33 @@ class ProfileInfo extends StatelessWidget {
   const ProfileInfo({super.key});
 
   Widget profileImage(context) => Container(
-        height: ResponsiveWidget.isSmallScreen(context)
+    height:
+        ResponsiveWidget.isSmallScreen(context)
             ? MediaQuery.of(context).size.height * 0.25
             : MediaQuery.of(context).size.width * 0.25,
-        width: ResponsiveWidget.isSmallScreen(context)
+    width:
+        ResponsiveWidget.isSmallScreen(context)
             ? MediaQuery.of(context).size.height * 0.25
             : MediaQuery.of(context).size.width * 0.25,
-        decoration: const BoxDecoration(
-          backgroundBlendMode: BlendMode.luminosity,
-          color: Colors.deepOrange,
-//            borderRadius: BorderRadius.circular(40),
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            image: AssetImage("assets/profile2.jpg"),
-            alignment: Alignment.center,
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
+    decoration: const BoxDecoration(
+      backgroundBlendMode: BlendMode.luminosity,
+      color: Colors.deepOrange,
+      //            borderRadius: BorderRadius.circular(40),
+      shape: BoxShape.circle,
+      image: DecorationImage(
+        image: AssetImage("assets/profile2.jpg"),
+        alignment: Alignment.center,
+        fit: BoxFit.cover,
+      ),
+    ),
+  );
 
   Widget profileData(context) {
     return Column(
-      crossAxisAlignment: ResponsiveWidget.isSmallScreen(context)
-          ? CrossAxisAlignment.center
-          : ResponsiveWidget.isMediumScreen(context)
+      crossAxisAlignment:
+          ResponsiveWidget.isSmallScreen(context)
+              ? CrossAxisAlignment.center
+              : ResponsiveWidget.isMediumScreen(context)
               ? CrossAxisAlignment.center
               : CrossAxisAlignment.start,
       children: <Widget>[
@@ -255,23 +245,16 @@ class ProfileInfo extends StatelessWidget {
         const Text(
           "Ali Haydar",
           textScaler: TextScaler.linear(5),
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         const Text(
           "I am Game & Mobile Application Developer.",
           softWrap: true,
           textScaler: TextScaler.linear(1.5),
           style: TextStyle(color: Colors.white70),
         ),
-        const SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -281,10 +264,9 @@ class ProfileInfo extends StatelessWidget {
               onPressed: () async {
                 //await launch("https://docdro.id/cUeToaL");
                 showDialog(
-                    context: context,
-                    builder: (dcontext) => AlertDialog(
-                          content: Image.asset("assets/cv-game.png"),
-                        ));
+                  context: context,
+                  builder: (dcontext) => AlertDialog(content: Image.asset("assets/cv-game.png")),
+                );
               },
             ),
           ],
@@ -306,9 +288,7 @@ class ProfileInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           profileImage(context),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
           profileData(context),
         ],
       ),
@@ -331,8 +311,7 @@ class SocialInfo extends StatelessWidget {
       NavButton(
         text: "Linkedin",
         onPressed: () {
-          launchUrl(Uri.parse(
-              "https://www.linkedin.com/in/alihaydar-ayar-b45a4315b/"));
+          launchUrl(Uri.parse("https://www.linkedin.com/in/alihaydar-ayar-b45a4315b/"));
         },
         color: Colors.blue,
       ),
@@ -346,12 +325,10 @@ class SocialInfo extends StatelessWidget {
   }
 
   Widget copyRightText() => const Text(
-        "Ali Haydar AYAR ©️2024",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.grey,
-        ),
-      );
+    "Ali Haydar AYAR ©️2024",
+    textAlign: TextAlign.center,
+    style: TextStyle(color: Colors.grey),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -359,10 +336,7 @@ class SocialInfo extends StatelessWidget {
       largeScreen: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: socialMediaWidgets(),
-          ),
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: socialMediaWidgets()),
           copyRightText(),
         ],
       ),

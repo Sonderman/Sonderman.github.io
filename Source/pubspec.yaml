@@ -4,15 +4,16 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.5.3
+  sdk: ^3.7.2
 
 dependencies:
-  intl: 0.19.0
-  webviewx: ^0.2.2
+  get: ^4.7.2
+  intl: ^0.20.2
+  webviewx_plus: ^0.5.1+1
   url_launcher: ^6.3.1
   carousel_slider: ^5.0.0
   flutter_screenutil: ^5.9.3
-  #auto_size_text: ^3.0.0
+  auto_size_text: ^3.0.0
   #google_fonts:
   flutter:
     sdk: flutter
@@ -20,7 +21,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true

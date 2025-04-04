@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:webviewx/webviewx.dart';
+import 'package:myportfolio/configs.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 
 enum ProjectCategory { madeByMe, contributed }
 
@@ -31,28 +32,29 @@ class ProjectModel {
     this.storeLinks,
   });
 
-  static Widget playButton(
-      {required BuildContext context, required String gameFolder}) {
+  static Widget playButton({required BuildContext context, required String gameFolder}) {
     return IconButton(
-        onPressed: () {
-          double frameHeight = 700.0;
-          double frameWidth = 1000.0;
-          String src =
-              """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="games/$gameFolder/index.html "></iframe>""";
-          showDialog(
-              context: context,
-              builder: (dcontext) => AlertDialog(
-                    content: WebViewX(
-                      height: frameHeight,
-                      width: frameWidth,
-                      initialContent: src,
-                      initialSourceType: SourceType.html,
-                    ),
-                  ));
-        },
-        icon: const Icon(
-          Icons.play_arrow,
-          color: Colors.green,
-        ));
+      onPressed: () {
+        double frameHeight = 700.0;
+        double frameWidth = 1000.0;
+        String src =
+            """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="games/$gameFolder/index.html "></iframe>""";
+        String src2 =
+            """<iframe width="100%" height="${frameHeight - 50}" style="border:none;" src="assets/games/$gameFolder/index.html "></iframe>""";
+        showDialog(
+          context: context,
+          builder:
+              (dcontext) => AlertDialog(
+                content: WebViewX(
+                  height: frameHeight,
+                  width: frameWidth,
+                  initialContent: isDebug ? src2 : src,
+                  initialSourceType: SourceType.html,
+                ),
+              ),
+        );
+      },
+      icon: const Icon(Icons.play_arrow, color: Colors.green),
+    );
   }
 }

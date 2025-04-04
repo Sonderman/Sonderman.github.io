@@ -1,22 +1,64 @@
+/// Global variables and constants used throughout the application
+///
+/// Contains:
+/// - Button styles
+/// - Color constants
+/// - Text content
+/// - Profile information
 import 'package:flutter/material.dart';
 
+/// Green button style used for project buttons
+///
+/// Uses semi-transparent green background color (ARGB: 175, 76, 175, 79)
 var projectsButtonStyleGreen = ButtonStyle(
-  backgroundColor:
-      WidgetStateProperty.all<Color>(const Color.fromARGB(175, 76, 175, 79)),
+  backgroundColor: WidgetStateProperty.all<Color>(const Color.fromARGB(175, 76, 175, 79)),
 );
+
+/// Red button style used for project buttons
+///
+/// Uses solid red background color
 var projectsButtonStyleRed = ButtonStyle(
   backgroundColor: WidgetStateProperty.all<Color>(Colors.red),
 );
 
+/// Default text color used throughout the app
+///
+/// Light gray color (Hex: #c1c1c1)
 const textColor = Color(0xffc1c1c1);
+
+/// Title text color used for headings
+///
+/// Off-white color (Hex: #f9f9f9)
 const titleColor = Color(0xfff9f9f9);
 
+/// Professional title displayed in profile section
+///
+/// Used in about card widgets
 const String profileTitle = "Software Developer";
+
+/// Contact email address
+///
+/// Used in profile section and contact functionality
 const String email = "alihaydar338@gmail.com";
+
+/// Location information
+///
+/// Displays work location preference
 const String location = "Remote/Turkey";
-const String linkedinLink =
-    "https://www.linkedin.com/in/ali-haydar-ayar-b45a4315b/";
+
+/// LinkedIn profile URL
+///
+/// Used for social media link in profile section
+const String linkedinLink = "https://www.linkedin.com/in/ali-haydar-ayar-b45a4315b/";
+
+/// GitHub profile URL
+///
+/// Used for social media link in profile section
 const String githubLink = "https://github.com/Sonderman";
+
+/// Detailed about me text displayed in profile section
+///
+/// Contains professional background and skills information
 const String aboutText =
     '''Hello! I am Ali Haydar. I graduated from Karabük University in computer engineering and I am passionate about software development. I have been working with the Flutter framework for more than 2 years and I am constantly improving myself in this field. Additionally, I have 1 year of work experience with Unity Engine and took part in mobile game development processes.
 
