@@ -183,10 +183,7 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
         SizedBox(height: 20.h),
         // Use constraints for the yellow card width
-        Card(
-          color: Colors.yellow,
-          child: SizedBox(width: constraints.maxWidth * 0.1, height: 10.h),
-        ),
+        Card(color: Colors.yellow, child: SizedBox(width: 60.w, height: 10.h)),
         SizedBox(height: 40.h),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,10 +297,7 @@ class _ActivityPageState extends State<ActivityPage> {
         ),
         SizedBox(height: 20.h),
         // Use constraints for the yellow card width - Adjusted percentage for narrow layout
-        Card(
-          color: Colors.yellow,
-          child: SizedBox(width: constraints.maxWidth * 0.3, height: 10.h),
-        ),
+        Card(color: Colors.yellow, child: SizedBox(width: 180.w, height: 10.h)),
         SizedBox(height: 40.h),
         // Avatar - Make size relative to constraints and center it
         if (avatarUrl.isNotEmpty)
