@@ -426,6 +426,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                SizedBox(height: 10.h),
                 SizedBox(
                   height: 700.sp,
                   child: AspectRatio(
