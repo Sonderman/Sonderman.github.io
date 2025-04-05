@@ -1,14 +1,10 @@
-/// Main application home page that serves as the root view
-///
-/// Implements responsive design with different layouts for desktop and mobile
-/// Uses [ScreenUtil] for responsive sizing and [url_launcher] for external links
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/globals.dart';
-import 'package:myportfolio/pages/about_page.dart';
-import 'package:myportfolio/pages/activity_page.dart';
-import 'package:myportfolio/pages/projects_page.dart';
-import 'package:myportfolio/pages/resume_page.dart';
+import 'package:myportfolio/v1/globals.dart';
+import 'package:myportfolio/v1/pages/about_page.dart';
+import 'package:myportfolio/v1/pages/activity_page.dart';
+import 'package:myportfolio/v1/pages/projects_page.dart';
+import 'package:myportfolio/v1/pages/resume_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Home page widget that manages navigation between different sections
@@ -120,6 +116,7 @@ class _HomePageState extends State<HomePage> {
       fontSize: 20.sp,
       fontWeight: FontWeight.bold,
     );
+
     return SizedBox(
       height: 100.h,
       child: Card(
@@ -128,67 +125,75 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min, // Row'un minimum alan kaplamasını sağladık
             children: [
-              SizedBox(width: 20.w),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPage = 0;
-                  });
-                },
-                child: Text(
-                  "About",
-                  style:
-                      selectedPage == 0
-                          ? buttonTextStyle.copyWith(color: Colors.yellow)
-                          : buttonTextStyle,
+              Flexible(
+                // Expanded yerine Flexible kullandık
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(width: 20.w),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedPage = 0;
+                        });
+                      },
+                      child: Text(
+                        "About",
+                        style:
+                            selectedPage == 0
+                                ? buttonTextStyle.copyWith(color: Colors.yellow)
+                                : buttonTextStyle,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedPage = 1;
+                        });
+                      },
+                      child: Text(
+                        "Resume",
+                        style:
+                            selectedPage == 1
+                                ? buttonTextStyle.copyWith(color: Colors.yellow)
+                                : buttonTextStyle,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedPage = 2;
+                        });
+                      },
+                      child: Text(
+                        "Projects",
+                        style:
+                            selectedPage == 2
+                                ? buttonTextStyle.copyWith(color: Colors.yellow)
+                                : buttonTextStyle,
+                      ),
+                    ),
+                    SizedBox(width: 20.w),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedPage = 3;
+                        });
+                      },
+                      child: Text(
+                        "Activity",
+                        style:
+                            selectedPage == 3
+                                ? buttonTextStyle.copyWith(color: Colors.yellow)
+                                : buttonTextStyle,
+                      ),
+                    ),
+                    SizedBox(width: 20.w),
+                  ],
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPage = 1;
-                  });
-                },
-                child: Text(
-                  "Resume",
-                  style:
-                      selectedPage == 1
-                          ? buttonTextStyle.copyWith(color: Colors.yellow)
-                          : buttonTextStyle,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPage = 2;
-                  });
-                },
-                child: Text(
-                  "Projects",
-                  style:
-                      selectedPage == 2
-                          ? buttonTextStyle.copyWith(color: Colors.yellow)
-                          : buttonTextStyle,
-                ),
-              ),
-              SizedBox(width: 20.w),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    selectedPage = 3;
-                  });
-                },
-                child: Text(
-                  "Activity",
-                  style:
-                      selectedPage == 3
-                          ? buttonTextStyle.copyWith(color: Colors.yellow)
-                          : buttonTextStyle,
-                ),
-              ),
-              SizedBox(width: 20.w),
             ],
           ),
         ),

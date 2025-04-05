@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myportfolio/configs.dart';
+import 'package:myportfolio/v1/v1_configs.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 
 enum ProjectCategory { madeByMe, contributed }

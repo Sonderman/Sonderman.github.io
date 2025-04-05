@@ -2,7 +2,7 @@ import 'dart:convert'; // Required for json decoding
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http; // Import the http package
-import 'package:myportfolio/globals.dart';
+import 'package:myportfolio/v1/globals.dart';
 import 'package:auto_size_text/auto_size_text.dart'; // Import the auto_size_text package
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webviewx_plus/webviewx_plus.dart'; // For launching URLs

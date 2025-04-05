@@ -4,9 +4,11 @@
 /// - About me text
 /// - Current activities (mobile apps and games development)
 /// - Responsive layout for different screen sizes
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/globals.dart';
+import 'package:myportfolio/v1/globals.dart';
 
 /// About page widget that displays professional profile information
 ///

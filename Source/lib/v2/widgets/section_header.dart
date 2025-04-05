@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myportfolio/v2/theme/app_theme.dart';
+
+class SectionHeader extends StatelessWidget {
+  final String title;
+
+  const SectionHeader({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    // Mimic CSS .section-header structure
+    return Column(
+      children: [
+        // Mimic CSS .section-title
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: AppFonts.heading,
+            fontSize: 48.sp, // Approx 3rem
+            fontWeight: FontWeight.w700,
+            color: AppColors.text,
+          ),
+          // TODO: Add character reveal animation later
+        ),
+        SizedBox(height: 16.h), // Spacing like var(--spacing-sm)
+        // Mimic CSS .section-divider
+        // Using Stack to overlay the accent lines on the main divider
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            // Main Divider (Secondary Color)
+            Container(width: 80.w, height: 4.h, color: AppColors.secondary),
+            // Left Accent Line (Accent 1) - Positioned relative to center
+            Positioned(
+              left: -20.w - 40.w / 2, // (divider width / 2) + accent offset + (accent width / 2)
+              child: Container(width: 40.w, height: 4.h, color: AppColors.accent1),
+            ),
+            // Right Accent Line (Accent 2) - Positioned relative to center
+            Positioned(
+              right: -20.w - 40.w / 2, // (divider width / 2) + accent offset + (accent width / 2)
+              child: Container(width: 40.w, height: 4.h, color: AppColors.accent2),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

@@ -5,6 +5,8 @@
 /// - Color constants
 /// - Text content
 /// - Profile information
+library;
+
 import 'package:flutter/material.dart';
 
 /// Green button style used for project buttons

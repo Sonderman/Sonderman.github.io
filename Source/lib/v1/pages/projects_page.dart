@@ -5,12 +5,14 @@
 /// - Date sorting (ascending/descending)
 /// - Responsive grid layout
 /// - Project details with images and links
+library;
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:myportfolio/globals.dart';
-import 'package:myportfolio/models/project_model.dart';
+import 'package:myportfolio/v1/globals.dart';
+import 'package:myportfolio/v1/models/project_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Projects page widget that displays a portfolio of work projects
