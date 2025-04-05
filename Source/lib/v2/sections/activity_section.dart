@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myportfolio/v2/data/personal_datas.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
 import 'package:url_launcher/url_launcher.dart';
@@ -15,7 +15,7 @@ class ActivitySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primaryLight, // Match original section background
+      color: V2Colors.primaryLight, // Match original section background
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 60.w,
@@ -32,9 +32,9 @@ class ActivitySection extends StatelessWidget {
                   padding: EdgeInsets.all(24.w),
                   margin: EdgeInsets.only(bottom: 40.h),
                   decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
-                    boxShadow: [AppTheme.shadowMd],
+                    color: V2Colors.card,
+                    borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
+                    boxShadow: [V2Theme.shadowMd],
                   ),
                   child: Row(
                     // Use Row for horizontal layout
@@ -43,11 +43,11 @@ class ActivitySection extends StatelessWidget {
                       // Placeholder Avatar
                       CircleAvatar(
                         radius: 40.r,
-                        backgroundColor: AppColors.primaryLight,
+                        backgroundColor: V2Colors.primaryLight,
                         child: Icon(
                           Icons.person_outline, // Placeholder icon
                           size: 40.sp,
-                          color: AppColors.secondary,
+                          color: V2Colors.secondary,
                         ),
                       ),
                       SizedBox(width: 20.w),
@@ -60,17 +60,17 @@ class ActivitySection extends StatelessWidget {
                             Text(
                               'Sonderman', // GitHub Username
                               style: TextStyle(
-                                fontFamily: AppFonts.heading,
+                                fontFamily: V2Fonts.heading,
                                 fontSize: 22.sp,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.text,
+                                color: V2Colors.text,
                               ),
                             ),
                             SizedBox(height: 8.h),
                             // Placeholder for Bio/Location if needed later
                             Text(
                               'View profile on GitHub', // Placeholder text
-                              style: TextStyle(fontSize: 16.sp, color: AppColors.textMuted),
+                              style: TextStyle(fontSize: 16.sp, color: V2Colors.textMuted),
                             ),
                           ],
                         ),
@@ -88,8 +88,8 @@ class ActivitySection extends StatelessWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.secondary,
-                          foregroundColor: AppColors.primary,
+                          backgroundColor: V2Colors.secondary,
+                          foregroundColor: V2Colors.primary,
                           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
                           textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
                         ),
@@ -106,22 +106,35 @@ class ActivitySection extends StatelessWidget {
                   padding: EdgeInsets.all(16.w), // Reduced padding slightly
                   margin: EdgeInsets.only(bottom: 40.h),
                   decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
-                    boxShadow: [AppTheme.shadowMd],
+                    color: V2Colors.card,
+                    borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
+                    boxShadow: [V2Theme.shadowMd],
                   ),
                   // Use ClipRRect to ensure image respects border radius
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(
-                      AppTheme.borderRadiusMd - 4.r,
+                      V2Theme.borderRadiusMd - 4.r,
                     ), // Adjust inner radius
                     child: Center(
-                      child: WebViewX(
-                        width: 0.8.sw,
-                        height: 1.sw * 0.6,
-                        initialSourceType: SourceType.html,
-                        initialContent: githubAll(isMobile: false),
-                        ignoreAllGestures: true, // Corrected indentation and placement
+                      // Using LayoutBuilder ensures dimensions are calculated during layout phase
+                      // before WebViewX attempts to render. This prevents "never laid out" errors.
+                      // The 4:3 aspect ratio (width * 0.75) provides consistent sizing.
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final width = constraints.maxWidth * 0.8;
+                          final height = width * 0.75;
+                          return SizedBox(
+                            width: width,
+                            height: height,
+                            child: WebViewX(
+                              width: width,
+                              height: height,
+                              initialSourceType: SourceType.html,
+                              initialContent: githubAll(isMobile: false),
+                              ignoreAllGestures: true,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -135,9 +148,9 @@ class ActivitySection extends StatelessWidget {
                   width: double.infinity,
                   padding: EdgeInsets.all(24.w),
                   decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
-                    boxShadow: [AppTheme.shadowMd],
+                    color: V2Colors.card,
+                    borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
+                    boxShadow: [V2Theme.shadowMd],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,10 +159,10 @@ class ActivitySection extends StatelessWidget {
                       Text(
                         'Recent Repositories', // Title for the list
                         style: TextStyle(
-                          fontFamily: AppFonts.heading,
+                          fontFamily: V2Fonts.heading,
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.text,
+                          color: V2Colors.text,
                         ),
                       ),
                       SizedBox(height: 20.h),
@@ -160,14 +173,14 @@ class ActivitySection extends StatelessWidget {
                         language: 'Dart',
                         stars: 15, // Placeholder
                       ),
-                      Divider(color: AppColors.primaryLight, height: 20.h),
+                      Divider(color: V2Colors.primaryLight, height: 20.h),
                       _buildRepoListItem(
                         name: 'FlutterGameTemplate',
                         description: 'A template for building games with Flutter.',
                         language: 'Dart',
                         stars: 8, // Placeholder
                       ),
-                      Divider(color: AppColors.primaryLight, height: 20.h),
+                      Divider(color: V2Colors.primaryLight, height: 20.h),
                       _buildRepoListItem(
                         name: 'UnityHelpers',
                         description: 'Collection of helper scripts for Unity development.',
@@ -185,8 +198,8 @@ class ActivitySection extends StatelessWidget {
                               () =>
                                   _launchUrlHelper('https://github.com/Sonderman?tab=repositories'),
                           style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.secondary,
-                            side: BorderSide(color: AppColors.secondary.withOpacity(0.5)),
+                            foregroundColor: V2Colors.secondary,
+                            side: BorderSide(color: V2Colors.secondary.withOpacity(0.5)),
                           ),
                         ),
                       ),
@@ -231,7 +244,7 @@ class ActivitySection extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.book_outlined, color: AppColors.secondary, size: 20.sp), // Repo icon
+          Icon(Icons.book_outlined, color: V2Colors.secondary, size: 20.sp), // Repo icon
           SizedBox(width: 16.w),
           Expanded(
             child: Column(
@@ -249,9 +262,9 @@ class ActivitySection extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.accent1, // Keep link color
+                      color: V2Colors.accent1, // Keep link color
                       decoration: TextDecoration.underline, // Add underline
-                      decorationColor: AppColors.accent1,
+                      decorationColor: V2Colors.accent1,
                     ),
                   ),
                 ),
@@ -259,7 +272,7 @@ class ActivitySection extends StatelessWidget {
                 // Repo Description
                 Text(
                   description,
-                  style: TextStyle(fontSize: 14.sp, color: AppColors.textMuted),
+                  style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -269,13 +282,13 @@ class ActivitySection extends StatelessWidget {
                   children: [
                     Icon(Icons.circle, color: _getLanguageColor(language), size: 12.sp),
                     SizedBox(width: 4.w),
-                    Text(language, style: TextStyle(fontSize: 12.sp, color: AppColors.textMuted)),
+                    Text(language, style: TextStyle(fontSize: 12.sp, color: V2Colors.textMuted)),
                     SizedBox(width: 16.w),
-                    Icon(Icons.star_border, color: AppColors.secondary, size: 14.sp),
+                    Icon(Icons.star_border, color: V2Colors.secondary, size: 14.sp),
                     SizedBox(width: 4.w),
                     Text(
                       stars.toString(),
-                      style: TextStyle(fontSize: 12.sp, color: AppColors.textMuted),
+                      style: TextStyle(fontSize: 12.sp, color: V2Colors.textMuted),
                     ),
                   ],
                 ),
@@ -298,7 +311,7 @@ class ActivitySection extends StatelessWidget {
       case 'javascript':
         return Colors.yellow.shade600;
       default:
-        return AppColors.textMuted;
+        return V2Colors.textMuted;
     }
   }
 }

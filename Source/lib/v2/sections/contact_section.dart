@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
@@ -66,7 +66,7 @@ class _ContactSectionState extends State<ContactSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary, // Match original section background
+      color: V2Colors.primary, // Match original section background
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 60.w,
@@ -99,7 +99,7 @@ class _ContactSectionState extends State<ContactSection> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(flex: 1, child: contactInfo),
-                      SizedBox(width: AppTheme.spacingLg.w), // Use theme spacing
+                      SizedBox(width: V2Theme.spacingLg.w), // Use theme spacing
                       Expanded(flex: 2, child: contactForm),
                     ],
                   );
@@ -108,7 +108,7 @@ class _ContactSectionState extends State<ContactSection> {
                   return Column(
                     children: [
                       contactForm, // Form first on mobile like original CSS
-                      SizedBox(height: AppTheme.spacingLg.h), // Use theme spacing
+                      SizedBox(height: V2Theme.spacingLg.h), // Use theme spacing
                       contactInfo,
                     ],
                   );
@@ -134,7 +134,7 @@ class _ContactSectionState extends State<ContactSection> {
           url: 'mailto:alihaydar338@gmail.com',
           launchUrlHelper: _launchUrlHelper, // Pass the helper function
         ),
-        SizedBox(height: AppTheme.spacingMd.h),
+        SizedBox(height: V2Theme.spacingMd.h),
         _ContactInfoCard(
           // Use the new StatefulWidget
           icon: Icons.location_on_outlined,
@@ -143,14 +143,14 @@ class _ContactSectionState extends State<ContactSection> {
           // No URL for location
           launchUrlHelper: _launchUrlHelper, // Pass the helper function (though not used here)
         ),
-        SizedBox(height: AppTheme.spacingMd.h),
+        SizedBox(height: V2Theme.spacingMd.h),
         // Social Profiles Card
         Container(
-          padding: EdgeInsets.all(AppTheme.spacingMd.w),
+          padding: EdgeInsets.all(V2Theme.spacingMd.w),
           decoration: BoxDecoration(
-            color: AppColors.card,
-            borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
-            boxShadow: [AppTheme.shadowMd],
+            color: V2Colors.card,
+            borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
+            boxShadow: [V2Theme.shadowMd],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,14 +160,14 @@ class _ContactSectionState extends State<ContactSection> {
                 style: TextStyle(
                   fontSize: 18.sp, // Adjust size
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: V2Colors.text,
                 ),
               ),
-              SizedBox(height: AppTheme.spacingMd.h),
+              SizedBox(height: V2Theme.spacingMd.h),
               Row(
                 children: [
                   _buildSocialIcon(Icons.link, 'https://linkedin.com'), // Use actual URL
-                  SizedBox(width: AppTheme.spacingSm.w),
+                  SizedBox(width: V2Theme.spacingSm.w),
                   _buildSocialIcon(Icons.code, 'https://github.com/sonderman'), // Use actual URL
                 ],
               ),
@@ -189,10 +189,10 @@ class _ContactSectionState extends State<ContactSection> {
         width: 40.w,
         height: 40.h,
         decoration: const BoxDecoration(
-          color: AppColors.primaryLight, // Match CSS
+          color: V2Colors.primaryLight, // Match CSS
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: AppColors.text, size: 20.sp),
+        child: Icon(icon, color: V2Colors.text, size: 20.sp),
       ),
     );
   }
@@ -200,11 +200,11 @@ class _ContactSectionState extends State<ContactSection> {
   // Helper for Contact Form section
   Widget _buildContactForm() {
     return Container(
-      padding: EdgeInsets.all(AppTheme.spacingLg.w),
+      padding: EdgeInsets.all(V2Theme.spacingLg.w),
       decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
-        boxShadow: [AppTheme.shadowMd],
+        color: V2Colors.card,
+        borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
+        boxShadow: [V2Theme.shadowMd],
       ),
       child: Form(
         // Use Form widget
@@ -214,9 +214,9 @@ class _ContactSectionState extends State<ContactSection> {
           children: [
             Text(
               "Send me a message",
-              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600, color: AppColors.text),
+              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600, color: V2Colors.text),
             ),
-            SizedBox(height: AppTheme.spacingMd.h),
+            SizedBox(height: V2Theme.spacingMd.h),
             // Form Fields
             TextFormField(
               controller: _nameController,
@@ -228,7 +228,7 @@ class _ContactSectionState extends State<ContactSection> {
                 return null;
               },
             ),
-            SizedBox(height: AppTheme.spacingMd.h),
+            SizedBox(height: V2Theme.spacingMd.h),
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Your Email'),
@@ -243,7 +243,7 @@ class _ContactSectionState extends State<ContactSection> {
                 return null;
               },
             ),
-            SizedBox(height: AppTheme.spacingMd.h),
+            SizedBox(height: V2Theme.spacingMd.h),
             TextFormField(
               controller: _subjectController,
               decoration: const InputDecoration(labelText: 'Subject'),
@@ -254,7 +254,7 @@ class _ContactSectionState extends State<ContactSection> {
                 return null;
               },
             ),
-            SizedBox(height: AppTheme.spacingMd.h),
+            SizedBox(height: V2Theme.spacingMd.h),
             TextFormField(
               controller: _messageController,
               decoration: const InputDecoration(labelText: 'Message'),
@@ -266,7 +266,7 @@ class _ContactSectionState extends State<ContactSection> {
                 return null;
               },
             ),
-            SizedBox(height: AppTheme.spacingLg.h),
+            SizedBox(height: V2Theme.spacingLg.h),
             // Submit Button with loading indicator
             // Submit Button (Functionality Removed)
             ElevatedButton.icon(
@@ -348,16 +348,16 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
           widget.content,
           style: TextStyle(
             fontSize: 16.sp,
-            color: AppColors.secondary, // Highlight if link
+            color: V2Colors.secondary, // Highlight if link
             decoration: TextDecoration.underline,
-            decorationColor: AppColors.secondary,
+            decorationColor: V2Colors.secondary,
           ),
         ),
       );
     } else {
       contentWidget = Text(
         widget.content,
-        style: TextStyle(fontSize: 16.sp, color: AppColors.textMuted),
+        style: TextStyle(fontSize: 16.sp, color: V2Colors.textMuted),
       );
     }
 
@@ -367,15 +367,15 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
       cursor: isLink ? SystemMouseCursors.click : SystemMouseCursors.basic,
       child: AnimatedContainer(
         duration: 200.ms, // Animation duration for hover effect
-        padding: EdgeInsets.all(AppTheme.spacingMd.w),
+        padding: EdgeInsets.all(V2Theme.spacingMd.w),
         decoration: BoxDecoration(
-          color: AppColors.card,
-          borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
+          color: V2Colors.card,
+          borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
           boxShadow:
-              _isHovered ? [AppTheme.shadowLg] : [AppTheme.shadowMd], // Enhance shadow on hover
+              _isHovered ? [V2Theme.shadowLg] : [V2Theme.shadowMd], // Enhance shadow on hover
           border: Border.all(
             // Add subtle border on hover
-            color: _isHovered ? AppColors.secondary.withOpacity(0.5) : Colors.transparent,
+            color: _isHovered ? V2Colors.secondary.withOpacity(0.5) : Colors.transparent,
             width: 1.5,
           ),
         ),
@@ -387,10 +387,10 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
             Container(
               width: 50.w,
               height: 50.h,
-              decoration: const BoxDecoration(color: AppColors.secondary, shape: BoxShape.circle),
-              child: Icon(widget.icon, color: AppColors.primary, size: 24.sp),
+              decoration: const BoxDecoration(color: V2Colors.secondary, shape: BoxShape.circle),
+              child: Icon(widget.icon, color: V2Colors.primary, size: 24.sp),
             ),
-            SizedBox(width: AppTheme.spacingMd.w),
+            SizedBox(width: V2Theme.spacingMd.w),
             // Text Content
             Expanded(
               child: Column(
@@ -401,10 +401,10 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      color: V2Colors.text,
                     ),
                   ),
-                  SizedBox(height: AppTheme.spacingXs.h),
+                  SizedBox(height: V2Theme.spacingXs.h),
                   contentWidget, // Display link or plain text
                 ],
               ),

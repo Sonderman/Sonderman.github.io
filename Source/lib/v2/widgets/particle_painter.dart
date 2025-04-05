@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // For default color
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // For default color
 
 class Particle {
   double x;
@@ -88,10 +88,10 @@ class ParticlePainter extends CustomPainter {
 // Helper to get random colors similar to the original JS
 Color getRandomParticleColor() {
   final List<Color> colors = [
-    AppColors.secondary, // #ffd700
-    AppColors.accent1, // #00b4d8
-    AppColors.accent2, // #7209b7
-    AppColors.text, // #f8f9fa
+    V2Colors.secondary, // #ffd700
+    V2Colors.accent1, // #00b4d8
+    V2Colors.accent2, // #7209b7
+    V2Colors.text, // #f8f9fa
   ];
   return colors[Random().nextInt(colors.length)];
 }

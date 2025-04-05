@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
 import 'package:intl/intl.dart'; // Import for date formatting
@@ -167,7 +167,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary, // Match original section background
+      color: V2Colors.primary, // Match original section background
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 60.w,
@@ -205,8 +205,8 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   _updateDisplayedProjects(); // Update the displayed list
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.secondary,
-                  foregroundColor: AppColors.primary,
+                  backgroundColor: V2Colors.secondary,
+                  foregroundColor: V2Colors.primary,
                   padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                   textStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                 ),
@@ -223,8 +223,8 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     return Wrap(
       // Use Wrap for responsiveness
       alignment: WrapAlignment.center,
-      spacing: AppTheme.spacingSm.w, // Use theme spacing
-      runSpacing: AppTheme.spacingSm.h,
+      spacing: V2Theme.spacingSm.w, // Use theme spacing
+      runSpacing: V2Theme.spacingSm.h,
       children: [
         _FilterButton(
           label: 'All',
@@ -268,21 +268,21 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end, // Align to the right like original
       children: [
-        Text('Sort by:', style: TextStyle(color: AppColors.textMuted)),
-        SizedBox(width: AppTheme.spacingSm.w),
+        Text('Sort by:', style: TextStyle(color: V2Colors.textMuted)),
+        SizedBox(width: V2Theme.spacingSm.w),
         // Dropdown Button
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           decoration: BoxDecoration(
-            color: AppColors.primaryLight,
-            borderRadius: BorderRadius.circular(AppTheme.borderRadiusSm),
+            color: V2Colors.primaryLight,
+            borderRadius: BorderRadius.circular(V2Theme.borderRadiusSm),
           ),
           child: DropdownButton<String>(
             value: _selectedSort, // Use state variable
-            dropdownColor: AppColors.primaryLight,
+            dropdownColor: V2Colors.primaryLight,
             underline: Container(),
-            icon: Icon(Icons.arrow_drop_down, color: AppColors.text),
-            style: TextStyle(color: AppColors.text, fontFamily: AppFonts.body),
+            icon: Icon(Icons.arrow_drop_down, color: V2Colors.text),
+            style: TextStyle(color: V2Colors.text, fontFamily: V2Fonts.body),
             items: const [
               DropdownMenuItem(value: 'date-desc', child: Text('Date: Descending')),
               DropdownMenuItem(value: 'date-asc', child: Text('Date: Ascending')),
@@ -297,7 +297,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
             },
           ),
         ),
-        SizedBox(width: AppTheme.spacingSm.w),
+        SizedBox(width: V2Theme.spacingSm.w),
         // Direction Button
         InkWell(
           onTap: () {
@@ -306,17 +306,17 @@ class _ProjectsSectionState extends State<ProjectsSection> {
             });
             _applyFiltersAndSort();
           },
-          borderRadius: BorderRadius.circular(AppTheme.borderRadiusSm),
+          borderRadius: BorderRadius.circular(V2Theme.borderRadiusSm),
           child: Container(
             width: 35.w,
             height: 35.h,
             decoration: BoxDecoration(
-              color: AppColors.primaryLight,
-              borderRadius: BorderRadius.circular(AppTheme.borderRadiusSm),
+              color: V2Colors.primaryLight,
+              borderRadius: BorderRadius.circular(V2Theme.borderRadiusSm),
             ),
             child: Icon(
               _isAscending ? Icons.arrow_upward : Icons.arrow_downward, // Use state variable
-              color: AppColors.text,
+              color: V2Colors.text,
               size: 20.sp,
             ),
           ),
@@ -331,7 +331,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       return const Center(
         child: Text(
           'No projects match the current filter.',
-          style: TextStyle(color: AppColors.textMuted),
+          style: TextStyle(color: V2Colors.textMuted),
         ),
       );
     }
@@ -348,8 +348,8 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
-        crossAxisSpacing: AppTheme.spacingMd.w,
-        mainAxisSpacing: AppTheme.spacingMd.h,
+        crossAxisSpacing: V2Theme.spacingMd.w,
+        mainAxisSpacing: V2Theme.spacingMd.h,
         childAspectRatio: 0.85, // Adjusted aspect ratio slightly
       ),
       // Use the length of the *currently displayed* projects
@@ -392,11 +392,11 @@ class _FilterButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: isActive ? AppColors.secondary : Colors.transparent,
-        foregroundColor: isActive ? AppColors.primary : AppColors.text,
-        side: isActive ? null : BorderSide(color: AppColors.primaryLight, width: 2),
+        backgroundColor: isActive ? V2Colors.secondary : Colors.transparent,
+        foregroundColor: isActive ? V2Colors.primary : V2Colors.text,
+        side: isActive ? null : BorderSide(color: V2Colors.primaryLight, width: 2),
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd)),
         elevation: 0,
       ),
       child: Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),

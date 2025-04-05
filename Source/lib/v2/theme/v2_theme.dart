@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Colors based on CSS variables
-class AppColors {
+class V2Colors {
   static const Color primary = Color(0xFF0A1128);
   static const Color primaryLight = Color(0xFF1A2138);
   static const Color secondary = Color(0xFFFFD700); // --color-secondary: #ffd700;
@@ -20,14 +20,14 @@ class AppColors {
 }
 
 // Font Families based on CSS variables
-class AppFonts {
+class V2Fonts {
   static const String heading = 'Poppins';
   static const String body = 'Inter';
   static const String code = 'Fira Code';
 }
 
 // Theme constants based on CSS variables
-class AppTheme {
+class V2Theme {
   // Spacing (use double for compatibility with ScreenUtil)
   static const double spacingXs = 8.0; // 0.5rem approx
   static const double spacingSm = 16.0; // 1rem approx
@@ -71,96 +71,99 @@ class AppTheme {
 }
 
 // Basic ThemeData using the defined constants
-ThemeData buildAppTheme() {
+ThemeData buildV2Theme() {
   return ThemeData(
     brightness: Brightness.dark,
-    primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.background,
+    primaryColor: V2Colors.primary,
+    scaffoldBackgroundColor: V2Colors.background,
     colorScheme: const ColorScheme.dark(
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      surface: AppColors.primaryLight,
-      onPrimary: AppColors.text,
-      onSecondary: AppColors.primary,
-      onSurface: AppColors.text,
+      primary: V2Colors.primary,
+      secondary: V2Colors.secondary,
+      surface: V2Colors.primaryLight,
+      onPrimary: V2Colors.text,
+      onSecondary: V2Colors.primary,
+      onSurface: V2Colors.text,
       error: Colors.redAccent,
       onError: Colors.white,
     ),
     textTheme: const TextTheme(
-      displayLarge: TextStyle(fontFamily: AppFonts.heading, color: AppColors.text),
-      displayMedium: TextStyle(fontFamily: AppFonts.heading, color: AppColors.text),
-      displaySmall: TextStyle(fontFamily: AppFonts.heading, color: AppColors.text),
-      headlineMedium: TextStyle(fontFamily: AppFonts.heading, color: AppColors.text),
-      headlineSmall: TextStyle(fontFamily: AppFonts.heading, color: AppColors.text),
-      titleLarge: TextStyle(fontFamily: AppFonts.heading, color: AppColors.text),
-      bodyLarge: TextStyle(fontFamily: AppFonts.body, color: AppColors.text),
-      bodyMedium: TextStyle(fontFamily: AppFonts.body, color: AppColors.textMuted),
-      labelLarge: TextStyle(fontFamily: AppFonts.heading, color: AppColors.primary), // For buttons
-    ).apply(bodyColor: AppColors.text, displayColor: AppColors.text),
-    fontFamily: AppFonts.body, // Default font family
+      displayLarge: TextStyle(fontFamily: V2Fonts.heading, color: V2Colors.text),
+      displayMedium: TextStyle(fontFamily: V2Fonts.heading, color: V2Colors.text),
+      displaySmall: TextStyle(fontFamily: V2Fonts.heading, color: V2Colors.text),
+      headlineMedium: TextStyle(fontFamily: V2Fonts.heading, color: V2Colors.text),
+      headlineSmall: TextStyle(fontFamily: V2Fonts.heading, color: V2Colors.text),
+      titleLarge: TextStyle(fontFamily: V2Fonts.heading, color: V2Colors.text),
+      bodyLarge: TextStyle(fontFamily: V2Fonts.body, color: V2Colors.text),
+      bodyMedium: TextStyle(fontFamily: V2Fonts.body, color: V2Colors.textMuted),
+      labelLarge: TextStyle(fontFamily: V2Fonts.heading, color: V2Colors.primary), // For buttons
+    ).apply(bodyColor: V2Colors.text, displayColor: V2Colors.text),
+    fontFamily: V2Fonts.body, // Default font family
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.overlay,
-      foregroundColor: AppColors.text,
+      backgroundColor: V2Colors.overlay,
+      foregroundColor: V2Colors.text,
       elevation: 0,
     ),
     buttonTheme: ButtonThemeData(
-      buttonColor: AppColors.secondary,
+      buttonColor: V2Colors.secondary,
       textTheme: ButtonTextTheme.primary,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd), // Use constant
+        borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd), // Use constant
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.secondary,
-        foregroundColor: AppColors.primary,
+        backgroundColor: V2Colors.secondary,
+        foregroundColor: V2Colors.primary,
         padding: EdgeInsets.symmetric(
-          horizontal: AppTheme.spacingMd,
-          vertical: AppTheme.spacingSm,
+          horizontal: V2Theme.spacingMd,
+          vertical: V2Theme.spacingSm,
         ), // Use constants
-        textStyle: const TextStyle(fontFamily: AppFonts.heading, fontWeight: FontWeight.w600),
+        textStyle: const TextStyle(fontFamily: V2Fonts.heading, fontWeight: FontWeight.w600),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd), // Use constant
+          borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd), // Use constant
         ),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.text,
-        side: const BorderSide(color: AppColors.secondary, width: 2),
+        foregroundColor: V2Colors.text,
+        side: const BorderSide(color: V2Colors.secondary, width: 2),
         padding: EdgeInsets.symmetric(
-          horizontal: AppTheme.spacingMd,
-          vertical: AppTheme.spacingSm,
+          horizontal: V2Theme.spacingMd,
+          vertical: V2Theme.spacingSm,
         ), // Use constants
-        textStyle: const TextStyle(fontFamily: AppFonts.heading, fontWeight: FontWeight.w600),
+        textStyle: const TextStyle(fontFamily: V2Fonts.heading, fontWeight: FontWeight.w600),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd), // Use constant
+          borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd), // Use constant
         ),
       ),
     ),
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.primary,
-      labelStyle: TextStyle(color: AppColors.textMuted),
+      fillColor: V2Colors.primary,
+      labelStyle: TextStyle(color: V2Colors.textMuted),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.secondary),
-        borderRadius: BorderRadius.all(Radius.circular(AppTheme.borderRadiusSm)), // Use constant
+        borderSide: BorderSide(color: V2Colors.secondary),
+        borderRadius: BorderRadius.all(Radius.circular(V2Theme.borderRadiusSm)), // Use constant
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.primaryLight),
-        borderRadius: BorderRadius.all(Radius.circular(AppTheme.borderRadiusSm)), // Use constant
+        borderSide: BorderSide(color: V2Colors.primaryLight),
+        borderRadius: BorderRadius.all(Radius.circular(V2Theme.borderRadiusSm)), // Use constant
       ),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(AppTheme.borderRadiusSm)), // Use constant
+        borderRadius: BorderRadius.all(Radius.circular(V2Theme.borderRadiusSm)), // Use constant
       ),
     ),
     cardTheme: CardTheme(
-      color: AppColors.card,
+      color: V2Colors.card,
       elevation: 4, // Approximating --shadow-md (Consider using AppTheme.shadowMd.blurRadius / 2 ?)
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd), // Use constant
+        borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd), // Use constant
       ),
     ),
-    dividerColor: AppColors.primaryLight,
+    dividerColor: V2Colors.primaryLight,
+    scrollbarTheme: ScrollbarThemeData(
+      thumbColor: WidgetStateProperty.all(V2Colors.secondary), // İstediğiniz rengi buraya girin
+    ),
   );
 }

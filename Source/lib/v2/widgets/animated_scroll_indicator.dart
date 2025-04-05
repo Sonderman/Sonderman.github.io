@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart';
+import 'package:myportfolio/v2/theme/v2_theme.dart';
 
 class AnimatedScrollIndicator extends StatelessWidget {
   const AnimatedScrollIndicator({super.key});
@@ -9,7 +9,7 @@ class AnimatedScrollIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Use theme colors
-    const Color indicatorColor = AppColors.text;
+    const Color indicatorColor = V2Colors.text;
     const double mouseWidth = 30.0;
     const double mouseHeight = 50.0;
     const double wheelSize = 6.0;

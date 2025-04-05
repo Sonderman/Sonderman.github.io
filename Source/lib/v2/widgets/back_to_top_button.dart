@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart';
+import 'package:myportfolio/v2/theme/v2_theme.dart';
 
 class BackToTopButton extends StatefulWidget {
   final ScrollController scrollController;
@@ -77,8 +77,8 @@ class _BackToTopButtonState extends State<BackToTopButton> {
                 onPressed: _scrollToTop,
                 // Animate background color
                 backgroundColor:
-                    _isHovered ? AppColors.accent1 : AppColors.secondary, // Change color on hover
-                foregroundColor: AppColors.primary,
+                    _isHovered ? V2Colors.accent1 : V2Colors.secondary, // Change color on hover
+                foregroundColor: V2Colors.primary,
                 mini: false,
                 elevation: _isHovered ? 8 : 4, // Increase elevation slightly on hover
                 tooltip: 'Back to Top',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart';
+import 'package:myportfolio/v2/theme/v2_theme.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
 
@@ -29,7 +29,7 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primaryLight, // Match original footer background
+      color: V2Colors.primaryLight, // Match original footer background
       padding: EdgeInsets.symmetric(
         vertical: 40.h,
         horizontal: 60.w,
@@ -45,7 +45,7 @@ class Footer extends StatelessWidget {
                 cursor: SystemMouseCursors.click,
                 child: InkWell(
                   onTap: onLogoTap, // Call the callback
-                  borderRadius: BorderRadius.circular(AppTheme.borderRadiusSm), // For splash effect
+                  borderRadius: BorderRadius.circular(V2Theme.borderRadiusSm), // For splash effect
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 4.h,
@@ -54,10 +54,10 @@ class Footer extends StatelessWidget {
                     child: Text(
                       'Ali Haydar AYAR',
                       style: TextStyle(
-                        fontFamily: AppFonts.heading,
+                        fontFamily: V2Fonts.heading,
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: V2Colors.text,
                       ),
                     ),
                   ),
@@ -87,7 +87,7 @@ class Footer extends StatelessWidget {
                 return Column(
                   children: [
                     logo,
-                    SizedBox(height: AppTheme.spacingMd.h), // Spacing for mobile column
+                    SizedBox(height: V2Theme.spacingMd.h), // Spacing for mobile column
                     socialIcons,
                   ],
                 );
@@ -102,14 +102,14 @@ class Footer extends StatelessWidget {
           ),
           SizedBox(height: 30.h),
           // Footer Bottom (Copyright)
-          Divider(color: AppColors.primary, thickness: 1.h),
+          Divider(color: V2Colors.primary, thickness: 1.h),
           SizedBox(height: 30.h),
           Text(
             '© ${DateTime.now().year} Ali Haydar AYAR. All rights reserved.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.sp, // Approx 0.9rem
-              color: AppColors.textMuted,
+              color: V2Colors.textMuted,
             ),
           ),
         ],
@@ -149,17 +149,15 @@ class _FooterSocialIconState extends State<_FooterSocialIcon> {
             transform: Matrix4.translationValues(0, _isHovered ? -3.h : 0, 0), // Translate Y
             decoration: BoxDecoration(
               color:
-                  _isHovered
-                      ? AppColors.secondary
-                      : AppColors.primary, // Change background on hover
+                  _isHovered ? V2Colors.secondary : V2Colors.primary, // Change background on hover
               shape: BoxShape.circle,
-              boxShadow: _isHovered ? [AppTheme.shadowSm] : [], // Optional shadow on hover
+              boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow on hover
             ),
             width: 40.w,
             height: 40.h,
             child: Icon(
               widget.icon,
-              color: _isHovered ? AppColors.primary : AppColors.text, // Change icon color on hover
+              color: _isHovered ? V2Colors.primary : V2Colors.text, // Change icon color on hover
               size: 20.sp,
             ),
           ),

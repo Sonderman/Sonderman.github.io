@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart'; // For PointerHoverEvent
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import '../widgets/mobile_nav_overlay.dart'; // Import MobileNavOverlay
 import '../widgets/nav_menu.dart';
 import '../widgets/particles_background.dart'; // Import ParticlesBackground
@@ -156,8 +156,7 @@ class _HomePageState extends State<HomePage> {
 
   // Helper method for floating icons
   Widget _buildFloatingIcon({
-    required IconData icon,
-    required Color color,
+    required Widget image,
     required Alignment alignment,
     required double size,
   }) {
@@ -167,7 +166,7 @@ class _HomePageState extends State<HomePage> {
             width: size,
             height: size,
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: V2Colors.primary,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
@@ -177,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            child: Icon(icon, color: color, size: size * 0.5),
+            child: Padding(padding: const EdgeInsets.all(8.0), child: image),
           )
           .animate(onPlay: (controller) => controller.repeat(reverse: true))
           .moveY(
@@ -259,10 +258,10 @@ class _HomePageState extends State<HomePage> {
                                           style: Theme.of(
                                             context,
                                           ).textTheme.displayMedium?.copyWith(
-                                            fontFamily: AppFonts.heading,
+                                            fontFamily: V2Fonts.heading,
                                             fontSize: isDesktop ? 64.sp : 48.sp,
                                             fontWeight: FontWeight.bold,
-                                            color: AppColors.text,
+                                            color: V2Colors.text,
                                           ),
                                         )
                                         .animate()
@@ -285,9 +284,9 @@ class _HomePageState extends State<HomePage> {
                                           style: Theme.of(
                                             context,
                                           ).textTheme.headlineMedium?.copyWith(
-                                            fontFamily: AppFonts.heading,
+                                            fontFamily: V2Fonts.heading,
                                             fontSize: isDesktop ? 40.sp : 32.sp,
-                                            color: AppColors.secondary,
+                                            color: V2Colors.secondary,
                                           ),
                                         )
                                         .animate()
@@ -310,7 +309,7 @@ class _HomePageState extends State<HomePage> {
                                           textAlign: isDesktop ? TextAlign.start : TextAlign.center,
                                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                             fontSize: isDesktop ? 18.sp : 16.sp,
-                                            color: AppColors.textMuted,
+                                            color: V2Colors.textMuted,
                                             height: 1.4,
                                           ),
                                         )
@@ -395,12 +394,11 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       // Profile Image
                                       Container(
+                                        width: isDesktop ? 300.w : 250.w,
+                                        height: isDesktop ? 300.h : 250.h,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: AppColors.secondary,
-                                            width: 4.w,
-                                          ),
+                                          border: Border.all(color: V2Colors.secondary, width: 4.w),
                                           boxShadow: [
                                             BoxShadow(
                                               color: Colors.black.withOpacity(0.3),
@@ -409,26 +407,19 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ],
                                         ),
-                                        child: ClipOval(
-                                          child: Image.asset(
-                                            'assets/profileImage.png',
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                          ),
+                                        child: CircleAvatar(
+                                          backgroundImage: AssetImage('assets/profileImage.png'),
                                         ),
                                       ),
                                       // Floating Icons
                                       _buildFloatingIcon(
-                                        icon: Icons.flutter_dash,
-                                        color: const Color(0xFF54C5F8),
-                                        alignment: const Alignment(-0.9, -0.9),
+                                        image: Image.asset("icons/flutter.png"),
+                                        alignment: const Alignment(-0.2, 0.9),
                                         size: isDesktop ? 60.w : 50.w,
                                       ),
                                       _buildFloatingIcon(
-                                        icon: Icons.gamepad_outlined,
-                                        color: AppColors.text,
-                                        alignment: const Alignment(0.9, 0.9),
+                                        image: Image.asset("icons/unity.png", color: Colors.white),
+                                        alignment: const Alignment(0.2, 0.9),
                                         size: isDesktop ? 60.w : 50.w,
                                       ),
                                     ],
@@ -443,7 +434,7 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children:
                                     isDesktop
-                                        ? [Expanded(child: heroText), Expanded(child: heroImage)]
+                                        ? [Expanded(child: heroImage), Expanded(child: heroText)]
                                         : [heroText, heroImage],
                               );
                             },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 
 class Preloader extends StatefulWidget {
   final VoidCallback onLoadingComplete; // Callback when fade-out finishes
@@ -41,7 +41,7 @@ class _PreloaderState extends State<Preloader> with SingleTickerProviderStateMix
         opacity: _visible ? 1.0 : 0.0,
         duration: 500.ms, // Original fade-out duration
         child: Container(
-          color: AppColors.primary, // Use theme color
+          color: V2Colors.primary, // Use theme color
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +53,7 @@ class _PreloaderState extends State<Preloader> with SingleTickerProviderStateMix
                       height: 100.h,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.secondary, width: 4.w),
+                        border: Border.all(color: V2Colors.secondary, width: 4.w),
                       ),
                     )
                     .animate(onPlay: (controller) => controller.repeat(reverse: true))
@@ -77,26 +77,26 @@ class _PreloaderState extends State<Preloader> with SingleTickerProviderStateMix
                     Text(
                       'Loading',
                       style: TextStyle(
-                        fontFamily: AppFonts.heading,
+                        fontFamily: V2Fonts.heading,
                         fontSize: 18.sp, // Approx 1.2rem
-                        color: AppColors.text,
+                        color: V2Colors.text,
                         letterSpacing: 2,
                       ),
                     ),
                     // Dot 1
-                    Text('.', style: TextStyle(fontSize: 18.sp, color: AppColors.text))
+                    Text('.', style: TextStyle(fontSize: 18.sp, color: V2Colors.text))
                         .animate(onPlay: (controller) => controller.repeat())
                         .fadeIn(delay: 0.ms, duration: 500.ms) // Fade in
                         .then(delay: 500.ms) // Stay visible
                         .fadeOut(duration: 500.ms), // Fade out (Total cycle 1.5s)
                     // Dot 2
-                    Text('.', style: TextStyle(fontSize: 18.sp, color: AppColors.text))
+                    Text('.', style: TextStyle(fontSize: 18.sp, color: V2Colors.text))
                         .animate(onPlay: (controller) => controller.repeat())
                         .fadeIn(delay: 500.ms, duration: 500.ms) // Start later
                         .then(delay: 500.ms)
                         .fadeOut(duration: 500.ms),
                     // Dot 3
-                    Text('.', style: TextStyle(fontSize: 18.sp, color: AppColors.text))
+                    Text('.', style: TextStyle(fontSize: 18.sp, color: V2Colors.text))
                         .animate(onPlay: (controller) => controller.repeat())
                         .fadeIn(delay: 1000.ms, duration: 500.ms) // Start even later
                         .then(delay: 500.ms)

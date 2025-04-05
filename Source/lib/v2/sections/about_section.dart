@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
@@ -11,7 +11,7 @@ class AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary, // Match original section background
+      color: V2Colors.primary, // Match original section background
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 80.h),
         child: Column(
@@ -49,10 +49,10 @@ class AboutSection extends StatelessWidget {
                     Text(
                       "What I'm Doing",
                       style: TextStyle(
-                        fontFamily: AppFonts.heading,
+                        fontFamily: V2Fonts.heading,
                         fontSize: 28.sp,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text,
+                        color: V2Colors.text,
                       ),
                     ),
                     SizedBox(height: 24.h),
@@ -110,10 +110,10 @@ class AboutSection extends StatelessWidget {
                   "My Skills",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: AppFonts.heading,
+                    fontFamily: V2Fonts.heading,
                     fontSize: 28.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: V2Colors.text,
                   ),
                 ),
                 SizedBox(height: 30.h),
@@ -147,7 +147,7 @@ class AboutSection extends StatelessWidget {
       ],
       child: Padding(
         padding: EdgeInsets.only(bottom: 24.h),
-        child: Text(text, style: TextStyle(fontSize: 16.sp, color: AppColors.text, height: 1.6)),
+        child: Text(text, style: TextStyle(fontSize: 16.sp, color: V2Colors.text, height: 1.6)),
       ),
     ); // Close Animate
   }
@@ -182,7 +182,7 @@ class AboutSection extends StatelessWidget {
                   skill,
                   style: TextStyle(
                     fontSize: 16.sp,
-                    color: AppColors.text,
+                    color: V2Colors.text,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -190,7 +190,7 @@ class AboutSection extends StatelessWidget {
                   '$percentage%',
                   style: TextStyle(
                     fontSize: 16.sp,
-                    color: AppColors.secondary,
+                    color: V2Colors.secondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -201,7 +201,7 @@ class AboutSection extends StatelessWidget {
               // Background track
               height: 8.h,
               decoration: BoxDecoration(
-                color: AppColors.primaryLight,
+                color: V2Colors.primaryLight,
                 borderRadius: BorderRadius.circular(4.r),
               ),
               child: Align(
@@ -223,7 +223,7 @@ class AboutSection extends StatelessWidget {
                           decoration: BoxDecoration(
                             // Define decoration explicitly
                             gradient: const LinearGradient(
-                              colors: [AppColors.secondary, AppColors.accent1],
+                              colors: [V2Colors.secondary, V2Colors.accent1],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
@@ -278,15 +278,15 @@ class __AboutImageSectionState extends State<_AboutImageSection> {
       onTap: url != null ? () => _launchUrlHelper(url) : null,
       child: Container(
         padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(color: AppColors.card, borderRadius: BorderRadius.circular(8.r)),
+        decoration: BoxDecoration(color: V2Colors.card, borderRadius: BorderRadius.circular(8.r)),
         child: Row(
           children: [
-            Icon(icon, color: AppColors.secondary, size: 20.sp),
+            Icon(icon, color: V2Colors.secondary, size: 20.sp),
             SizedBox(width: 16.w),
             Expanded(
               child: Text(
                 text,
-                style: TextStyle(fontSize: 14.sp, color: AppColors.textMuted),
+                style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -303,8 +303,8 @@ class __AboutImageSectionState extends State<_AboutImageSection> {
       child: Container(
         width: 40.w,
         height: 40.h,
-        decoration: const BoxDecoration(color: AppColors.card, shape: BoxShape.circle),
-        child: Icon(icon, color: AppColors.text, size: 20.sp),
+        decoration: const BoxDecoration(color: V2Colors.card, shape: BoxShape.circle),
+        child: Icon(icon, color: V2Colors.text, size: 20.sp),
       ),
     );
   }
@@ -336,7 +336,7 @@ class __AboutImageSectionState extends State<_AboutImageSection> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.r + 5.r),
-                      border: Border.all(color: AppColors.secondary, width: 2.w),
+                      border: Border.all(color: V2Colors.secondary, width: 2.w),
                     ),
                   ),
                 ),
@@ -429,12 +429,12 @@ class _ServiceInfoCardState extends State<_ServiceInfoCard> {
           duration: 200.ms,
           padding: EdgeInsets.all(30.w),
           decoration: BoxDecoration(
-            color: AppColors.card,
+            color: V2Colors.card,
             borderRadius: BorderRadius.circular(8.r),
-            boxShadow: _isHovered ? [AppTheme.shadowLg] : [AppTheme.shadowMd], // Enhance shadow
+            boxShadow: _isHovered ? [V2Theme.shadowLg] : [V2Theme.shadowMd], // Enhance shadow
             border: Border.all(
               // Add subtle border
-              color: _isHovered ? AppColors.secondary.withOpacity(0.5) : Colors.transparent,
+              color: _isHovered ? V2Colors.secondary.withOpacity(0.5) : Colors.transparent,
               width: 1.5,
             ),
           ),
@@ -448,8 +448,8 @@ class _ServiceInfoCardState extends State<_ServiceInfoCard> {
               Container(
                 width: 50.w,
                 height: 50.h,
-                decoration: const BoxDecoration(color: AppColors.secondary, shape: BoxShape.circle),
-                child: Icon(widget.icon, color: AppColors.primary, size: 24.sp),
+                decoration: const BoxDecoration(color: V2Colors.secondary, shape: BoxShape.circle),
+                child: Icon(widget.icon, color: V2Colors.primary, size: 24.sp),
               ),
               SizedBox(width: 24.w),
               // Text Content
@@ -460,16 +460,16 @@ class _ServiceInfoCardState extends State<_ServiceInfoCard> {
                     Text(
                       widget.title,
                       style: TextStyle(
-                        fontFamily: AppFonts.heading,
+                        fontFamily: V2Fonts.heading,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text,
+                        color: V2Colors.text,
                       ),
                     ),
                     SizedBox(height: 8.h),
                     Text(
                       widget.description,
-                      style: TextStyle(fontSize: 14.sp, color: AppColors.textMuted, height: 1.5),
+                      style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted, height: 1.5),
                     ),
                   ],
                 ),

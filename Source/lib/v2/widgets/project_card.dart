@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../theme/app_theme.dart'; // Correct single import for AppTheme
+import '../theme/v2_theme.dart'; // Correct single import for AppTheme
 import '../models/project.dart'; // Import the Project model
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 
@@ -78,9 +78,9 @@ class _ProjectCardState extends State<ProjectCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: AppColors.card,
-          borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
-          boxShadow: _isHovered ? [AppTheme.shadowLg] : [AppTheme.shadowMd],
+          color: V2Colors.card,
+          borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
+          boxShadow: _isHovered ? [V2Theme.shadowLg] : [V2Theme.shadowMd],
         ),
         clipBehavior: Clip.antiAlias, // Clip the image overflow
         child: Stack(
@@ -96,7 +96,7 @@ class _ProjectCardState extends State<ProjectCard> {
                   child: ClipRRect(
                     // Ensure image respects border radius
                     borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(AppTheme.borderRadiusMd),
+                      top: Radius.circular(V2Theme.borderRadiusMd),
                     ),
                     child: AnimatedScale(
                       scale: _isHovered ? 1.1 : 1.0,
@@ -115,7 +115,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 ),
                 // Project Info
                 Padding(
-                  padding: EdgeInsets.all(AppTheme.spacingMd.w),
+                  padding: EdgeInsets.all(V2Theme.spacingMd.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -124,22 +124,22 @@ class _ProjectCardState extends State<ProjectCard> {
                         style: TextStyle(
                           fontSize: 18.sp, // Adjusted size
                           fontWeight: FontWeight.w600,
-                          color: AppColors.text,
+                          color: V2Colors.text,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: AppTheme.spacingSm.h),
+                      SizedBox(height: V2Theme.spacingSm.h),
                       Row(
                         // Combine platforms and links
                         children: [
                           // Platform Icons
                           ...widget.project.platforms.map(
                             (platform) => Padding(
-                              padding: EdgeInsets.only(right: AppTheme.spacingXs.w),
+                              padding: EdgeInsets.only(right: V2Theme.spacingXs.w),
                               child: Icon(
                                 _getPlatformIcon(platform),
-                                color: AppColors.textMuted,
+                                color: V2Colors.textMuted,
                                 size: 20.sp,
                               ),
                             ),
@@ -148,7 +148,7 @@ class _ProjectCardState extends State<ProjectCard> {
                           // Link Icons
                           ...widget.project.links.entries.map(
                             (entry) => Padding(
-                              padding: EdgeInsets.only(left: AppTheme.spacingXs.w),
+                              padding: EdgeInsets.only(left: V2Theme.spacingXs.w),
                               child: InkWell(
                                 onTap: () => _launchUrlHelper(entry.value), // Call helper
                                 borderRadius: BorderRadius.circular(20.r),
@@ -157,12 +157,12 @@ class _ProjectCardState extends State<ProjectCard> {
                                   height: 35.h,
                                   decoration: const BoxDecoration(
                                     // Can be const
-                                    color: AppColors.primaryLight,
+                                    color: V2Colors.primaryLight,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
                                     _getLinkIcon(entry.key),
-                                    color: AppColors.text,
+                                    color: V2Colors.text,
                                     size: 18.sp,
                                   ),
                                 ),
@@ -178,19 +178,19 @@ class _ProjectCardState extends State<ProjectCard> {
             ),
             // Date Overlay
             Positioned(
-              top: AppTheme.spacingSm.h,
-              right: AppTheme.spacingSm.w,
+              top: V2Theme.spacingSm.h,
+              right: V2Theme.spacingSm.w,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(AppTheme.borderRadiusSm),
+                  color: V2Colors.primary.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(V2Theme.borderRadiusSm),
                 ),
                 child: Text(
                   widget.project.date, // Display formatted date
                   style: TextStyle(
                     fontSize: 12.sp, // Smaller date font
-                    color: AppColors.text,
+                    color: V2Colors.text,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

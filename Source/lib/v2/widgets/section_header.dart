@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart';
+import 'package:myportfolio/v2/theme/v2_theme.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -17,10 +17,10 @@ class SectionHeader extends StatelessWidget {
           title,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontFamily: AppFonts.heading,
+            fontFamily: V2Fonts.heading,
             fontSize: 48.sp, // Approx 3rem
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: V2Colors.text,
           ),
           // TODO: Add character reveal animation later
         ),
@@ -31,16 +31,16 @@ class SectionHeader extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             // Main Divider (Secondary Color)
-            Container(width: 80.w, height: 4.h, color: AppColors.secondary),
+            Container(width: 80.w, height: 4.h, color: V2Colors.secondary),
             // Left Accent Line (Accent 1) - Positioned relative to center
             Positioned(
               left: -20.w - 40.w / 2, // (divider width / 2) + accent offset + (accent width / 2)
-              child: Container(width: 40.w, height: 4.h, color: AppColors.accent1),
+              child: Container(width: 40.w, height: 4.h, color: V2Colors.accent1),
             ),
             // Right Accent Line (Accent 2) - Positioned relative to center
             Positioned(
               right: -20.w - 40.w / 2, // (divider width / 2) + accent offset + (accent width / 2)
-              child: Container(width: 40.w, height: 4.h, color: AppColors.accent2),
+              child: Container(width: 40.w, height: 4.h, color: V2Colors.accent2),
             ),
           ],
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:myportfolio/controllers/version_controller.dart';
 import 'package:myportfolio/v1/entry.dart';
 import 'package:myportfolio/v2/entry.dart';
+import 'package:myportfolio/v2/theme/v2_theme.dart';
 
 class NestView extends StatelessWidget {
   const NestView({super.key});
@@ -12,23 +14,35 @@ class NestView extends StatelessWidget {
     final version = Get.find<VersionController>().currentVersion;
     return SafeArea(
       child: Obx(() {
+        bool isV1 = version.value == "v1";
         return Stack(
           children: [
-            version.value == "v1" ? V1Entry() : V2Entry(),
-            Positioned(
-              right: 20,
-              top: 20,
-              child: Material(
-                elevation: 8,
-                borderRadius: BorderRadius.circular(20),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Switch(
-                    value: version.value == "v1",
-                    onChanged: (value) {
-                      final newVersion = value ? "v1" : "v2";
-                      version.value = newVersion;
-                    },
+            isV1 ? V1Entry() : Theme(data: buildV2Theme(), child: V2Entry()),
+            Align(
+              alignment: isV1 ? Alignment.topRight : Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.all(20.sp),
+                child: Theme(
+                  data: ThemeData.dark(),
+                  child: Material(
+                    elevation: 8,
+                    borderRadius: BorderRadius.circular(16.sp),
+                    child: Padding(
+                      padding: EdgeInsets.all(4.0.sp),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Switch to ${isV1 ? "v2" : "v1"}"),
+                          Switch(
+                            value: version.value == "v1",
+                            onChanged: (value) {
+                              final newVersion = value ? "v1" : "v2";
+                              version.value = newVersion;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),

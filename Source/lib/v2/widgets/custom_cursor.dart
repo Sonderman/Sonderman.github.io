@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart'; // For kIsWeb and defaultTargetPlatfor
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 
 class CustomCursor extends StatefulWidget {
   final Widget child; // The main app content
@@ -98,7 +98,7 @@ class _CustomCursorState extends State<CustomCursor> {
                   width: dotSize,
                   height: dotSize,
                   decoration: const BoxDecoration(
-                    color: AppColors.secondary, // Use theme color
+                    color: V2Colors.secondary, // Use theme color
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -124,7 +124,7 @@ class _CustomCursorState extends State<CustomCursor> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: AppColors.secondary, // TODO: Change color on hover
+                      color: V2Colors.secondary, // TODO: Change color on hover
                       width: 2.w,
                     ),
                   ),

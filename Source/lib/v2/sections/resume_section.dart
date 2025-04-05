@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
 
@@ -10,7 +10,7 @@ class ResumeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primaryLight, // Match original section background
+      color: V2Colors.primaryLight, // Match original section background
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 60.w,
@@ -90,17 +90,17 @@ class ResumeSection extends StatelessWidget {
             Container(
               width: 50.w,
               height: 50.h,
-              decoration: const BoxDecoration(color: AppColors.secondary, shape: BoxShape.circle),
-              child: Icon(icon, color: AppColors.primary, size: 24.sp),
+              decoration: const BoxDecoration(color: V2Colors.secondary, shape: BoxShape.circle),
+              child: Icon(icon, color: V2Colors.primary, size: 24.sp),
             ),
             SizedBox(width: 16.w),
             Text(
               title,
               style: TextStyle(
-                fontFamily: AppFonts.heading,
+                fontFamily: V2Fonts.heading,
                 fontSize: 28.sp, // Approx 1.8rem
                 fontWeight: FontWeight.w600,
-                color: AppColors.text,
+                color: V2Colors.text,
               ),
             ),
           ],
@@ -116,7 +116,7 @@ class ResumeSection extends StatelessWidget {
               bottom: 0,
               child: Container(
                 width: 2.w, // Line width
-                color: AppColors.secondary.withOpacity(0.5), // Line color
+                color: V2Colors.secondary.withOpacity(0.5), // Line color
               ),
             ),
             // Timeline Items
@@ -141,7 +141,7 @@ class ResumeSection extends StatelessWidget {
                               width: 16.w,
                               height: 16.h,
                               decoration: const BoxDecoration(
-                                color: AppColors.secondary,
+                                color: V2Colors.secondary,
                                 shape: BoxShape.circle,
                               ),
                             )
@@ -159,7 +159,7 @@ class ResumeSection extends StatelessWidget {
                       Container(
                             padding: EdgeInsets.all(24.w),
                             decoration: BoxDecoration(
-                              color: AppColors.card,
+                              color: V2Colors.card,
                               borderRadius: BorderRadius.circular(8.r),
                               boxShadow: [
                                 BoxShadow(
@@ -176,7 +176,7 @@ class ResumeSection extends StatelessWidget {
                                 Container(
                                   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
                                   decoration: BoxDecoration(
-                                    color: AppColors.secondary,
+                                    color: V2Colors.secondary,
                                     borderRadius: BorderRadius.circular(4.r),
                                   ),
                                   child: Text(
@@ -184,7 +184,7 @@ class ResumeSection extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
-                                      color: AppColors.primary,
+                                      color: V2Colors.primary,
                                     ),
                                   ),
                                 ),
@@ -193,10 +193,10 @@ class ResumeSection extends StatelessWidget {
                                 Text(
                                   item['title'],
                                   style: TextStyle(
-                                    fontFamily: AppFonts.heading,
+                                    fontFamily: V2Fonts.heading,
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.text,
+                                    color: V2Colors.text,
                                   ),
                                 ),
                                 // Subtitle (Optional)
@@ -206,7 +206,7 @@ class ResumeSection extends StatelessWidget {
                                     item['subtitle'],
                                     style: TextStyle(
                                       fontSize: 16.sp,
-                                      color: AppColors.accent1,
+                                      color: V2Colors.accent1,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -231,7 +231,7 @@ class ResumeSection extends StatelessWidget {
                                                 : detail,
                                             style: TextStyle(
                                               fontSize: 15.sp,
-                                              color: AppColors.textMuted,
+                                              color: V2Colors.textMuted,
                                               height: 1.5,
                                             ),
                                           ),

@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:myportfolio/app_routes.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart';
+import 'package:myportfolio/v2/theme/v2_theme.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Import Font Awesome
 
@@ -27,7 +27,7 @@ class MobileNavOverlay extends StatelessWidget {
       right: isVisible ? 0 : -overlayWidth, // Slide in/out
       width: overlayWidth,
       child: Material(
-        color: AppColors.primary, // Match original background
+        color: V2Colors.primary, // Match original background
         elevation: 16, // Add some shadow
         child: Padding(
           padding: EdgeInsets.only(
@@ -44,6 +44,7 @@ class MobileNavOverlay extends StatelessWidget {
                 child: ListView(
                   // Use ListView in case content overflows
                   children: [
+                    /*
                     _buildNavLink('About', AppRoutes.about),
                     SizedBox(height: 20.h), // Spacing like var(--spacing-md)
                     _buildNavLink('Resume', AppRoutes.resume),
@@ -52,7 +53,7 @@ class MobileNavOverlay extends StatelessWidget {
                     SizedBox(height: 20.h),
                     _buildNavLink('Activity', AppRoutes.activity),
                     SizedBox(height: 20.h),
-                    _buildNavLink('Contact', AppRoutes.contact),
+                    _buildNavLink('Contact', AppRoutes.contact),*/
                   ],
                 ),
               ),
@@ -64,7 +65,7 @@ class MobileNavOverlay extends StatelessWidget {
                   IconButton(
                     icon: const FaIcon(
                       FontAwesomeIcons.linkedin,
-                      color: AppColors.text,
+                      color: V2Colors.text,
                     ), // Use FontAwesome LinkedIn
                     iconSize: 24.sp, // Approx 1.5rem
                     onPressed:
@@ -76,7 +77,7 @@ class MobileNavOverlay extends StatelessWidget {
                   IconButton(
                     icon: const FaIcon(
                       FontAwesomeIcons.github,
-                      color: AppColors.text,
+                      color: V2Colors.text,
                     ), // Use FontAwesome GitHub
                     iconSize: 24.sp,
                     onPressed: () => _launchUrlHelper('https://github.com/Sonderman'),
@@ -100,10 +101,10 @@ class MobileNavOverlay extends StatelessWidget {
       child: Text(
             title,
             style: TextStyle(
-              fontFamily: AppFonts.heading,
+              fontFamily: V2Fonts.heading,
               fontSize: 24.sp, // Approx 1.5rem
               fontWeight: FontWeight.w600,
-              color: AppColors.text,
+              color: V2Colors.text,
             ),
           )
           .animate(target: isVisible ? 1 : 0) // Animate based on visibility

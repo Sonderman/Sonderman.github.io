@@ -2,7 +2,7 @@ import 'dart:ui'; // Import for ImageFilter
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart'; // Import theme
+import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 
 class NavMenu extends StatelessWidget {
   final VoidCallback? onMenuPressed; // Callback for mobile menu toggle
@@ -55,7 +55,7 @@ class NavMenu extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 // Use theme overlay color, adjust opacity based on scroll
-                color: AppColors.overlay.withOpacity(isScrolled ? 1.0 : 0.7),
+                color: V2Colors.overlay.withOpacity(isScrolled ? 1.0 : 0.7),
                 boxShadow:
                     isScrolled
                         ? [
@@ -104,13 +104,13 @@ class NavMenu extends StatelessWidget {
                                 ? Icon(
                                   Icons.close,
                                   key: const ValueKey('close'),
-                                  color: AppColors.text,
+                                  color: V2Colors.text,
                                   size: 28.sp,
                                 )
                                 : Icon(
                                   Icons.menu,
                                   key: const ValueKey('menu'),
-                                  color: AppColors.text,
+                                  color: V2Colors.text,
                                   size: 28.sp,
                                 ),
                       ),
@@ -287,11 +287,11 @@ class _NavItemState extends State<NavItem> {
                       fontSize: 16.sp,
                       color:
                           isActive
-                              ? AppColors
+                              ? V2Colors
                                   .secondary // Active color
                               : _isHovered
-                              ? AppColors.secondary.withOpacity(0.8) // Hover color
-                              : AppColors.text, // Default color
+                              ? V2Colors.secondary.withOpacity(0.8) // Hover color
+                              : V2Colors.text, // Default color
                     ),
                   ),
                 ),
@@ -303,7 +303,7 @@ class _NavItemState extends State<NavItem> {
                       _isHovered || isActive
                           ? 40.w
                           : 0, // Animate width based on hover/active (adjust width)
-                  color: AppColors.secondary,
+                  color: V2Colors.secondary,
                   curve: Curves.easeOut, // Animation curve
                 ),
               ],
@@ -331,7 +331,7 @@ class _ContactNavButtonState extends State<_ContactNavButton> {
   Widget build(BuildContext context) {
     const title = 'Contact';
     // Define hover color (e.g., slightly darker secondary)
-    final hoverColor = Color.lerp(AppColors.secondary, Colors.black, 0.15);
+    final hoverColor = Color.lerp(V2Colors.secondary, Colors.black, 0.15);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -344,17 +344,17 @@ class _ContactNavButtonState extends State<_ContactNavButton> {
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
           margin: EdgeInsets.symmetric(horizontal: 8.w),
           decoration: BoxDecoration(
-            color: _isHovered ? hoverColor : AppColors.secondary, // Animate color
-            borderRadius: BorderRadius.circular(AppTheme.borderRadiusMd),
-            boxShadow: _isHovered ? [AppTheme.shadowSm] : [], // Optional shadow
+            color: _isHovered ? hoverColor : V2Colors.secondary, // Animate color
+            borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
+            boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow
           ),
           child: Text(
             title,
             style: TextStyle(
-              fontFamily: AppFonts.heading,
+              fontFamily: V2Fonts.heading,
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
-              color: AppColors.primary, // Text color remains the same
+              color: V2Colors.primary, // Text color remains the same
             ),
           ),
         ),

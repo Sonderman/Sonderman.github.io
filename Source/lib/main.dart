@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:myportfolio/controllers/version_controller.dart';
 import 'package:myportfolio/app_routes.dart';
 import 'package:myportfolio/my_test_page.dart';
-import 'package:myportfolio/v2/theme/app_theme.dart';
 import 'package:myportfolio/v2/widgets/preloader.dart'; // Import Preloader
 import 'package:myportfolio/v2/widgets/custom_cursor.dart'; // Import CustomCursor
 
@@ -52,7 +51,7 @@ class _MyAppState extends State<MyApp> {
         return GetMaterialApp(
           title: 'Welcome',
           debugShowCheckedModeBanner: false,
-          theme: buildAppTheme(), // Apply the custom theme
+          theme: ThemeData.dark(useMaterial3: true), // Apply the custom theme
           initialRoute: AppRoutes.nestview, // Or AppRoutes.v2Home if preferred start
           getPages: AppRoutes.pages,
           // Use GetMaterialApp's builder to insert widgets within the MaterialApp context
