@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
@@ -94,7 +95,7 @@ class ResumeSection extends StatelessWidget {
               child: Icon(icon, color: V2Colors.primary, size: 24.sp),
             ),
             SizedBox(width: 16.w),
-            Text(
+            AutoSizeText(
               title,
               style: TextStyle(
                 fontFamily: V2Fonts.heading,
@@ -102,6 +103,7 @@ class ResumeSection extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 color: V2Colors.text,
               ),
+              minFontSize: 10, // Added minFontSize
             ),
           ],
         ),
@@ -179,18 +181,19 @@ class ResumeSection extends StatelessWidget {
                                     color: V2Colors.secondary,
                                     borderRadius: BorderRadius.circular(4.r),
                                   ),
-                                  child: Text(
+                                  child: AutoSizeText(
                                     item['date'],
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
                                       color: V2Colors.primary,
                                     ),
+                                    minFontSize: 10, // Added minFontSize
                                   ),
                                 ),
                                 SizedBox(height: 12.h),
                                 // Title
-                                Text(
+                                AutoSizeText(
                                   item['title'],
                                   style: TextStyle(
                                     fontFamily: V2Fonts.heading,
@@ -198,46 +201,46 @@ class ResumeSection extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                     color: V2Colors.text,
                                   ),
+                                  minFontSize: 10, // Added minFontSize
                                 ),
                                 // Subtitle (Optional)
                                 if (item['subtitle'] != null) ...[
                                   SizedBox(height: 4.h),
-                                  Text(
+                                  AutoSizeText(
                                     item['subtitle'],
                                     style: TextStyle(
                                       fontSize: 16.sp,
                                       color: V2Colors.accent1,
                                       fontWeight: FontWeight.w500,
                                     ),
+                                    minFontSize: 10, // Added minFontSize
                                   ),
                                 ],
                                 // Details (Optional List)
                                 if (item['details'] != null &&
                                     (item['details'] as List).isNotEmpty) ...[
                                   SizedBox(height: 12.h),
-                                  ...(item['details'] as List<String>)
-                                      .map(
-                                        (detail) => Padding(
-                                          padding: EdgeInsets.only(bottom: 4.h),
-                                          child: Text(
-                                            (item['details'].length > 1 &&
-                                                    detail !=
-                                                        (item['details'] as List<String>)
-                                                            .firstWhere(
-                                                              (d) => d.isNotEmpty,
-                                                              orElse: () => '',
-                                                            ))
-                                                ? '• $detail'
-                                                : detail,
-                                            style: TextStyle(
-                                              fontSize: 15.sp,
-                                              color: V2Colors.textMuted,
-                                              height: 1.5,
-                                            ),
-                                          ),
+                                  ...(item['details'] as List<String>).map(
+                                    (detail) => Padding(
+                                      padding: EdgeInsets.only(bottom: 4.h),
+                                      child: AutoSizeText(
+                                        (item['details'].length > 1 &&
+                                                detail !=
+                                                    (item['details'] as List<String>).firstWhere(
+                                                      (d) => d.isNotEmpty,
+                                                      orElse: () => '',
+                                                    ))
+                                            ? '• $detail'
+                                            : detail,
+                                        style: TextStyle(
+                                          fontSize: 15.sp,
+                                          color: V2Colors.textMuted,
+                                          height: 1.5,
                                         ),
-                                      )
-                                      .toList(),
+                                        minFontSize: 10, // Added minFontSize
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ],
                             ),

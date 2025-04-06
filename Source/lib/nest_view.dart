@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:myportfolio/controllers/version_controller.dart';
 import 'package:myportfolio/v1/entry.dart';
@@ -21,14 +20,14 @@ class NestView extends StatelessWidget {
             Align(
               alignment: isV1 ? Alignment.topRight : Alignment.topCenter,
               child: Padding(
-                padding: EdgeInsets.all(20.sp),
+                padding: EdgeInsets.all(20),
                 child: Theme(
                   data: ThemeData.dark(),
                   child: Material(
                     elevation: 8,
-                    borderRadius: BorderRadius.circular(16.sp),
+                    borderRadius: BorderRadius.circular(16),
                     child: Padding(
-                      padding: EdgeInsets.all(4.0.sp),
+                      padding: EdgeInsets.all(4.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

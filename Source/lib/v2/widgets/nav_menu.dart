@@ -2,6 +2,7 @@ import 'dart:ui'; // Import for ImageFilter
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 
 class NavMenu extends StatelessWidget {
@@ -77,13 +78,14 @@ class NavMenu extends StatelessWidget {
                       onTap: () => _scrollToSection(homeKey), // Scroll to home section
                       child: Container(
                         padding: EdgeInsets.all(8.w),
-                        child: Text(
-                          'AH',
+                        child: AutoSizeText(
+                          'WELCOME',
                           style: TextStyle(
-                            fontSize: 24.sp,
+                            fontSize: 50.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.amber,
                           ),
+                          minFontSize: 10, // Moved minFontSize here
                         ),
                       ),
                     ),
@@ -105,13 +107,13 @@ class NavMenu extends StatelessWidget {
                                   Icons.close,
                                   key: const ValueKey('close'),
                                   color: V2Colors.text,
-                                  size: 28.sp,
+                                  size: 100.sp, // Increased from 28.sp
                                 )
                                 : Icon(
                                   Icons.menu,
                                   key: const ValueKey('menu'),
                                   color: V2Colors.text,
-                                  size: 28.sp,
+                                  size: 100.sp, // Increased from 28.sp
                                 ),
                       ),
                     )
@@ -281,10 +283,10 @@ class _NavItemState extends State<NavItem> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                   margin: EdgeInsets.symmetric(horizontal: 8.w),
-                  child: Text(
+                  child: AutoSizeText(
                     widget.title,
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 26.sp,
                       color:
                           isActive
                               ? V2Colors
@@ -293,6 +295,7 @@ class _NavItemState extends State<NavItem> {
                               ? V2Colors.secondary.withOpacity(0.8) // Hover color
                               : V2Colors.text, // Default color
                     ),
+                    minFontSize: 10, // Moved minFontSize here
                   ),
                 ),
                 // Animated Underline
@@ -348,14 +351,15 @@ class _ContactNavButtonState extends State<_ContactNavButton> {
             borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
             boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow
           ),
-          child: Text(
+          child: AutoSizeText(
             title,
             style: TextStyle(
               fontFamily: V2Fonts.heading,
-              fontSize: 16.sp,
+              fontSize: 30.sp,
               fontWeight: FontWeight.w500,
               color: V2Colors.primary, // Text color remains the same
             ),
+            minFontSize: 10, // Moved minFontSize here
           ),
         ),
       ),

@@ -1,4 +1,6 @@
 import 'dart:async'; // Import Timer
+import 'dart:math'; // Import Random for icon animation
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart'; // For kIsWeb check
 import 'package:flutter/gestures.dart'; // For PointerHoverEvent
 import 'package:flutter/material.dart';
@@ -8,9 +10,9 @@ import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import '../widgets/mobile_nav_overlay.dart'; // Import MobileNavOverlay
 import '../widgets/nav_menu.dart';
 import '../widgets/particles_background.dart'; // Import ParticlesBackground
-// import '../widgets/animated_scroll_indicator.dart'; // No longer needed for single page
 import '../widgets/footer.dart'; // Import Footer
 import '../widgets/back_to_top_button.dart'; // Import BackToTopButton
+import '../widgets/animated_scroll_indicator.dart'; // Import AnimatedScrollIndicator
 import '../sections/about_section.dart'; // Import AboutSection
 import '../sections/resume_section.dart'; // Import ResumeSection
 import '../sections/projects_section.dart'; // Import ProjectsSection
@@ -24,7 +26,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   bool _isMobileNavVisible = false;
   bool _isScrolled = false;
@@ -44,6 +46,16 @@ class _HomePageState extends State<HomePage> {
   // State for parallax effect
   Offset _parallaxOffset = Offset.zero;
   bool _isDesktopWeb = false;
+
+  // State for floating icon animation
+  late AnimationController _icon1EffectController; // Controller for teleport effect
+  late AnimationController _icon2EffectController;
+  Offset _icon1Position = Offset.zero; // Current position
+  Offset _icon2Position = Offset.zero;
+  Timer? _icon1TeleportTimer;
+  Timer? _icon2TeleportTimer;
+  Size _bounds = Size.zero; // To store the available area for icons
+  final double _iconSize = 100.sp; // Define icon size here
 
   // GlobalKeys for scroll anchoring
   final GlobalKey homeKey = GlobalKey();
@@ -68,6 +80,32 @@ class _HomePageState extends State<HomePage> {
     // Check if parallax should be enabled
     _isDesktopWeb =
         kIsWeb && ![TargetPlatform.iOS, TargetPlatform.android].contains(defaultTargetPlatform);
+
+    // Initialize floating icon effect controllers
+    _icon1EffectController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    ); // Duration for scale out/in
+    _icon2EffectController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+
+    // Use WidgetsBinding to get initial size and start timers
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        // Set initial bounds and positions
+        _bounds = MediaQuery.of(context).size;
+        setState(() {
+          _icon1Position = _getRandomOffset(_bounds, _iconSize);
+          _icon2Position = _getRandomOffset(_bounds, _iconSize);
+        });
+
+        // Start the teleport scheduling
+        _scheduleNextTeleport(1);
+        _scheduleNextTeleport(2);
+      }
+    });
   }
 
   @override
@@ -75,6 +113,10 @@ class _HomePageState extends State<HomePage> {
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     _typingTimer?.cancel();
+    _icon1TeleportTimer?.cancel();
+    _icon2TeleportTimer?.cancel();
+    _icon1EffectController.dispose();
+    _icon2EffectController.dispose();
     super.dispose();
   }
 
@@ -154,42 +196,179 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // Helper method for floating icons
+  // --- Floating Icon Animation Logic ---
+
+  // Calculate a random offset within the bounds
+  Offset _getRandomOffset(Size bounds, double iconSize) {
+    if (bounds == Size.zero) return Offset.zero; // Avoid division by zero if bounds not set
+    final random = Random();
+    // Ensure icon stays fully within bounds
+    final maxX = bounds.width - iconSize;
+    final maxY = bounds.height - iconSize;
+    // Add a small padding from the edges
+    const padding = 20.0;
+    final double dx = padding + random.nextDouble() * (maxX - 2 * padding);
+    final double dy = padding + random.nextDouble() * (maxY - 2 * padding);
+    return Offset(dx.clamp(padding, maxX - padding), dy.clamp(padding, maxY - padding));
+  }
+
+  // Schedule the next teleport jump for an icon
+  void _scheduleNextTeleport(int iconIndex) {
+    if (!mounted) return;
+
+    final random = Random();
+    // Wait between 3 and 6 seconds before the next teleport
+    final delay = Duration(milliseconds: 3000 + random.nextInt(3000));
+
+    if (iconIndex == 1) {
+      _icon1TeleportTimer?.cancel(); // Cancel previous timer if any
+      _icon1TeleportTimer = Timer(delay, () => _teleportIcon(1));
+    } else {
+      _icon2TeleportTimer?.cancel();
+      _icon2TeleportTimer = Timer(delay, () => _teleportIcon(2));
+    }
+  }
+
+  // Perform the teleport (scale out, move, scale in)
+  void _teleportIcon(int iconIndex) {
+    if (!mounted || _bounds == Size.zero) return;
+
+    final controller = (iconIndex == 1) ? _icon1EffectController : _icon2EffectController;
+    final newPosition = _getRandomOffset(_bounds, _iconSize);
+
+    // Listener for scale-out completion
+    void scaleOutListener(AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        if (!mounted) return; // Check mount status again
+
+        // Update position state *after* scaling out
+        setState(() {
+          if (iconIndex == 1) {
+            _icon1Position = newPosition;
+          } else {
+            _icon2Position = newPosition;
+          }
+        });
+
+        // Remove this listener
+        controller.removeStatusListener(scaleOutListener);
+
+        // Add listener for scale-in completion
+        void scaleInListener(AnimationStatus status) {
+          if (status == AnimationStatus.dismissed) {
+            // Scale-in finishes when reversed to start
+            if (!mounted) return;
+            controller.removeStatusListener(scaleInListener);
+            // Schedule the *next* teleport after scale-in is done
+            _scheduleNextTeleport(iconIndex);
+          }
+        }
+
+        controller.addStatusListener(scaleInListener);
+
+        // Start scale-in animation
+        controller.reverse(from: 1.0);
+      }
+    }
+
+    // Add the scale-out listener and start the scale-out animation
+    controller.addStatusListener(scaleOutListener);
+    controller.forward(from: 0.0);
+  }
+
+  // --- End Floating Icon Teleport Logic ---
+
+  // Helper method for floating icons - Optimized responsive version
   Widget _buildFloatingIcon({
     required Widget image,
-    required Alignment alignment,
+    required Offset position,
+    required AnimationController effectController,
     required double size,
   }) {
-    return Align(
-      alignment: alignment,
-      child: Container(
-            width: size,
-            height: size,
-            decoration: BoxDecoration(
-              color: V2Colors.primary,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+    return Positioned(
+      left: position.dx,
+      top: position.dy,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Determine screen size category
+          final bool isMobile = constraints.maxWidth < 600;
+          final bool isTablet = constraints.maxWidth >= 600 && constraints.maxWidth < 1200;
+
+          // Calculate responsive sizes using screen percentage
+          final double containerSize =
+              isMobile
+                  ? size *
+                      0.6 // 60% on mobile
+                  : isTablet
+                  ? size *
+                      0.8 // 80% on tablet
+                  : size; // Full size on desktop
+
+          // Responsive border width
+          final double borderWidth =
+              isMobile
+                  ? 1.0.w
+                  : isTablet
+                  ? 1.2.w
+                  : 1.5.w;
+
+          // Responsive shadow
+          final double shadowBlur =
+              isMobile
+                  ? 6.0
+                  : isTablet
+                  ? 8.0
+                  : 12.0;
+
+          return Container(
+                width: containerSize,
+                height: containerSize,
+                decoration: BoxDecoration(
+                  color: V2Colors.primary.withOpacity(0.9),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: V2Colors.secondary, width: borderWidth),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: shadowBlur,
+                      offset: Offset(0, shadowBlur / 2),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Padding(padding: const EdgeInsets.all(8.0), child: image),
-          )
-          .animate(onPlay: (controller) => controller.repeat(reverse: true))
-          .moveY(
-            begin: -5.h,
-            end: 5.h,
-            duration: const Duration(seconds: 3),
-            curve: Curves.easeInOut,
-          ),
+                padding: EdgeInsets.all(containerSize * 0.15), // 15% padding
+                child: FittedBox(child: image),
+              )
+              .animate(controller: effectController, autoPlay: false)
+              .scale(begin: const Offset(1, 1), end: const Offset(0, 0), curve: Curves.easeIn)
+              .animate(onPlay: (controller) => controller.repeat(reverse: true))
+              .scale(
+                begin: const Offset(1.0, 1.0),
+                end: const Offset(1.05, 1.05),
+                duration: const Duration(seconds: 2),
+                curve: Curves.easeInOut,
+              );
+        },
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Update bounds if screen size changes
+    final currentBounds = MediaQuery.of(context).size;
+    if (_bounds != currentBounds && currentBounds != Size.zero) {
+      // Use addPostFrameCallback to avoid setting state during build
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _bounds = currentBounds;
+            // Optionally, you could force a reposition if bounds change drastically
+            // _icon1Position = _getRandomOffset(_bounds, _iconSize);
+            // _icon2Position = _getRandomOffset(_bounds, _iconSize);
+          });
+        }
+      });
+    }
     return Scaffold(
       body: Stack(
         // Main stack for content, overlay, particles, and back-to-top
@@ -202,6 +381,23 @@ class _HomePageState extends State<HomePage> {
               connectionDistance: 100.0, // Set connection distance (adjust if needed)
             ),
           ),
+          // Floating Icons - Updated for Teleport
+          // Build icons once their positions are initialized
+          if (_bounds != Size.zero) ...[
+            // Ensure bounds are calculated
+            _buildFloatingIcon(
+              image: Image.asset("assets/icons/flutter.png"),
+              position: _icon1Position,
+              effectController: _icon1EffectController,
+              size: _iconSize,
+            ),
+            _buildFloatingIcon(
+              image: Image.asset("assets/icons/unity.png", color: Colors.white),
+              position: _icon2Position,
+              effectController: _icon2EffectController,
+              size: _iconSize,
+            ),
+          ],
           // Content Column (Nav + Scrollable Area)
           Column(
             children: [
@@ -225,222 +421,262 @@ class _HomePageState extends State<HomePage> {
                     // Changed from Stack to Column
                     children: [
                       // --- Hero Section ---
-                      Container(
-                        key: homeKey, // Assign key to Hero section container
-                        constraints: BoxConstraints(
-                          minHeight: 1.sh - 80.h, // Ensure hero takes viewport height minus nav
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 40.h),
-                        alignment: Alignment.center,
-                        child: MouseRegion(
-                          onHover: _handleMouseHover,
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              bool isDesktop = constraints.maxWidth > 992;
-                              CrossAxisAlignment textAlignment =
-                                  isDesktop ? CrossAxisAlignment.start : CrossAxisAlignment.center;
-                              MainAxisAlignment rowAlignment =
-                                  isDesktop
-                                      ? MainAxisAlignment.spaceBetween
-                                      : MainAxisAlignment.center;
+                      Stack(
+                        children: [
+                          Container(
+                            key: homeKey, // Assign key to Hero section container
+                            constraints: BoxConstraints(
+                              minHeight: 1.sh - 80.h, // Ensure hero takes viewport height minus nav
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 40.h),
+                            alignment: Alignment.center,
+                            child: MouseRegion(
+                              onHover: _handleMouseHover,
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  const tabletBreakpoint = 768;
+                                  const desktopBreakpoint = 992;
+                                  bool isDesktop = constraints.maxWidth > desktopBreakpoint;
+                                  bool isTablet =
+                                      constraints.maxWidth > tabletBreakpoint && !isDesktop;
+                                  CrossAxisAlignment textAlignment =
+                                      isDesktop
+                                          ? CrossAxisAlignment.start
+                                          : CrossAxisAlignment.center;
+                                  MainAxisAlignment rowAlignment =
+                                      isDesktop
+                                          ? MainAxisAlignment.spaceBetween
+                                          : MainAxisAlignment.center;
 
-                              // --- Hero Text Column ---
-                              Widget heroText = Transform.translate(
-                                offset: _isDesktopWeb ? _parallaxOffset * -1.0 : Offset.zero,
-                                child: Column(
-                                  crossAxisAlignment: textAlignment,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    // Name
-                                    Text(
-                                          'Ali Haydar AYAR',
-                                          textAlign: isDesktop ? TextAlign.start : TextAlign.center,
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.displayMedium?.copyWith(
-                                            fontFamily: V2Fonts.heading,
-                                            fontSize: isDesktop ? 64.sp : 48.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: V2Colors.text,
-                                          ),
-                                        )
-                                        .animate()
-                                        .fadeIn(
-                                          duration: 800.ms,
-                                          delay: 200.ms,
-                                          curve: Curves.easeOut,
-                                        )
-                                        .slideY(
-                                          begin: 0.3,
-                                          duration: 800.ms,
-                                          delay: 200.ms,
-                                          curve: Curves.easeOut,
-                                        ),
-                                    SizedBox(height: 10.h),
-                                    // Title
-                                    Text(
-                                          'Software Developer',
-                                          textAlign: isDesktop ? TextAlign.start : TextAlign.center,
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.headlineMedium?.copyWith(
-                                            fontFamily: V2Fonts.heading,
-                                            fontSize: isDesktop ? 40.sp : 32.sp,
-                                            color: V2Colors.secondary,
-                                          ),
-                                        )
-                                        .animate()
-                                        .fadeIn(
-                                          duration: 800.ms,
-                                          delay: 600.ms, // Adjusted delay
-                                          curve: Curves.easeOut,
-                                        )
-                                        .slideY(
-                                          begin: 0.3,
-                                          duration: 800.ms,
-                                          delay: 600.ms, // Adjusted delay
-                                          curve: Curves.easeOut,
-                                        ),
-                                    SizedBox(height: 20.h),
-                                    // Subtitle (Typing)
-                                    Text(
-                                          _currentSubtitle,
-                                          key: ValueKey(_subtitleIndex),
-                                          textAlign: isDesktop ? TextAlign.start : TextAlign.center,
-                                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                            fontSize: isDesktop ? 18.sp : 16.sp,
-                                            color: V2Colors.textMuted,
-                                            height: 1.4,
-                                          ),
-                                        )
-                                        .animate()
-                                        .fadeIn(
-                                          duration: 800.ms,
-                                          delay: 1000.ms, // Adjusted delay
-                                          curve: Curves.easeOut,
-                                        )
-                                        .slideY(
-                                          begin: 0.3,
-                                          duration: 800.ms,
-                                          delay: 1000.ms, // Adjusted delay
-                                          curve: Curves.easeOut,
-                                        ),
-                                    SizedBox(height: 30.h),
-                                    // CTA Buttons
-                                    Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: isDesktop ? 0 : 40.w,
-                                          ),
-                                          child: Flex(
-                                            direction: isDesktop ? Axis.horizontal : Axis.vertical,
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  // Scroll to Projects section
-                                                  Scrollable.ensureVisible(
-                                                    projectsKey.currentContext!,
-                                                    duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut,
-                                                  );
-                                                },
-                                                child: const Text('View Projects'),
+                                  // --- Hero Text Column ---
+                                  Widget heroText = Transform.translate(
+                                    offset: _isDesktopWeb ? _parallaxOffset * -1.0 : Offset.zero,
+                                    child: Column(
+                                      crossAxisAlignment: textAlignment,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        // Name
+                                        AutoSizeText(
+                                              'Ali Haydar AYAR',
+                                              textAlign:
+                                                  isDesktop ? TextAlign.start : TextAlign.center,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.displayMedium?.copyWith(
+                                                fontFamily: V2Fonts.heading,
+                                                fontSize:
+                                                    isDesktop
+                                                        ? 64.sp
+                                                        : isTablet
+                                                        ? 56.sp
+                                                        : 44.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: V2Colors.text,
                                               ),
-                                              SizedBox(
-                                                width: isDesktop ? 20.w : 0,
-                                                height: isDesktop ? 0 : 15.h,
-                                              ),
-                                              OutlinedButton(
-                                                onPressed: () {
-                                                  // Scroll to Contact section
-                                                  Scrollable.ensureVisible(
-                                                    contactKey
-                                                        .currentContext!, // Assuming contact section has this key
-                                                    duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut,
-                                                  );
-                                                },
-                                                child: const Text('Get in Touch'),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                        .animate()
-                                        .fadeIn(
-                                          duration: 800.ms,
-                                          delay: 1400.ms, // Adjusted delay
-                                          curve: Curves.easeOut,
-                                        )
-                                        .slideY(
-                                          begin: 0.3,
-                                          duration: 800.ms,
-                                          delay: 1400.ms, // Adjusted delay
-                                          curve: Curves.easeOut,
-                                        ),
-                                  ],
-                                ),
-                              );
-
-                              // --- Hero Image ---
-                              Widget heroImage = Transform.translate(
-                                offset: _isDesktopWeb ? _parallaxOffset * 0.75 : Offset.zero,
-                                child: Container(
-                                  width: isDesktop ? 300.w : 250.w,
-                                  height: isDesktop ? 300.h : 250.h,
-                                  margin: EdgeInsets.symmetric(vertical: isDesktop ? 0 : 40.h),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      // Profile Image
-                                      Container(
-                                        width: isDesktop ? 300.w : 250.w,
-                                        height: isDesktop ? 300.h : 250.h,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: V2Colors.secondary, width: 4.w),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black.withOpacity(0.3),
-                                              blurRadius: 16,
-                                              offset: const Offset(0, 8),
+                                              minFontSize: 10, // Added minFontSize
+                                            )
+                                            .animate()
+                                            .fadeIn(
+                                              duration: 800.ms,
+                                              delay: 200.ms,
+                                              curve: Curves.easeOut,
+                                            )
+                                            .slideY(
+                                              begin: 0.3,
+                                              duration: 800.ms,
+                                              delay: 200.ms,
+                                              curve: Curves.easeOut,
                                             ),
-                                          ],
-                                        ),
-                                        child: CircleAvatar(
-                                          backgroundImage: AssetImage('assets/profileImage.png'),
-                                        ),
-                                      ),
-                                      // Floating Icons
-                                      _buildFloatingIcon(
-                                        image: Image.asset("icons/flutter.png"),
-                                        alignment: const Alignment(-0.2, 0.9),
-                                        size: isDesktop ? 60.w : 50.w,
-                                      ),
-                                      _buildFloatingIcon(
-                                        image: Image.asset("icons/unity.png", color: Colors.white),
-                                        alignment: const Alignment(0.2, 0.9),
-                                        size: isDesktop ? 60.w : 50.w,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
+                                        SizedBox(height: 10.h),
+                                        // Title
+                                        AutoSizeText(
+                                              'Software Developer',
+                                              textAlign:
+                                                  isDesktop ? TextAlign.start : TextAlign.center,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.headlineMedium?.copyWith(
+                                                fontFamily: V2Fonts.heading,
+                                                fontSize:
+                                                    isDesktop
+                                                        ? 40.sp
+                                                        : isTablet
+                                                        ? 36.sp
+                                                        : 30.sp,
+                                                color: V2Colors.secondary,
+                                              ),
+                                              minFontSize: 10, // Added minFontSize
+                                            )
+                                            .animate()
+                                            .fadeIn(
+                                              duration: 800.ms,
+                                              delay: 600.ms, // Adjusted delay
+                                              curve: Curves.easeOut,
+                                            )
+                                            .slideY(
+                                              begin: 0.3,
+                                              duration: 800.ms,
+                                              delay: 600.ms, // Adjusted delay
+                                              curve: Curves.easeOut,
+                                            ),
+                                        SizedBox(height: 20.h),
+                                        // Subtitle (Typing)
+                                        AutoSizeText(
+                                              _currentSubtitle,
+                                              key: ValueKey(_subtitleIndex),
+                                              textAlign:
+                                                  isDesktop ? TextAlign.start : TextAlign.center,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.bodyLarge?.copyWith(
+                                                fontSize:
+                                                    isDesktop
+                                                        ? 20.sp
+                                                        : isTablet
+                                                        ? 19.sp
+                                                        : 18.sp,
+                                                color: V2Colors.textMuted,
+                                                height: 1.4,
+                                              ),
+                                              minFontSize: 10, // Added minFontSize
+                                            )
+                                            .animate()
+                                            .fadeIn(
+                                              duration: 800.ms,
+                                              delay: 1000.ms, // Adjusted delay
+                                              curve: Curves.easeOut,
+                                            )
+                                            .slideY(
+                                              begin: 0.3,
+                                              duration: 800.ms,
+                                              delay: 1000.ms, // Adjusted delay
+                                              curve: Curves.easeOut,
+                                            ),
+                                        SizedBox(height: 30.h),
+                                        // CTA Buttons
+                                        Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: isDesktop ? 0 : 40.w,
+                                              ),
+                                              child: Flex(
+                                                direction:
+                                                    isDesktop ? Axis.horizontal : Axis.vertical,
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      // Scroll to Projects section
+                                                      Scrollable.ensureVisible(
+                                                        projectsKey.currentContext!,
+                                                        duration: const Duration(milliseconds: 500),
+                                                        curve: Curves.easeInOut,
+                                                      );
+                                                    },
+                                                    child: const AutoSizeText(
+                                                      'View Projects',
+                                                      minFontSize: 10,
+                                                    ), // Converted and added minFontSize
+                                                  ),
+                                                  SizedBox(
+                                                    width: isDesktop ? 20.w : 0,
+                                                    height: isDesktop ? 0 : 15.h,
+                                                  ),
+                                                  OutlinedButton(
+                                                    onPressed: () {
+                                                      // Scroll to Contact section
+                                                      Scrollable.ensureVisible(
+                                                        contactKey
+                                                            .currentContext!, // Assuming contact section has this key
+                                                        duration: const Duration(milliseconds: 500),
+                                                        curve: Curves.easeInOut,
+                                                      );
+                                                    },
+                                                    child: const AutoSizeText(
+                                                      'Get in Touch',
+                                                      minFontSize: 10,
+                                                    ), // Converted and added minFontSize
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                            .animate()
+                                            .fadeIn(
+                                              duration: 800.ms,
+                                              delay: 1400.ms, // Adjusted delay
+                                              curve: Curves.easeOut,
+                                            )
+                                            .slideY(
+                                              begin: 0.3,
+                                              duration: 800.ms,
+                                              delay: 1400.ms, // Adjusted delay
+                                              curve: Curves.easeOut,
+                                            ),
+                                      ],
+                                    ),
+                                  );
 
-                              // --- Build Layout ---
-                              return Flex(
-                                direction: isDesktop ? Axis.horizontal : Axis.vertical,
-                                mainAxisAlignment: rowAlignment,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children:
-                                    isDesktop
-                                        ? [Expanded(child: heroImage), Expanded(child: heroText)]
-                                        : [heroText, heroImage],
-                              );
-                            },
+                                  // --- Hero Image ---
+                                  Widget heroImage = Transform.translate(
+                                    offset: _isDesktopWeb ? _parallaxOffset * 0.75 : Offset.zero,
+                                    child: SizedBox(
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          // Profile Image
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: V2Colors.secondary,
+                                                width: isDesktop ? 4.w : 6.w,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black.withOpacity(0.3),
+                                                  blurRadius: 24,
+                                                  offset: const Offset(0, 12),
+                                                ),
+                                              ],
+                                            ),
+                                            child: CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                'assets/profileImage.png',
+                                              ),
+                                              radius: isDesktop ? 0.1.sw : 0.15.sw,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+
+                                  // --- Build Layout ---
+                                  return Flex(
+                                    direction: isDesktop ? Axis.horizontal : Axis.vertical,
+                                    mainAxisAlignment: rowAlignment,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children:
+                                        isDesktop
+                                            ? [
+                                              Expanded(child: heroImage),
+                                              Expanded(child: heroText),
+                                            ]
+                                            : [heroImage, SizedBox(height: 30.h), heroText],
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                        ),
-                      ), // Close Hero Section Container
+                          // Scroll Indicator
+                          Positioned(
+                            bottom: 40.h,
+                            left: 0,
+                            right: 0,
+                            child: AnimatedScrollIndicator(scrollController: _scrollController),
+                          ),
+                        ],
+                      ), // Close Hero Section Stack
                       // --- About Section ---
                       Animate(
                         effects: [
@@ -531,7 +767,16 @@ class _HomePageState extends State<HomePage> {
             ],
           ), // Close Content Column
           // Mobile Nav Overlay
-          MobileNavOverlay(isVisible: _isMobileNavVisible, onClose: _toggleMobileNav),
+          MobileNavOverlay(
+            isVisible: _isMobileNavVisible,
+            onClose: _toggleMobileNav,
+            scrollController: _scrollController,
+            aboutKey: aboutKey,
+            resumeKey: resumeKey,
+            projectsKey: projectsKey,
+            activityKey: activityKey,
+            contactKey: contactKey,
+          ),
           // Back To Top Button - On top of everything
           BackToTopButton(scrollController: _scrollController),
         ],

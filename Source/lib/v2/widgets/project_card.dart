@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../theme/v2_theme.dart'; // Correct single import for AppTheme
-import '../models/project.dart'; // Import the Project model
-import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
-
-// Removed duplicate Project class definition
+import '../theme/v2_theme.dart';
+import '../models/project.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ProjectCard extends StatefulWidget {
-  final Project project; // Use the imported Project model
+  final Project project;
 
   const ProjectCard({super.key, required this.project});
 
@@ -18,63 +17,54 @@ class ProjectCard extends StatefulWidget {
 class _ProjectCardState extends State<ProjectCard> {
   bool _isHovered = false;
 
-  // Helper to get platform icon
   IconData _getPlatformIcon(String platform) {
     switch (platform.toLowerCase()) {
       case 'mobile':
-        return Icons.phone_android; // Or Icons.mobile_friendly
+        return Icons.phone_android;
       case 'web':
         return Icons.web;
-      // Add more cases as needed
       default:
         return Icons.device_unknown;
     }
   }
 
-  // Helper to get link icon
   IconData _getLinkIcon(String linkType) {
     switch (linkType.toLowerCase()) {
       case 'playstore':
-        return Icons.shop; // Placeholder, consider FontAwesome or custom icon
+        return Icons.shop;
       case 'appstore':
-        return Icons.apple; // Placeholder
+        return Icons.apple;
       case 'github':
-        return Icons.code; // Placeholder
-      // Add more cases as needed
+        return Icons.code;
       default:
         return Icons.link;
     }
   }
 
-  // Helper for launching URLs
   Future<void> _launchUrlHelper(String url) async {
     final Uri? launchUri = Uri.tryParse(url);
     if (launchUri == null || url == '#') {
-      // Also check for placeholder '#'
       debugPrint('Invalid or placeholder URL: $url');
-      // Optionally show a message to the user
       return;
     }
     try {
-      // Use launchMode external application for web links if needed
-      // bool launched = await launchUrl(launchUri, mode: LaunchMode.externalApplication);
-      bool launched = await launchUrl(launchUri); // Default mode
+      bool launched = await launchUrl(launchUri);
       if (!launched) {
         debugPrint('Could not launch $url');
-        // Optionally show a snackbar or message to the user
       }
     } catch (e) {
       debugPrint('Error launching URL $url: $e');
-      // Optionally show a snackbar or message to the user
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click, // Indicate interactivity
+      cursor: SystemMouseCursors.click,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
@@ -82,118 +72,85 @@ class _ProjectCardState extends State<ProjectCard> {
           borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
           boxShadow: _isHovered ? [V2Theme.shadowLg] : [V2Theme.shadowMd],
         ),
-        clipBehavior: Clip.antiAlias, // Clip the image overflow
-        child: Stack(
-          // Use Stack for the date overlay
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Project Image with Hover Effect
-                SizedBox(
-                  height: 200.h, // Match original CSS height
-                  width: double.infinity,
-                  child: ClipRRect(
-                    // Ensure image respects border radius
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(V2Theme.borderRadiusMd),
-                    ),
-                    child: AnimatedScale(
-                      scale: _isHovered ? 1.1 : 1.0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeOut,
-                      child: Image.asset(
-                        widget.project.imagePath,
-                        fit: BoxFit.cover,
-                        errorBuilder:
-                            (context, error, stackTrace) => const Center(
-                              child: Icon(Icons.image_not_supported),
-                            ), // Placeholder on error
-                      ),
-                    ),
+            // Image with fixed aspect ratio
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(V2Theme.borderRadiusMd)),
+                child: AnimatedScale(
+                  scale: _isHovered ? 1.05 : 1.0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOut,
+                  child: Image.asset(
+                    widget.project.imagePath,
+                    fit: BoxFit.cover,
+                    errorBuilder:
+                        (context, error, stackTrace) =>
+                            const Center(child: Icon(Icons.image_not_supported)),
                   ),
                 ),
-                // Project Info
-                Padding(
-                  padding: EdgeInsets.all(V2Theme.spacingMd.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+            // Content
+            Padding(
+              padding: EdgeInsets.all(12.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AutoSizeText(
+                    widget.project.title,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: V2Colors.text,
+                    ),
+                    minFontSize: 12,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 8.h),
+                  Row(
                     children: [
-                      Text(
-                        widget.project.title,
-                        style: TextStyle(
-                          fontSize: 18.sp, // Adjusted size
-                          fontWeight: FontWeight.w600,
-                          color: V2Colors.text,
+                      ...widget.project.platforms.map(
+                        (platform) => Padding(
+                          padding: EdgeInsets.only(right: 8.w),
+                          child: Icon(
+                            _getPlatformIcon(platform),
+                            color: V2Colors.textMuted,
+                            size: 18.sp,
+                          ),
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: V2Theme.spacingSm.h),
-                      Row(
-                        // Combine platforms and links
-                        children: [
-                          // Platform Icons
-                          ...widget.project.platforms.map(
-                            (platform) => Padding(
-                              padding: EdgeInsets.only(right: V2Theme.spacingXs.w),
+                      const Spacer(),
+                      ...widget.project.links.entries.map(
+                        (entry) => Padding(
+                          padding: EdgeInsets.only(left: 8.w),
+                          child: InkWell(
+                            onTap: () => _launchUrlHelper(entry.value),
+                            borderRadius: BorderRadius.circular(20.r),
+                            child: Container(
+                              width: 30.w,
+                              height: 30.h,
+                              decoration: const BoxDecoration(
+                                color: V2Colors.primaryLight,
+                                shape: BoxShape.circle,
+                              ),
                               child: Icon(
-                                _getPlatformIcon(platform),
-                                color: V2Colors.textMuted,
-                                size: 20.sp,
+                                _getLinkIcon(entry.key),
+                                color: V2Colors.text,
+                                size: 16.sp,
                               ),
                             ),
                           ),
-                          const Spacer(), // Push links to the right
-                          // Link Icons
-                          ...widget.project.links.entries.map(
-                            (entry) => Padding(
-                              padding: EdgeInsets.only(left: V2Theme.spacingXs.w),
-                              child: InkWell(
-                                onTap: () => _launchUrlHelper(entry.value), // Call helper
-                                borderRadius: BorderRadius.circular(20.r),
-                                child: Container(
-                                  width: 35.w, // Slightly smaller than original for balance
-                                  height: 35.h,
-                                  decoration: const BoxDecoration(
-                                    // Can be const
-                                    color: V2Colors.primaryLight,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    _getLinkIcon(entry.key),
-                                    color: V2Colors.text,
-                                    size: 18.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            // Date Overlay
-            Positioned(
-              top: V2Theme.spacingSm.h,
-              right: V2Theme.spacingSm.w,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: V2Colors.primary.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(V2Theme.borderRadiusSm),
-                ),
-                child: Text(
-                  widget.project.date, // Display formatted date
-                  style: TextStyle(
-                    fontSize: 12.sp, // Smaller date font
-                    color: V2Colors.text,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                ],
               ),
             ),
           ],

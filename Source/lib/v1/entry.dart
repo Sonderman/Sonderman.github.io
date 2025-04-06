@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myportfolio/v1/pages/home.dart';
 
 class V1Entry extends StatelessWidget {
@@ -6,6 +7,15 @@ class V1Entry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return ScreenUtilInit(
+      designSize: const Size(1920, 1080),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      // Use the builder to ensure ScreenUtil is initialized before GetMaterialApp builds
+      builder: (context, child) {
+        // GetMaterialApp is the root providing Directionality
+        return HomePage();
+      },
+    );
   }
 }

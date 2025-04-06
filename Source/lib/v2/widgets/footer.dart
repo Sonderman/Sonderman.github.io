@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
+import 'package:myportfolio/v2/data/personal_datas.dart';
 import 'package:myportfolio/v2/theme/v2_theme.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
@@ -51,7 +53,7 @@ class Footer extends StatelessWidget {
                       vertical: 4.h,
                       horizontal: 8.w,
                     ), // Add padding for tap area
-                    child: Text(
+                    child: AutoSizeText(
                       'Ali Haydar AYAR',
                       style: TextStyle(
                         fontFamily: V2Fonts.heading,
@@ -59,6 +61,7 @@ class Footer extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         color: V2Colors.text,
                       ),
+                      minFontSize: 10, // Moved minFontSize here
                     ),
                   ),
                 ),
@@ -70,13 +73,13 @@ class Footer extends StatelessWidget {
                 children: [
                   _FooterSocialIcon(
                     icon: Icons.link,
-                    url: 'https://linkedin.com',
+                    url: linkedInUrl,
                     launchUrlHelper: _launchUrlHelper,
                   ),
                   SizedBox(width: 16.w),
                   _FooterSocialIcon(
                     icon: Icons.code,
-                    url: 'https://github.com/sonderman',
+                    url: githubUrl,
                     launchUrlHelper: _launchUrlHelper,
                   ),
                 ],
@@ -104,14 +107,16 @@ class Footer extends StatelessWidget {
           // Footer Bottom (Copyright)
           Divider(color: V2Colors.primary, thickness: 1.h),
           SizedBox(height: 30.h),
-          Text(
+          AutoSizeText(
+            // Already AutoSizeText, just need to add minFontSize
             '© ${DateTime.now().year} Ali Haydar AYAR. All rights reserved.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.sp, // Approx 0.9rem
               color: V2Colors.textMuted,
             ),
-          ),
+            minFontSize: 10, // Added minFontSize
+          ), // Removed extra parenthesis here
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
@@ -210,7 +211,10 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                   textStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                 ),
-                child: const Text('Load More Projects'),
+                child: const AutoSizeText(
+                  'Load More Projects',
+                  minFontSize: 10,
+                ), // Added minFontSize
               ),
           ],
         ),
@@ -268,7 +272,11 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end, // Align to the right like original
       children: [
-        Text('Sort by:', style: TextStyle(color: V2Colors.textMuted)),
+        AutoSizeText(
+          'Sort by:',
+          style: TextStyle(color: V2Colors.textMuted),
+          minFontSize: 10,
+        ), // Added minFontSize
         SizedBox(width: V2Theme.spacingSm.w),
         // Dropdown Button
         Container(
@@ -284,8 +292,14 @@ class _ProjectsSectionState extends State<ProjectsSection> {
             icon: Icon(Icons.arrow_drop_down, color: V2Colors.text),
             style: TextStyle(color: V2Colors.text, fontFamily: V2Fonts.body),
             items: const [
-              DropdownMenuItem(value: 'date-desc', child: Text('Date: Descending')),
-              DropdownMenuItem(value: 'date-asc', child: Text('Date: Ascending')),
+              DropdownMenuItem(
+                value: 'date-desc',
+                child: AutoSizeText('Date: Descending', minFontSize: 10),
+              ), // Added minFontSize
+              DropdownMenuItem(
+                value: 'date-asc',
+                child: AutoSizeText('Date: Ascending', minFontSize: 10),
+              ), // Added minFontSize
             ],
             onChanged: (String? newValue) {
               if (newValue != null && newValue != _selectedSort) {
@@ -329,9 +343,10 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   Widget _buildProjectsGrid() {
     if (_displayedProjects.isEmpty) {
       return const Center(
-        child: Text(
+        child: AutoSizeText(
           'No projects match the current filter.',
           style: TextStyle(color: V2Colors.textMuted),
+          minFontSize: 10, // Added minFontSize
         ),
       );
     }
@@ -399,7 +414,11 @@ class _FilterButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd)),
         elevation: 0,
       ),
-      child: Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+      child: AutoSizeText(
+        label,
+        style: const TextStyle(fontWeight: FontWeight.w500),
+        minFontSize: 10,
+      ), // Added minFontSize
     );
   }
 }

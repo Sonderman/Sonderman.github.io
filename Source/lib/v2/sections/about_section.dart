@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myportfolio/v2/data/personal_datas.dart';
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -13,7 +15,17 @@ class AboutSection extends StatelessWidget {
     return Container(
       color: V2Colors.primary, // Match original section background
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 80.h),
+        padding: EdgeInsets.symmetric(
+          horizontal:
+              ScreenUtil().screenWidth < 600
+                  ? 24
+                      .w // Mobile
+                  : ScreenUtil().screenWidth < 1200
+                  ? 40
+                      .w // Tablet
+                  : 60.w, // Desktop
+          vertical: ScreenUtil().screenWidth < 600 ? 40.h : 80.h,
+        ),
         child: Column(
           children: [
             // Section Header
@@ -23,8 +35,10 @@ class AboutSection extends StatelessWidget {
             // About Content (Image + Text) - Using LayoutBuilder for responsiveness
             LayoutBuilder(
               builder: (context, constraints) {
-                const double breakpoint = 992.0;
-                bool isDesktop = constraints.maxWidth >= breakpoint;
+                final screenWidth = constraints.maxWidth;
+                bool isMobile = screenWidth < 600;
+                bool isTablet = screenWidth >= 600 && screenWidth < 1200;
+                bool isDesktop = screenWidth >= 1200;
 
                 // Define Widgets for Left and Right sides
                 Widget leftSide = const _AboutImageSection(); // Extracted StatefulWidget
@@ -46,7 +60,7 @@ class AboutSection extends StatelessWidget {
                       "I am someone who likes to take responsibility, is prone to teamwork and is willing to constantly learn. I look forward to collaborating on new projects and achieving great success together. Feel free to contact me!",
                     ),
                     SizedBox(height: 40.h),
-                    Text(
+                    AutoSizeText(
                       "What I'm Doing",
                       style: TextStyle(
                         fontFamily: V2Fonts.heading,
@@ -54,7 +68,8 @@ class AboutSection extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: V2Colors.text,
                       ),
-                    ),
+                      minFontSize: 10, // Added minFontSize
+                    ), // Removed extra parenthesis
                     SizedBox(height: 24.h),
                     Wrap(
                       spacing: 30.w,
@@ -90,11 +105,23 @@ class AboutSection extends StatelessWidget {
                       Expanded(flex: 2, child: rightSide),
                     ],
                   );
+                } else if (isTablet) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ConstrainedBox(constraints: BoxConstraints(maxWidth: 300.w), child: leftSide),
+                      SizedBox(width: 40.w),
+                      Expanded(child: rightSide),
+                    ],
+                  );
                 } else {
                   return Column(
                     children: [
-                      ConstrainedBox(constraints: BoxConstraints(maxWidth: 400.w), child: leftSide),
-                      SizedBox(height: 50.h),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 0.8.sw),
+                        child: leftSide,
+                      ),
+                      SizedBox(height: isMobile ? 30.h : 50.h),
                       rightSide,
                     ],
                   );
@@ -106,7 +133,7 @@ class AboutSection extends StatelessWidget {
             // Skills Section
             Column(
               children: [
-                Text(
+                AutoSizeText(
                   "My Skills",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -115,8 +142,9 @@ class AboutSection extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: V2Colors.text,
                   ),
-                ),
-                SizedBox(height: 30.h),
+                  minFontSize: 10, // Added minFontSize
+                ), // Removed extra parenthesis
+                SizedBox(height: 40.h), // Increased from 30
                 Wrap(
                   spacing: 40.w,
                   runSpacing: 30.h,
@@ -147,7 +175,24 @@ class AboutSection extends StatelessWidget {
       ],
       child: Padding(
         padding: EdgeInsets.only(bottom: 24.h),
-        child: Text(text, style: TextStyle(fontSize: 16.sp, color: V2Colors.text, height: 1.6)),
+        child: AutoSizeText(
+          text,
+          style: TextStyle(
+            fontSize:
+                ScreenUtil().screenWidth < 600
+                    ? 18
+                        .sp // Mobile
+                    : ScreenUtil().screenWidth < 1200
+                    ? 19
+                        .sp // Tablet
+                    : 20.sp, // Desktop
+            color: V2Colors.text,
+            height: 1.6,
+          ),
+          minFontSize: ScreenUtil().screenWidth < 600 ? 14 : 16,
+          maxLines: 10,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     ); // Close Animate
   }
@@ -175,26 +220,36 @@ class AboutSection extends StatelessWidget {
         width: availableWidth,
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  skill,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: V2Colors.text,
-                    fontWeight: FontWeight.w500,
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: availableWidth),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: AutoSizeText(
+                      skill,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        color: V2Colors.text,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      minFontSize: 16,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                Text(
-                  '$percentage%',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: V2Colors.secondary,
-                    fontWeight: FontWeight.w600,
+                  AutoSizeText(
+                    '$percentage%',
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      color: V2Colors.secondary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    minFontSize: 16,
+                    maxLines: 1,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(height: 8.h),
             Container(
@@ -243,7 +298,7 @@ class AboutSection extends StatelessWidget {
 
 // StatefulWidget for the Image Section to manage hover state and contain its helpers
 class _AboutImageSection extends StatefulWidget {
-  const _AboutImageSection({super.key});
+  const _AboutImageSection();
 
   @override
   __AboutImageSectionState createState() => __AboutImageSectionState();
@@ -277,16 +332,16 @@ class __AboutImageSectionState extends State<_AboutImageSection> {
     return InkWell(
       onTap: url != null ? () => _launchUrlHelper(url) : null,
       child: Container(
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 28.w),
         decoration: BoxDecoration(color: V2Colors.card, borderRadius: BorderRadius.circular(8.r)),
         child: Row(
           children: [
-            Icon(icon, color: V2Colors.secondary, size: 20.sp),
-            SizedBox(width: 16.w),
+            Icon(icon, color: V2Colors.secondary, size: 28.sp),
+            SizedBox(width: 28.w),
             Expanded(
-              child: Text(
+              child: AutoSizeText(
                 text,
-                style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted),
+                style: TextStyle(color: V2Colors.textMuted),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -296,22 +351,16 @@ class __AboutImageSectionState extends State<_AboutImageSection> {
     );
   }
 
-  Widget _buildSocialIcon(IconData icon, String url) {
-    return InkWell(
-      onTap: () => _launchUrlHelper(url),
-      borderRadius: BorderRadius.circular(20.r),
-      child: Container(
-        width: 40.w,
-        height: 40.h,
-        decoration: const BoxDecoration(color: V2Colors.card, shape: BoxShape.circle),
-        child: Icon(icon, color: V2Colors.text, size: 20.sp),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    double imageSize = ScreenUtil().screenWidth < 600 ? 200.w : 300.w;
+    double imageSize =
+        ScreenUtil().screenWidth < 600
+            ? 400
+                .sp // Mobile
+            : ScreenUtil().screenWidth < 1200
+            ? 350
+                .w // Tablet
+            : 350.w; // Desktop
 
     return Column(
       children: [
@@ -373,30 +422,84 @@ class __AboutImageSectionState extends State<_AboutImageSection> {
             ),
           ),
         ),
-        SizedBox(height: 30.h),
+        SizedBox(height: 40.h), // Increased from 30
         // Social Links Section
         _buildSocialLink(
           icon: Icons.email_outlined,
           text: 'alihaydar338@gmail.com',
           url: 'mailto:alihaydar338@gmail.com',
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 24.h), // Increased from 20
         _buildSocialLink(icon: Icons.location_on_outlined, text: 'Remote/Turkey'),
-        SizedBox(height: 16.h),
+        SizedBox(height: 24.h), // Increased from 20
         // Social Icons Row
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildSocialIcon(Icons.link, 'https://linkedin.com'), // Use actual URLs
+            _FooterSocialIcon(
+              icon: Icons.link,
+              url: linkedInUrl,
+              launchUrlHelper: _launchUrlHelper,
+            ),
             SizedBox(width: 16.w),
-            _buildSocialIcon(Icons.code, 'https://github.com/sonderman'), // Use actual URLs
+            _FooterSocialIcon(icon: Icons.code, url: githubUrl, launchUrlHelper: _launchUrlHelper),
           ],
         ),
       ],
     );
   }
 }
+
+// StatefulWidget for Footer Social Icon with Hover Effect
+class _FooterSocialIcon extends StatefulWidget {
+  final IconData icon;
+  final String url;
+  final Future<void> Function(String) launchUrlHelper; // Pass helper function
+
+  const _FooterSocialIcon({required this.icon, required this.url, required this.launchUrlHelper});
+
+  @override
+  State<_FooterSocialIcon> createState() => _FooterSocialIconState();
+}
+
+class _FooterSocialIconState extends State<_FooterSocialIcon> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: Tooltip(
+        message: widget.url,
+        child: InkWell(
+          onTap: () => widget.launchUrlHelper(widget.url), // Use passed helper
+          borderRadius: BorderRadius.circular(20.r),
+          child: AnimatedContainer(
+            duration: 200.ms, // Faster hover transition
+            transform: Matrix4.translationValues(0, _isHovered ? -3.h : 0, 0), // Translate Y
+            decoration: BoxDecoration(
+              color:
+                  _isHovered ? V2Colors.secondary : V2Colors.primary, // Change background on hover
+              shape: BoxShape.circle,
+              boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow on hover
+            ),
+            width: 40.w,
+            height: 40.h,
+            child: Icon(
+              widget.icon,
+              color: _isHovered ? V2Colors.primary : V2Colors.text, // Change icon color on hover
+              size: 20.sp,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // --- New StatefulWidget for Service Info Card with Hover Effect ---
 
 class _ServiceInfoCard extends StatefulWidget {
@@ -446,8 +549,8 @@ class _ServiceInfoCardState extends State<_ServiceInfoCard> {
             children: [
               // Icon Container
               Container(
-                width: 50.w,
-                height: 50.h,
+                width: ScreenUtil().screenWidth < 600 ? 40.w : 50.w,
+                height: ScreenUtil().screenWidth < 600 ? 40.h : 50.h,
                 decoration: const BoxDecoration(color: V2Colors.secondary, shape: BoxShape.circle),
                 child: Icon(widget.icon, color: V2Colors.primary, size: 24.sp),
               ),
@@ -457,19 +560,29 @@ class _ServiceInfoCardState extends State<_ServiceInfoCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       widget.title,
                       style: TextStyle(
                         fontFamily: V2Fonts.heading,
-                        fontSize: 18.sp,
+                        fontSize: 22.sp, // Increased base size
                         fontWeight: FontWeight.w600,
                         color: V2Colors.text,
                       ),
+                      minFontSize: 18, // Increased min size
+                      maxLines: 2, // Allow title to wrap if needed
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 8.h),
-                    Text(
+                    AutoSizeText(
                       widget.description,
-                      style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted, height: 1.5),
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        color: V2Colors.textMuted,
+                        height: 1.5,
+                      ), // Increased base size
+                      minFontSize: 15, // Increased min size
+                      maxLines: 4, // Allow description to wrap
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

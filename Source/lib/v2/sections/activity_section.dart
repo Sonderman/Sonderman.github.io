@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:myportfolio/v2/data/personal_datas.dart';
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
@@ -57,7 +58,7 @@ class ActivitySection extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min, // Fit content vertically
                           children: [
-                            Text(
+                            AutoSizeText(
                               'Sonderman', // GitHub Username
                               style: TextStyle(
                                 fontFamily: V2Fonts.heading,
@@ -65,12 +66,14 @@ class ActivitySection extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                                 color: V2Colors.text,
                               ),
+                              minFontSize: 10, // Added minFontSize
                             ),
                             SizedBox(height: 8.h),
                             // Placeholder for Bio/Location if needed later
-                            Text(
+                            AutoSizeText(
                               'View profile on GitHub', // Placeholder text
                               style: TextStyle(fontSize: 16.sp, color: V2Colors.textMuted),
+                              minFontSize: 10, // Added minFontSize
                             ),
                           ],
                         ),
@@ -79,7 +82,10 @@ class ActivitySection extends StatelessWidget {
                       // View Profile Button
                       ElevatedButton.icon(
                         icon: Icon(Icons.link, size: 18.sp),
-                        label: const Text('View Profile'),
+                        label: const AutoSizeText(
+                          'View Profile',
+                          minFontSize: 10,
+                        ), // Added minFontSize
                         onPressed: () async {
                           final Uri url = Uri.parse('https://github.com/Sonderman');
                           if (!await launchUrl(url)) {
@@ -156,7 +162,7 @@ class ActivitySection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Section Title
-                      Text(
+                      AutoSizeText(
                         'Recent Repositories', // Title for the list
                         style: TextStyle(
                           fontFamily: V2Fonts.heading,
@@ -164,6 +170,7 @@ class ActivitySection extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: V2Colors.text,
                         ),
+                        minFontSize: 10, // Added minFontSize
                       ),
                       SizedBox(height: 20.h),
                       // Placeholder Repository List Items
@@ -193,7 +200,10 @@ class ActivitySection extends StatelessWidget {
                         alignment: Alignment.center,
                         child: OutlinedButton.icon(
                           icon: const Icon(Icons.open_in_new, size: 16),
-                          label: const Text('View All Repositories'),
+                          label: const AutoSizeText(
+                            'View All Repositories',
+                            minFontSize: 10,
+                          ), // Added minFontSize
                           onPressed:
                               () =>
                                   _launchUrlHelper('https://github.com/Sonderman?tab=repositories'),
@@ -257,7 +267,7 @@ class ActivitySection extends StatelessWidget {
                     final String repoUrl = 'https://github.com/Sonderman/$name';
                     _launchUrlHelper(repoUrl);
                   },
-                  child: Text(
+                  child: AutoSizeText(
                     name,
                     style: TextStyle(
                       fontSize: 16.sp,
@@ -266,13 +276,15 @@ class ActivitySection extends StatelessWidget {
                       decoration: TextDecoration.underline, // Add underline
                       decorationColor: V2Colors.accent1,
                     ),
-                  ),
-                ),
+                    minFontSize: 10, // Added minFontSize
+                  ), // Closing parenthesis for AutoSizeText
+                ), // Closing parenthesis for InkWell
                 SizedBox(height: 4.h),
                 // Repo Description
-                Text(
+                AutoSizeText(
                   description,
                   style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted),
+                  minFontSize: 10, // Added minFontSize
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -282,13 +294,18 @@ class ActivitySection extends StatelessWidget {
                   children: [
                     Icon(Icons.circle, color: _getLanguageColor(language), size: 12.sp),
                     SizedBox(width: 4.w),
-                    Text(language, style: TextStyle(fontSize: 12.sp, color: V2Colors.textMuted)),
+                    AutoSizeText(
+                      language,
+                      style: TextStyle(fontSize: 12.sp, color: V2Colors.textMuted),
+                      minFontSize: 10,
+                    ), // Added minFontSize
                     SizedBox(width: 16.w),
                     Icon(Icons.star_border, color: V2Colors.secondary, size: 14.sp),
                     SizedBox(width: 4.w),
-                    Text(
+                    AutoSizeText(
                       stars.toString(),
                       style: TextStyle(fontSize: 12.sp, color: V2Colors.textMuted),
+                      minFontSize: 10, // Added minFontSize
                     ),
                   ],
                 ),

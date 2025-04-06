@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
+import 'package:myportfolio/v2/data/personal_datas.dart';
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
@@ -88,7 +90,7 @@ class _ContactSectionState extends State<ContactSection> {
                     .fadeIn(duration: 600.ms)
                     .slideX(begin: -0.2, duration: 600.ms, curve: Curves.easeOut);
 
-                Widget contactForm = _buildContactForm()
+                _buildContactForm()
                     .animate() // Add entry animation
                     .fadeIn(duration: 600.ms, delay: 150.ms) // Stagger animation
                     .slideX(begin: 0.2, duration: 600.ms, delay: 150.ms, curve: Curves.easeOut);
@@ -100,14 +102,14 @@ class _ContactSectionState extends State<ContactSection> {
                     children: [
                       Expanded(flex: 1, child: contactInfo),
                       SizedBox(width: V2Theme.spacingLg.w), // Use theme spacing
-                      Expanded(flex: 2, child: contactForm),
+                      //Expanded(flex: 2, child: contactForm),
                     ],
                   );
                 } else {
                   // Mobile layout: Column
                   return Column(
                     children: [
-                      contactForm, // Form first on mobile like original CSS
+                      //contactForm, // Form first on mobile like original CSS
                       SizedBox(height: V2Theme.spacingLg.h), // Use theme spacing
                       contactInfo,
                     ],
@@ -155,20 +157,29 @@ class _ContactSectionState extends State<ContactSection> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AutoSizeText(
                 "Social Profiles",
                 style: TextStyle(
                   fontSize: 18.sp, // Adjust size
                   fontWeight: FontWeight.w600,
                   color: V2Colors.text,
                 ),
+                minFontSize: 10, // Added minFontSize
               ),
               SizedBox(height: V2Theme.spacingMd.h),
               Row(
                 children: [
-                  _buildSocialIcon(Icons.link, 'https://linkedin.com'), // Use actual URL
-                  SizedBox(width: V2Theme.spacingSm.w),
-                  _buildSocialIcon(Icons.code, 'https://github.com/sonderman'), // Use actual URL
+                  _FooterSocialIcon(
+                    icon: Icons.link,
+                    url: linkedInUrl,
+                    launchUrlHelper: _launchUrlHelper,
+                  ),
+                  SizedBox(width: 16.w),
+                  _FooterSocialIcon(
+                    icon: Icons.code,
+                    url: githubUrl,
+                    launchUrlHelper: _launchUrlHelper,
+                  ),
                 ],
               ),
             ],
@@ -179,23 +190,6 @@ class _ContactSectionState extends State<ContactSection> {
   }
 
   // Removed _buildContactCard helper method, replaced by _ContactInfoCard widget below
-
-  // Helper for social icons (similar to AboutSection)
-  Widget _buildSocialIcon(IconData icon, String url) {
-    return InkWell(
-      onTap: () => _launchUrlHelper(url), // Launch URL using helper from State
-      borderRadius: BorderRadius.circular(20.r),
-      child: Container(
-        width: 40.w,
-        height: 40.h,
-        decoration: const BoxDecoration(
-          color: V2Colors.primaryLight, // Match CSS
-          shape: BoxShape.circle,
-        ),
-        child: Icon(icon, color: V2Colors.text, size: 20.sp),
-      ),
-    );
-  }
 
   // Helper for Contact Form section
   Widget _buildContactForm() {
@@ -212,9 +206,10 @@ class _ContactSectionState extends State<ContactSection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            AutoSizeText(
               "Send me a message",
               style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600, color: V2Colors.text),
+              minFontSize: 10, // Added minFontSize
             ),
             SizedBox(height: V2Theme.spacingMd.h),
             // Form Fields
@@ -272,7 +267,7 @@ class _ContactSectionState extends State<ContactSection> {
             ElevatedButton.icon(
               onPressed: _submitForm, // Keep validation, but no actual submission
               icon: const Icon(Icons.send), // Remove loading indicator logic
-              label: const Text('Send Message'), // Static text
+              label: const AutoSizeText('Send Message', minFontSize: 10), // Added minFontSize
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
               ),
@@ -303,7 +298,10 @@ class _ContactSectionState extends State<ContactSection> {
       // Example: Show a temporary message (optional)
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Contact form submission is currently disabled.'),
+          content: AutoSizeText(
+            'Contact form submission is currently disabled.',
+            minFontSize: 10,
+          ), // Added minFontSize
           duration: Duration(seconds: 3),
         ),
       );
@@ -344,7 +342,7 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
     if (isLink) {
       contentWidget = InkWell(
         onTap: () => widget.launchUrlHelper(widget.url!), // Launch URL
-        child: Text(
+        child: AutoSizeText(
           widget.content,
           style: TextStyle(
             fontSize: 16.sp,
@@ -352,12 +350,14 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
             decoration: TextDecoration.underline,
             decorationColor: V2Colors.secondary,
           ),
+          minFontSize: 10, // Added minFontSize
         ),
       );
     } else {
-      contentWidget = Text(
+      contentWidget = AutoSizeText(
         widget.content,
         style: TextStyle(fontSize: 16.sp, color: V2Colors.textMuted),
+        minFontSize: 10, // Added minFontSize
       );
     }
 
@@ -396,13 +396,14 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AutoSizeText(
                     widget.title,
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                       color: V2Colors.text,
                     ),
+                    minFontSize: 10, // Added minFontSize
                   ),
                   SizedBox(height: V2Theme.spacingXs.h),
                   contentWidget, // Display link or plain text
@@ -410,6 +411,55 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// StatefulWidget for Footer Social Icon with Hover Effect
+class _FooterSocialIcon extends StatefulWidget {
+  final IconData icon;
+  final String url;
+  final Future<void> Function(String) launchUrlHelper; // Pass helper function
+
+  const _FooterSocialIcon({required this.icon, required this.url, required this.launchUrlHelper});
+
+  @override
+  State<_FooterSocialIcon> createState() => _FooterSocialIconState();
+}
+
+class _FooterSocialIconState extends State<_FooterSocialIcon> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: Tooltip(
+        message: widget.url,
+        child: InkWell(
+          onTap: () => widget.launchUrlHelper(widget.url), // Use passed helper
+          borderRadius: BorderRadius.circular(20.r),
+          child: AnimatedContainer(
+            duration: 200.ms, // Faster hover transition
+            transform: Matrix4.translationValues(0, _isHovered ? -3.h : 0, 0), // Translate Y
+            decoration: BoxDecoration(
+              color:
+                  _isHovered ? V2Colors.secondary : V2Colors.primary, // Change background on hover
+              shape: BoxShape.circle,
+              boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow on hover
+            ),
+            width: 40.w,
+            height: 40.h,
+            child: Icon(
+              widget.icon,
+              color: _isHovered ? V2Colors.primary : V2Colors.text, // Change icon color on hover
+              size: 20.sp,
+            ),
+          ),
         ),
       ),
     );

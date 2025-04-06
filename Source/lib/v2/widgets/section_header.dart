@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myportfolio/v2/theme/v2_theme.dart';
@@ -13,7 +14,7 @@ class SectionHeader extends StatelessWidget {
     return Column(
       children: [
         // Mimic CSS .section-title
-        Text(
+        AutoSizeText(
           title,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -22,8 +23,9 @@ class SectionHeader extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: V2Colors.text,
           ),
+          minFontSize: 10, // Added minFontSize
           // TODO: Add character reveal animation later
-        ),
+        ), // Removed extra parenthesis from line 27 and 29
         SizedBox(height: 16.h), // Spacing like var(--spacing-sm)
         // Mimic CSS .section-divider
         // Using Stack to overlay the accent lines on the main divider

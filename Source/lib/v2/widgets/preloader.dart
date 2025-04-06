@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 
@@ -74,7 +75,7 @@ class _PreloaderState extends State<Preloader> with SingleTickerProviderStateMix
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    AutoSizeText(
                       'Loading',
                       style: TextStyle(
                         fontFamily: V2Fonts.heading,
@@ -82,21 +83,34 @@ class _PreloaderState extends State<Preloader> with SingleTickerProviderStateMix
                         color: V2Colors.text,
                         letterSpacing: 2,
                       ),
+                      minFontSize: 10, // Added minFontSize
                     ),
                     // Dot 1
-                    Text('.', style: TextStyle(fontSize: 18.sp, color: V2Colors.text))
+                    AutoSizeText(
+                          '.',
+                          style: TextStyle(fontSize: 18.sp, color: V2Colors.text),
+                          minFontSize: 10,
+                        ) // Added minFontSize
                         .animate(onPlay: (controller) => controller.repeat())
                         .fadeIn(delay: 0.ms, duration: 500.ms) // Fade in
                         .then(delay: 500.ms) // Stay visible
                         .fadeOut(duration: 500.ms), // Fade out (Total cycle 1.5s)
                     // Dot 2
-                    Text('.', style: TextStyle(fontSize: 18.sp, color: V2Colors.text))
+                    AutoSizeText(
+                          '.',
+                          style: TextStyle(fontSize: 18.sp, color: V2Colors.text),
+                          minFontSize: 10,
+                        ) // Added minFontSize
                         .animate(onPlay: (controller) => controller.repeat())
                         .fadeIn(delay: 500.ms, duration: 500.ms) // Start later
                         .then(delay: 500.ms)
                         .fadeOut(duration: 500.ms),
                     // Dot 3
-                    Text('.', style: TextStyle(fontSize: 18.sp, color: V2Colors.text))
+                    AutoSizeText(
+                          '.',
+                          style: TextStyle(fontSize: 18.sp, color: V2Colors.text),
+                          minFontSize: 10,
+                        ) // Added minFontSize
                         .animate(onPlay: (controller) => controller.repeat())
                         .fadeIn(delay: 1000.ms, duration: 500.ms) // Start even later
                         .then(delay: 500.ms)
