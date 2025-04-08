@@ -105,7 +105,7 @@ class _NavMenuState extends State<NavMenu> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const AutoSizeText('WELCOME', minFontSize: 10),
+                              const AutoSizeText('WELCOME', minFontSize: 16),
                               SizedBox(width: 12.w),
                               // Reactive switch to toggle version
                               Obx(() {
@@ -115,7 +115,11 @@ class _NavMenuState extends State<NavMenu> {
                                   children: [
                                     Text(
                                       "Switch to Old Version",
-                                      style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                                      style: TextStyle(
+                                        // Increase font size on mobile devices for better readability
+                                        fontSize: isMobile ? 60.sp : 14.sp,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                     Switch(
                                       value: isV1,

@@ -86,6 +86,32 @@ class _HomePageState extends State<HomePage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        Obx(() {
+                          final version = Get.find<VersionController>().currentVersion;
+                          final isV2 = version.value == "v2";
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Switch to New Version",
+                                style: TextStyle(fontSize: 60.sp, color: Colors.white),
+                              ),
+                              Switch(
+                                value: isV2,
+                                onChanged: (value) async {
+                                  final newVersion = value ? "v2" : "v1";
+                                  // Delay the version switch until after the switch animation completes (~300ms)
+                                  Future.delayed(Duration(milliseconds: 300)).then((_) {
+                                    // Switches version and resets navigation stack to simulate full restart
+                                    Get.find<VersionController>().switchVersionAndRestart(
+                                      newVersion,
+                                    );
+                                  });
+                                },
+                              ),
+                            ],
+                          );
+                        }),
                         aboutCardWidgetMobile(),
                         SizedBox(height: 30.sp),
                         Card(
