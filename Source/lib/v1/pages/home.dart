@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:myportfolio/controllers/version_controller.dart';
 import 'package:myportfolio/v1/globals.dart';
 import 'package:myportfolio/v1/pages/about_page.dart';
 import 'package:myportfolio/v1/pages/activity_page.dart';
@@ -194,6 +196,29 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              Obx(() {
+                final version = Get.find<VersionController>().currentVersion;
+                final isV2 = version.value == "v2";
+                return Row(
+                  children: [
+                    Text(
+                      "Switch to New Version",
+                      style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                    ),
+                    Switch(
+                      value: isV2,
+                      onChanged: (value) async {
+                        final newVersion = value ? "v2" : "v1";
+                        // Delay the version switch until after the switch animation completes (~300ms)
+                        Future.delayed(Duration(milliseconds: 300)).then((_) {
+                          // Switches version and resets navigation stack to simulate full restart
+                          Get.find<VersionController>().switchVersionAndRestart(newVersion);
+                        });
+                      },
+                    ),
+                  ],
+                );
+              }),
             ],
           ),
         ),

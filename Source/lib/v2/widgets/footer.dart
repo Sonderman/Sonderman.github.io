@@ -158,12 +158,12 @@ class _FooterSocialIconState extends State<_FooterSocialIcon> {
               shape: BoxShape.circle,
               boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow on hover
             ),
-            width: 40.w,
-            height: 40.h,
+            width: 80.sp,
+            height: 80.sp,
             child: Icon(
               widget.icon,
               color: _isHovered ? V2Colors.primary : V2Colors.text, // Change icon color on hover
-              size: 20.sp,
+              size: 60.sp,
             ),
           ),
         ),

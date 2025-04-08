@@ -1,35 +1,149 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:http/http.dart' as http;
 import 'package:myportfolio/v2/data/personal_datas.dart';
-import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
-import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
-import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
+import 'package:myportfolio/v2/theme/v2_theme.dart';
+import 'package:myportfolio/v2/widgets/section_header.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webviewx_plus/webviewx_plus.dart'; // Import url_launcher
+import 'package:webviewx_plus/webviewx_plus.dart';
 
-class ActivitySection extends StatelessWidget {
+/// ActivitySection displays GitHub profile info, contribution graph, and repositories.
+/// Now dynamically fetches GitHub profile data like v1.
+class ActivitySection extends StatefulWidget {
   const ActivitySection({super.key});
 
-  // TODO: Add state management for GitHub data if fetched dynamically (or lift state up)
+  @override
+  State<ActivitySection> createState() => _ActivitySectionState();
+}
+
+class _ActivitySectionState extends State<ActivitySection> {
+  /// Loading state for GitHub profile fetch
+  bool _isLoading = true;
+
+  /// Error message if fetch fails
+  String? _error;
+
+  /// GitHub profile data
+  Map<String, dynamic>? _profileData;
+
+  /// Loading state for repositories fetch
+  bool _reposLoading = true;
+
+  /// Error message if repo fetch fails
+  String? _reposError;
+
+  /// List of repositories
+  List<Map<String, dynamic>> _repositories = [];
+
+  /// GitHub username
+  final String _username = 'Sonderman';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchGitHubProfile();
+    _fetchRepositories();
+  }
+
+  /// Fetch GitHub profile data from API
+  Future<void> _fetchGitHubProfile() async {
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+
+    try {
+      final url = Uri.parse('https://api.github.com/users/$_username');
+      final response = await http.get(url);
+
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _profileData = json.decode(response.body);
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _error = 'Failed to load profile: ${response.statusCode} ${response.reasonPhrase}';
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = 'Failed to load profile: $e';
+        _isLoading = false;
+      });
+    }
+  }
+
+  /// Fetch user's repositories from GitHub API
+  Future<void> _fetchRepositories() async {
+    if (!mounted) return;
+
+    setState(() {
+      _reposLoading = true;
+      _reposError = null;
+    });
+
+    try {
+      final url = Uri.parse('https://api.github.com/users/$_username/repos?per_page=100');
+      final response = await http.get(url);
+
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        // Sort repos by updated date descending
+        data.sort((a, b) {
+          final aDate = DateTime.tryParse(a['updated_at'] ?? '') ?? DateTime(1970);
+          final bDate = DateTime.tryParse(b['updated_at'] ?? '') ?? DateTime(1970);
+          return bDate.compareTo(aDate);
+        });
+        // Take top 5 recent repos
+        final recentRepos =
+            data.take(5).map<Map<String, dynamic>>((repo) => repo as Map<String, dynamic>).toList();
+
+        setState(() {
+          _repositories = recentRepos;
+          _reposLoading = false;
+        });
+      } else {
+        setState(() {
+          _reposError =
+              'Failed to load repositories: ${response.statusCode} ${response.reasonPhrase}';
+          _reposLoading = false;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _reposError = 'Failed to load repositories: $e';
+        _reposLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: V2Colors.primaryLight, // Match original section background
+      color: V2Colors.primaryLight,
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 60.w,
-          vertical: 80.h,
-        ), // Increased vertical padding
+        padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 80.h),
         child: Column(
           children: [
-            // Section Header
             const SectionHeader(title: 'Activity'),
-            SizedBox(height: 40.h), // Spacing like var(--spacing-lg)
-            // GitHub Profile Section - Basic UI
+            SizedBox(height: 40.h),
+
+            // GitHub Profile Section
             Container(
-                  width: double.infinity, // Take full width
+                  width: double.infinity,
                   padding: EdgeInsets.all(24.w),
                   margin: EdgeInsets.only(bottom: 40.h),
                   decoration: BoxDecoration(
@@ -37,107 +151,62 @@ class ActivitySection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
                     boxShadow: [V2Theme.shadowMd],
                   ),
-                  child: Row(
-                    // Use Row for horizontal layout
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Placeholder Avatar
-                      CircleAvatar(
-                        radius: 40.r,
-                        backgroundColor: V2Colors.primaryLight,
-                        child: Icon(
-                          Icons.person_outline, // Placeholder icon
-                          size: 40.sp,
-                          color: V2Colors.secondary,
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                      // Profile Info Column
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min, // Fit content vertically
-                          children: [
-                            AutoSizeText(
-                              'Sonderman', // GitHub Username
-                              style: TextStyle(
-                                fontFamily: V2Fonts.heading,
-                                fontSize: 22.sp,
-                                fontWeight: FontWeight.w600,
-                                color: V2Colors.text,
+                  child:
+                      _isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : _error != null
+                          ? Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.w),
+                              child: Text(
+                                _error!,
+                                style: TextStyle(color: Colors.red, fontSize: 16.sp),
+                                textAlign: TextAlign.center,
                               ),
-                              minFontSize: 10, // Added minFontSize
                             ),
-                            SizedBox(height: 8.h),
-                            // Placeholder for Bio/Location if needed later
-                            AutoSizeText(
-                              'View profile on GitHub', // Placeholder text
-                              style: TextStyle(fontSize: 16.sp, color: V2Colors.textMuted),
-                              minFontSize: 10, // Added minFontSize
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                      // View Profile Button
-                      ElevatedButton.icon(
-                        icon: Icon(Icons.link, size: 18.sp),
-                        label: const AutoSizeText(
-                          'View Profile',
-                          minFontSize: 10,
-                        ), // Added minFontSize
-                        onPressed: () async {
-                          final Uri url = Uri.parse('https://github.com/Sonderman');
-                          if (!await launchUrl(url)) {
-                            // Optional: Show error if URL can't be launched
-                            debugPrint('Could not launch $url');
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: V2Colors.secondary,
-                          foregroundColor: V2Colors.primary,
-                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                          textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
+                          )
+                          : _profileData != null
+                          ? _buildProfileCard(_profileData!)
+                          : const Text('No data available'),
                 )
                 .animate()
                 .fadeIn(duration: 600.ms)
                 .slideY(begin: 0.2, duration: 600.ms, curve: Curves.easeOut),
 
-            // GitHub Contributions Section - Using Static Image
+            // GitHub Contributions Graph
             Container(
-                  padding: EdgeInsets.all(16.w), // Reduced padding slightly
+                  padding: EdgeInsets.all(16.w),
                   margin: EdgeInsets.only(bottom: 40.h),
                   decoration: BoxDecoration(
                     color: V2Colors.card,
                     borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd),
                     boxShadow: [V2Theme.shadowMd],
                   ),
-                  // Use ClipRRect to ensure image respects border radius
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      V2Theme.borderRadiusMd - 4.r,
-                    ), // Adjust inner radius
+                    borderRadius: BorderRadius.circular(V2Theme.borderRadiusMd - 4.r),
                     child: Center(
-                      // Using LayoutBuilder ensures dimensions are calculated during layout phase
-                      // before WebViewX attempts to render. This prevents "never laid out" errors.
-                      // The 4:3 aspect ratio (width * 0.75) provides consistent sizing.
                       child: LayoutBuilder(
                         builder: (context, constraints) {
                           final width = constraints.maxWidth * 0.8;
-                          final height = width * 0.75;
+                          final screenHeight = MediaQuery.of(context).size.height;
+                          final bool isWideScreen = width > 1200;
+                          final double containerHeight =
+                              isWideScreen
+                                  ? screenHeight *
+                                      0.8 // 80% of screen height on wide screens
+                                  : screenHeight * 0.6; // 60% on smaller screens
+
                           return SizedBox(
                             width: width,
-                            height: height,
-                            child: WebViewX(
-                              width: width,
-                              height: height,
-                              initialSourceType: SourceType.html,
-                              initialContent: githubAll(isMobile: false),
-                              ignoreAllGestures: true,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxHeight: containerHeight),
+                              child: WebViewX(
+                                width: width,
+                                height: containerHeight,
+                                initialSourceType: SourceType.html,
+                                initialContent: githubAll(),
+                                ignoreAllGestures: isWideScreen ? true : false,
+                              ),
                             ),
                           );
                         },
@@ -149,7 +218,7 @@ class ActivitySection extends StatelessWidget {
                 .fadeIn(duration: 600.ms, delay: 100.ms)
                 .slideY(begin: 0.2, duration: 600.ms, delay: 100.ms, curve: Curves.easeOut),
 
-            // GitHub Repositories Section - Basic List UI
+            // GitHub Repositories List
             Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(24.w),
@@ -161,49 +230,143 @@ class ActivitySection extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Section Title
                       AutoSizeText(
-                        'Recent Repositories', // Title for the list
+                        'Recent Repositories',
                         style: TextStyle(
                           fontFamily: V2Fonts.heading,
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600,
                           color: V2Colors.text,
                         ),
-                        minFontSize: 10, // Added minFontSize
+                        minFontSize: 10,
                       ),
                       SizedBox(height: 20.h),
-                      // Placeholder Repository List Items
-                      _buildRepoListItem(
-                        name: 'MyPortfolio',
-                        description: 'Flutter web portfolio showcasing projects and skills.',
-                        language: 'Dart',
-                        stars: 15, // Placeholder
-                      ),
-                      Divider(color: V2Colors.primaryLight, height: 20.h),
-                      _buildRepoListItem(
-                        name: 'FlutterGameTemplate',
-                        description: 'A template for building games with Flutter.',
-                        language: 'Dart',
-                        stars: 8, // Placeholder
-                      ),
-                      Divider(color: V2Colors.primaryLight, height: 20.h),
-                      _buildRepoListItem(
-                        name: 'UnityHelpers',
-                        description: 'Collection of helper scripts for Unity development.',
-                        language: 'C#',
-                        stars: 22, // Placeholder
-                      ),
-                      // View All Repositories Button
-                      SizedBox(height: 20.h), // Add spacing before button
+                      if (_reposLoading)
+                        const Center(child: CircularProgressIndicator())
+                      else if (_reposError != null)
+                        Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: Text(
+                            _reposError!,
+                            style: TextStyle(color: Colors.red, fontSize: 16.sp),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      else if (_repositories.isEmpty)
+                        Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: Text(
+                            'No repositories found.',
+                            style: TextStyle(fontSize: 16.sp, color: V2Colors.textMuted),
+                          ),
+                        )
+                      else
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            bool isWide = constraints.maxWidth > 600;
+                            return Wrap(
+                              spacing: 20.w,
+                              runSpacing: 20.h,
+                              children:
+                                  _repositories.map((repo) {
+                                    return Container(
+                                      width:
+                                          isWide
+                                              ? (constraints.maxWidth - 20.w) / 2
+                                              : constraints.maxWidth,
+                                      padding: EdgeInsets.all(16.w),
+                                      decoration: BoxDecoration(
+                                        color: V2Colors.primaryLight,
+                                        borderRadius: BorderRadius.circular(12.r),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.05),
+                                            blurRadius: 8,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              final url =
+                                                  'https://github.com/Sonderman/${repo['name']}';
+                                              _launchUrlHelper(url);
+                                            },
+                                            child: AutoSizeText(
+                                              repo['name'] ?? 'No name',
+                                              style: TextStyle(
+                                                fontSize: 18.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: V2Colors.accent1,
+                                                decoration: TextDecoration.underline,
+                                                decorationColor: V2Colors.accent1,
+                                              ),
+                                              minFontSize: 12,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8.h),
+                                          AutoSizeText(
+                                            repo['description'] ?? 'No description',
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: V2Colors.textMuted,
+                                            ),
+                                            minFontSize: 10,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          SizedBox(height: 12.h),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.circle,
+                                                color: _getLanguageColor(repo['language'] ?? ''),
+                                                size: 12.sp,
+                                              ),
+                                              SizedBox(width: 6.w),
+                                              AutoSizeText(
+                                                repo['language'] ?? 'Unknown',
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: V2Colors.textMuted,
+                                                ),
+                                                minFontSize: 10,
+                                              ),
+                                              SizedBox(width: 16.w),
+                                              Icon(
+                                                Icons.star_border,
+                                                color: V2Colors.secondary,
+                                                size: 14.sp,
+                                              ),
+                                              SizedBox(width: 4.w),
+                                              AutoSizeText(
+                                                (repo['stargazers_count'] ?? 0).toString(),
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: V2Colors.textMuted,
+                                                ),
+                                                minFontSize: 10,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                            );
+                          },
+                        ),
+                      SizedBox(height: 20.h),
                       Align(
                         alignment: Alignment.center,
                         child: OutlinedButton.icon(
                           icon: const Icon(Icons.open_in_new, size: 16),
-                          label: const AutoSizeText(
-                            'View All Repositories',
-                            minFontSize: 10,
-                          ), // Added minFontSize
+                          label: const AutoSizeText('View All Repositories', minFontSize: 10),
                           onPressed:
                               () =>
                                   _launchUrlHelper('https://github.com/Sonderman?tab=repositories'),
@@ -225,7 +388,177 @@ class ActivitySection extends StatelessWidget {
     );
   }
 
-  // Helper function to launch URLs safely (copied from other sections)
+  /// Build GitHub profile card with avatar, name, username, bio, stats, and button
+  Widget _buildProfileCard(Map<String, dynamic> data) {
+    final String avatarUrl = data['avatar_url'] ?? '';
+    final String name = data['name'] ?? _username;
+    final String login = data['login'] ?? _username;
+    final String bio = data['bio'] ?? 'No bio available.';
+    final int followers = data['followers'] ?? 0;
+    final int following = data['following'] ?? 0;
+    final int publicRepos = data['public_repos'] ?? 0;
+    final String profileUrl = data['html_url'] ?? 'https://github.com/$_username';
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isWide = constraints.maxWidth > 600;
+
+        if (isWide) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (avatarUrl.isNotEmpty)
+                ClipOval(
+                  child: Image.network(
+                    avatarUrl,
+                    width: (constraints.maxWidth * 0.15).clamp(80.0, 150.0),
+                    height: (constraints.maxWidth * 0.15).clamp(80.0, 150.0),
+                    fit: BoxFit.cover,
+                    loadingBuilder:
+                        (context, child, progress) =>
+                            progress == null ? child : const CircularProgressIndicator(),
+                    errorBuilder:
+                        (context, error, stackTrace) => Icon(
+                          Icons.person,
+                          size: (constraints.maxWidth * 0.15).clamp(80.0, 150.0),
+                        ),
+                  ),
+                ),
+              SizedBox(width: 20.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      name,
+                      style: TextStyle(
+                        fontFamily: V2Fonts.heading,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold,
+                        color: V2Colors.text,
+                      ),
+                      maxLines: 1,
+                    ),
+                    AutoSizeText(
+                      '@$login',
+                      style: TextStyle(fontSize: 16.sp, color: V2Colors.textMuted),
+                      maxLines: 1,
+                    ),
+                    SizedBox(height: 10.h),
+                    AutoSizeText(bio, style: TextStyle(fontSize: 16.sp, color: V2Colors.text)),
+                    SizedBox(height: 15.h),
+                    Row(
+                      children: [
+                        _buildStatItem(Icons.people_outline, '$followers followers'),
+                        SizedBox(width: 10.w),
+                        _buildStatItem(Icons.person_outline, '$following following'),
+                        SizedBox(width: 10.w),
+                        _buildStatItem(Icons.book_outlined, '$publicRepos repositories'),
+                      ],
+                    ),
+                    SizedBox(height: 15.h),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.link),
+                      label: const AutoSizeText('View on GitHub'),
+                      onPressed: () => _launchUrlHelper(profileUrl),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: V2Colors.secondary,
+                        foregroundColor: V2Colors.primary,
+                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                        textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (avatarUrl.isNotEmpty)
+                ClipOval(
+                  child: Image.network(
+                    avatarUrl,
+                    width: (constraints.maxWidth * 0.3).clamp(80.0, 120.0),
+                    height: (constraints.maxWidth * 0.3).clamp(80.0, 120.0),
+                    fit: BoxFit.cover,
+                    loadingBuilder:
+                        (context, child, progress) =>
+                            progress == null ? child : const CircularProgressIndicator(),
+                    errorBuilder:
+                        (context, error, stackTrace) => Icon(
+                          Icons.person,
+                          size: (constraints.maxWidth * 0.3).clamp(80.0, 120.0),
+                        ),
+                  ),
+                ),
+              SizedBox(height: 15.h),
+              AutoSizeText(
+                name,
+                style: TextStyle(
+                  fontFamily: V2Fonts.heading,
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: V2Colors.text,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              AutoSizeText(
+                '@$login',
+                style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10.h),
+              AutoSizeText(
+                bio,
+                style: TextStyle(fontSize: 14.sp, color: V2Colors.text),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 15.h),
+              Wrap(
+                spacing: 10.w,
+                runSpacing: 5.h,
+                alignment: WrapAlignment.center,
+                children: [
+                  _buildStatItem(Icons.people_outline, '$followers followers'),
+                  _buildStatItem(Icons.person_outline, '$following following'),
+                  _buildStatItem(Icons.book_outlined, '$publicRepos repositories'),
+                ],
+              ),
+              SizedBox(height: 15.h),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.link),
+                label: const AutoSizeText('View on GitHub'),
+                onPressed: () => _launchUrlHelper(profileUrl),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: V2Colors.secondary,
+                  foregroundColor: V2Colors.primary,
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                  textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  /// Build a stat item with icon and text
+  Widget _buildStatItem(IconData icon, String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 16.sp, color: V2Colors.textMuted),
+        SizedBox(width: 4.w),
+        AutoSizeText(text, style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted)),
+      ],
+    );
+  }
+
+  /// Helper to launch URLs safely
   Future<void> _launchUrlHelper(String url) async {
     final Uri? launchUri = Uri.tryParse(url);
     if (launchUri == null) {
@@ -242,83 +575,7 @@ class ActivitySection extends StatelessWidget {
     }
   }
 
-  // Helper widget for a single repository list item
-  Widget _buildRepoListItem({
-    required String name,
-    required String description,
-    required String language,
-    required int stars,
-  }) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.book_outlined, color: V2Colors.secondary, size: 20.sp), // Repo icon
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Repo Name (Make it clickable)
-                InkWell(
-                  onTap: () {
-                    // Construct GitHub repo URL (assuming username 'Sonderman')
-                    final String repoUrl = 'https://github.com/Sonderman/$name';
-                    _launchUrlHelper(repoUrl);
-                  },
-                  child: AutoSizeText(
-                    name,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: V2Colors.accent1, // Keep link color
-                      decoration: TextDecoration.underline, // Add underline
-                      decorationColor: V2Colors.accent1,
-                    ),
-                    minFontSize: 10, // Added minFontSize
-                  ), // Closing parenthesis for AutoSizeText
-                ), // Closing parenthesis for InkWell
-                SizedBox(height: 4.h),
-                // Repo Description
-                AutoSizeText(
-                  description,
-                  style: TextStyle(fontSize: 14.sp, color: V2Colors.textMuted),
-                  minFontSize: 10, // Added minFontSize
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 8.h),
-                // Language and Stars
-                Row(
-                  children: [
-                    Icon(Icons.circle, color: _getLanguageColor(language), size: 12.sp),
-                    SizedBox(width: 4.w),
-                    AutoSizeText(
-                      language,
-                      style: TextStyle(fontSize: 12.sp, color: V2Colors.textMuted),
-                      minFontSize: 10,
-                    ), // Added minFontSize
-                    SizedBox(width: 16.w),
-                    Icon(Icons.star_border, color: V2Colors.secondary, size: 14.sp),
-                    SizedBox(width: 4.w),
-                    AutoSizeText(
-                      stars.toString(),
-                      style: TextStyle(fontSize: 12.sp, color: V2Colors.textMuted),
-                      minFontSize: 10, // Added minFontSize
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Helper to get a color based on language (simple version)
-  // TODO: Expand with more languages or use a package
+  /// Get color for language dot
   Color _getLanguageColor(String language) {
     switch (language.toLowerCase()) {
       case 'dart':

@@ -45,7 +45,10 @@ class _ParticlesBackgroundState extends State<ParticlesBackground>
       return Particle(
         x: Random().nextDouble() * size.width,
         y: Random().nextDouble() * size.height,
-        radius: 1.w + Random().nextDouble() * 2.w, // Adjusted size range
+        radius:
+            2.w +
+            Random().nextDouble() *
+                4.w, // Increased particle size: radius now ranges from 2.w to 6.w for larger, more visible particles
         color: getRandomParticleColor(),
         vx: (Random().nextDouble() - 0.5) * 0.5, // Match original JS velocity
         vy: (Random().nextDouble() - 0.5) * 0.5, // Match original JS velocity

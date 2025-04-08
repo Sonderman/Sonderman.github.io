@@ -145,16 +145,53 @@ class AboutSection extends StatelessWidget {
                   minFontSize: 10, // Added minFontSize
                 ), // Removed extra parenthesis
                 SizedBox(height: 40.h), // Increased from 30
-                Wrap(
-                  spacing: 40.w,
-                  runSpacing: 30.h,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    _buildSkillItem(context, "Flutter", 90),
-                    _buildSkillItem(context, "Dart", 85),
-                    _buildSkillItem(context, "Unity Engine", 75),
-                    _buildSkillItem(context, "C#", 70),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isMobile = constraints.maxWidth < 600;
+                    if (isMobile) {
+                      // On mobile, stack skill items vertically and make them full width
+                      final double horizontalPadding =
+                          24.w * 2; // Mobile padding from main container
+                      final double maxWidth = constraints.maxWidth - horizontalPadding;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: _buildSkillItem(context, "Flutter", 90, maxWidth: maxWidth),
+                          ),
+                          SizedBox(height: 30.h),
+                          SizedBox(
+                            width: double.infinity,
+                            child: _buildSkillItem(context, "Dart", 85, maxWidth: maxWidth),
+                          ),
+                          SizedBox(height: 30.h),
+                          SizedBox(
+                            width: double.infinity,
+                            child: _buildSkillItem(context, "Unity Engine", 75, maxWidth: maxWidth),
+                          ),
+                          SizedBox(height: 30.h),
+                          SizedBox(
+                            width: double.infinity,
+                            child: _buildSkillItem(context, "C#", 70, maxWidth: maxWidth),
+                          ),
+                        ],
+                      );
+                    } else {
+                      // On tablet and desktop, use Wrap for multi-column layout
+                      return Wrap(
+                        spacing: 40.w,
+                        runSpacing: 30.h,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          _buildSkillItem(context, "Flutter", 90),
+                          _buildSkillItem(context, "Dart", 85),
+                          _buildSkillItem(context, "Unity Engine", 75),
+                          _buildSkillItem(context, "C#", 70),
+                        ],
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -199,15 +236,22 @@ class AboutSection extends StatelessWidget {
 
   // Removed _buildServiceCard helper method, replaced by _ServiceInfoCard widget below
 
-  Widget _buildSkillItem(BuildContext context, String skill, int percentage) {
+  Widget _buildSkillItem(BuildContext context, String skill, int percentage, {double? maxWidth}) {
     // Calculation needs context for MediaQuery
     double screenWidth = MediaQuery.of(context).size.width;
     double horizontalPadding = 60.w * 2;
     double wrapSpacing = 40.w;
     int numberOfColumns = screenWidth < 600 ? 1 : 2;
-    double availableWidth =
-        (screenWidth - horizontalPadding - (wrapSpacing * (numberOfColumns - 1))) / numberOfColumns;
-    availableWidth = availableWidth.clamp(150.w, 400.w);
+
+    double availableWidth;
+    if (maxWidth != null) {
+      availableWidth = maxWidth;
+    } else {
+      availableWidth =
+          (screenWidth - horizontalPadding - (wrapSpacing * (numberOfColumns - 1))) /
+          numberOfColumns;
+      availableWidth = availableWidth.clamp(150.w, 400.w);
+    }
     double progressBarWidth = (availableWidth * (percentage / 100)).clamp(0.0, availableWidth);
 
     // Wrap with Animate to trigger on scroll
@@ -336,7 +380,7 @@ class __AboutImageSectionState extends State<_AboutImageSection> {
         decoration: BoxDecoration(color: V2Colors.card, borderRadius: BorderRadius.circular(8.r)),
         child: Row(
           children: [
-            Icon(icon, color: V2Colors.secondary, size: 28.sp),
+            Flexible(flex: 0, child: Icon(icon, color: V2Colors.secondary, size: 60.sp)),
             SizedBox(width: 28.w),
             Expanded(
               child: AutoSizeText(
@@ -486,12 +530,12 @@ class _FooterSocialIconState extends State<_FooterSocialIcon> {
               shape: BoxShape.circle,
               boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow on hover
             ),
-            width: 40.w,
-            height: 40.h,
+            width: 80.sp,
+            height: 80.sp,
             child: Icon(
               widget.icon,
               color: _isHovered ? V2Colors.primary : V2Colors.text, // Change icon color on hover
-              size: 20.sp,
+              size: 60.sp,
             ),
           ),
         ),
@@ -549,10 +593,10 @@ class _ServiceInfoCardState extends State<_ServiceInfoCard> {
             children: [
               // Icon Container
               Container(
-                width: ScreenUtil().screenWidth < 600 ? 40.w : 50.w,
-                height: ScreenUtil().screenWidth < 600 ? 40.h : 50.h,
+                width: 100.sp,
+                height: 100.sp,
                 decoration: const BoxDecoration(color: V2Colors.secondary, shape: BoxShape.circle),
-                child: Icon(widget.icon, color: V2Colors.primary, size: 24.sp),
+                child: Icon(widget.icon, color: V2Colors.primary, size: 90.sp),
               ),
               SizedBox(width: 24.w),
               // Text Content

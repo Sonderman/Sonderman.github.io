@@ -3,8 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:myportfolio/v2/theme/v2_theme.dart';
-import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Import Font Awesome
 
 class MobileNavOverlay extends StatelessWidget {
   final bool isVisible;
@@ -85,37 +83,6 @@ class MobileNavOverlay extends StatelessWidget {
                       ],
                     ),
                   ),
-
-                  // Social Links (Placeholder Icons)
-                  // TODO: Replace with actual icons (e.g., FontAwesomeIcons)
-                  Container(
-                    constraints: BoxConstraints(
-                      maxWidth: overlayWidth - 64.w,
-                    ), // Account for padding
-                    child: Wrap(
-                      spacing: 20.w,
-                      runSpacing: 20.h,
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          icon: const FaIcon(FontAwesomeIcons.linkedin, color: V2Colors.text),
-                          iconSize: 50.sp,
-                          onPressed:
-                              () => _launchUrlHelper(
-                                'https://www.linkedin.com/in/ali-haydar-ayar-b45a4315b/',
-                              ),
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          icon: const FaIcon(FontAwesomeIcons.github, color: V2Colors.text),
-                          iconSize: 50.sp,
-                          onPressed: () => _launchUrlHelper('https://github.com/Sonderman'),
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -182,22 +149,5 @@ class MobileNavOverlay extends StatelessWidget {
           .fadeIn(delay: 300.ms, duration: 400.ms)
           .slideX(begin: 0.2),
     );
-  }
-
-  // Helper function to launch URLs safely
-  Future<void> _launchUrlHelper(String url) async {
-    final Uri? launchUri = Uri.tryParse(url);
-    if (launchUri == null) {
-      debugPrint('Invalid URL: $url');
-      return;
-    }
-    try {
-      bool launched = await launchUrl(launchUri, mode: LaunchMode.externalApplication);
-      if (!launched) {
-        debugPrint('Could not launch $url');
-      }
-    } catch (e) {
-      debugPrint('Error launching URL $url: $e');
-    }
   }
 }

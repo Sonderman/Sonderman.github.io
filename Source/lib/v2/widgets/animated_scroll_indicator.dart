@@ -43,11 +43,11 @@ class _AnimatedScrollIndicatorState extends State<AnimatedScrollIndicator> {
         bool isMobile = constraints.maxWidth < 600;
         // Use theme colors
         const Color indicatorColor = V2Colors.text;
-        double mouseWidth = isMobile ? 60.0 : 30.0;
-        double mouseHeight = isMobile ? 100.0 : 50.0;
-        const double wheelSize = 6.0;
-        const double arrowSize = 10.0;
-        const double arrowBorderWidth = 2.0;
+        double mouseWidth = isMobile ? 100.0 : 40.0;
+        double mouseHeight = isMobile ? 160.0 : 60.0;
+        double wheelSize = isMobile ? 12.0 : 8.0;
+        double arrowSize = isMobile ? 16.0 : 12.0;
+        double arrowBorderWidth = isMobile ? 4.0 : 3.0;
         return Row(
           mainAxisAlignment: isMobile ? MainAxisAlignment.end : MainAxisAlignment.center,
 
@@ -63,13 +63,13 @@ class _AnimatedScrollIndicatorState extends State<AnimatedScrollIndicator> {
                     width: mouseWidth.sp,
                     height: mouseHeight.sp,
                     decoration: BoxDecoration(
-                      border: Border.all(color: indicatorColor, width: 2.w),
+                      border: Border.all(color: indicatorColor, width: isMobile ? 3.0 : 2.w),
                       borderRadius: BorderRadius.circular(60.r), // Approx radius
                     ),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 10.h),
+                        padding: EdgeInsets.only(top: 10.sp),
                         // Mouse Wheel
                         child: Container(
                           width: wheelSize.w,

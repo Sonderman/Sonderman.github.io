@@ -19,7 +19,15 @@ class SectionHeader extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: V2Fonts.heading,
-            fontSize: 48.sp, // Approx 3rem
+            // Responsive font size
+            fontSize:
+                ScreenUtil().screenWidth < 600
+                    ? 40
+                        .sp // Mobile size
+                    : ScreenUtil().screenWidth < 1200
+                    ? 48
+                        .sp // Tablet size
+                    : 60.sp, // Desktop size
             fontWeight: FontWeight.w700,
             color: V2Colors.text,
           ),

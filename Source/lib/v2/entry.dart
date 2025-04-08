@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myportfolio/v2/pages/home.dart';
+import 'package:myportfolio/v2/theme/v2_theme.dart';
 import 'package:myportfolio/v2/widgets/custom_cursor.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,7 +17,7 @@ class V2Entry extends StatelessWidget {
           minTextAdapt: true,
           splitScreenMode: true,
           builder: (context, widget) {
-            return CustomCursor(child: const HomePage());
+            return Theme(data: buildV2Theme(), child: CustomCursor(child: const HomePage()));
           },
         );
       },

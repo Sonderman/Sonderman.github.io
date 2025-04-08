@@ -15,7 +15,7 @@ main() async {
       title: 'Welcome',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(useMaterial3: true), // Apply the custom theme
-      initialRoute: AppRoutes.nestview, // Or AppRoutes.v2Home if preferred start
+      initialRoute: AppRoutes.v2Home, // Or AppRoutes.v2Home if preferred start
       getPages: AppRoutes.pages,
     ),
   );

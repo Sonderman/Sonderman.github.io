@@ -4,8 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
+import 'package:get/get.dart'; // Import GetX for state management
+import 'package:myportfolio/controllers/version_controller.dart'; // Import VersionController
 
-class NavMenu extends StatelessWidget {
+// Convert NavMenu to StatefulWidget to manage hover state
+class NavMenu extends StatefulWidget {
   final VoidCallback? onMenuPressed; // Callback for mobile menu toggle
   final bool isMobileMenuOpen; // State for hamburger animation
   final bool isScrolled; // Flag for sticky state
@@ -33,6 +36,16 @@ class NavMenu extends StatelessWidget {
   });
 
   @override
+  State<NavMenu> createState() => _NavMenuState();
+}
+
+// State class for NavMenu
+class _NavMenuState extends State<NavMenu> {
+  // State variable to track hover on the "WELCOME" text
+  bool _isWelcomeHovered = false;
+
+  // Removed duplicate @override
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -43,22 +56,23 @@ class NavMenu extends StatelessWidget {
           // Required for BackdropFilter
           child: BackdropFilter(
             filter: ImageFilter.blur(
-              // Apply blur only when scrolled
-              sigmaX: isScrolled ? 5.0 : 0.0,
-              sigmaY: isScrolled ? 5.0 : 0.0,
+              // Apply blur only when scrolled (use widget property)
+              sigmaX: widget.isScrolled ? 5.0 : 0.0,
+              sigmaY: widget.isScrolled ? 5.0 : 0.0,
             ),
             child: AnimatedContainer(
               // Animate container properties based on scroll state
               duration: 300.ms, // Match CSS transition
               padding: EdgeInsets.symmetric(
                 horizontal: 32.w,
-                vertical: isScrolled ? 10.h : 16.h, // Adjust padding when scrolled
+                // Adjust padding when scrolled (use widget property)
+                vertical: widget.isScrolled ? 10.h : 16.h,
               ),
               decoration: BoxDecoration(
-                // Use theme overlay color, adjust opacity based on scroll
-                color: V2Colors.overlay.withOpacity(isScrolled ? 1.0 : 0.7),
+                // Use theme overlay color, adjust opacity based on scroll (use widget property)
+                color: V2Colors.overlay.withOpacity(widget.isScrolled ? 1.0 : 0.7),
                 boxShadow:
-                    isScrolled
+                    widget.isScrolled
                         ? [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1), // Match CSS shadow
@@ -71,84 +85,119 @@ class NavMenu extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Logo
+                  // Logo (First child of the Row)
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
+                    onEnter: (_) => setState(() => _isWelcomeHovered = true),
+                    onExit: (_) => setState(() => _isWelcomeHovered = false),
                     child: GestureDetector(
-                      onTap: () => _scrollToSection(homeKey), // Scroll to home section
+                      onTap: () => _scrollToSection(widget.homeKey),
                       child: Container(
                         padding: EdgeInsets.all(8.w),
-                        child: AutoSizeText(
-                          'WELCOME',
+                        child: AnimatedDefaultTextStyle(
+                          duration: 200.ms,
                           style: TextStyle(
                             fontSize: 50.sp,
                             fontWeight: FontWeight.bold,
-                            color: Colors.amber,
+                            color: _isWelcomeHovered ? Colors.amber.shade300 : Colors.amber,
                           ),
-                          minFontSize: 10, // Moved minFontSize here
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const AutoSizeText('WELCOME', minFontSize: 10),
+                              SizedBox(width: 12.w),
+                              // Reactive switch to toggle version
+                              Obx(() {
+                                final version = Get.find<VersionController>().currentVersion;
+                                final isV1 = version.value == "v1";
+                                return Row(
+                                  children: [
+                                    Text(
+                                      "Switch to Old Version",
+                                      style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                                    ),
+                                    Switch(
+                                      value: isV1,
+                                      onChanged: (value) async {
+                                        final newVersion = value ? "v1" : "v2";
+                                        // Delay the version switch until after the switch animation completes (~300ms)
+                                        Future.delayed(Duration(milliseconds: 300)).then((_) {
+                                          // Switches version and resets navigation stack to simulate full restart
+                                          Get.find<VersionController>().switchVersionAndRestart(
+                                            newVersion,
+                                          );
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                );
+                              }),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
 
-                  // Navigation
-                  if (isMobile)
-                    // Use custom animated hamburger icon
-                    GestureDetector(
-                      onTap: onMenuPressed,
-                      child: AnimatedSwitcher(
-                        duration: 300.ms,
-                        transitionBuilder: (child, animation) {
-                          return RotationTransition(turns: animation, child: child);
-                        },
-                        child:
-                            isMobileMenuOpen
-                                ? Icon(
-                                  Icons.close,
-                                  key: const ValueKey('close'),
-                                  color: V2Colors.text,
-                                  size: 100.sp, // Increased from 28.sp
-                                )
-                                : Icon(
-                                  Icons.menu,
-                                  key: const ValueKey('menu'),
-                                  color: V2Colors.text,
-                                  size: 100.sp, // Increased from 28.sp
-                                ),
+                  // Navigation Widget (Second child of the Row)
+                  // Use the ternary operator correctly here
+                  isMobile
+                      ? GestureDetector(
+                        // Mobile View
+                        onTap: widget.onMenuPressed,
+                        child: AnimatedSwitcher(
+                          duration: 300.ms,
+                          transitionBuilder: (child, animation) {
+                            return RotationTransition(turns: animation, child: child);
+                          },
+                          child:
+                              widget.isMobileMenuOpen
+                                  ? Icon(
+                                    Icons.close,
+                                    key: const ValueKey('close'),
+                                    color: V2Colors.text,
+                                    size: 100.sp,
+                                  )
+                                  : Icon(
+                                    Icons.menu,
+                                    key: const ValueKey('menu'),
+                                    color: V2Colors.text,
+                                    size: 100.sp,
+                                  ),
+                        ),
+                      )
+                      : Row(
+                        // Desktop View
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          NavItem(
+                            title: 'About',
+                            sectionKey: widget.aboutKey,
+                            scrollController: widget.scrollController,
+                          ),
+                          NavItem(
+                            title: 'Resume',
+                            sectionKey: widget.resumeKey,
+                            scrollController: widget.scrollController,
+                          ),
+                          NavItem(
+                            title: 'Projects',
+                            sectionKey: widget.projectsKey,
+                            scrollController: widget.scrollController,
+                          ),
+                          NavItem(
+                            title: 'Activity',
+                            sectionKey: widget.activityKey,
+                            scrollController: widget.scrollController,
+                          ),
+                          _ContactNavButton(
+                            sectionKey: widget.contactKey,
+                            scrollToSection: _scrollToSection,
+                          ),
+                        ],
                       ),
-                    )
-                  else
-                    Row(
-                      children: [
-                        NavItem(
-                          title: 'About',
-                          sectionKey: aboutKey,
-                          scrollController: scrollController,
-                        ),
-                        NavItem(
-                          title: 'Resume',
-                          sectionKey: resumeKey,
-                          scrollController: scrollController,
-                        ),
-                        NavItem(
-                          title: 'Projects',
-                          sectionKey: projectsKey,
-                          scrollController: scrollController,
-                        ),
-                        NavItem(
-                          title: 'Activity',
-                          sectionKey: activityKey,
-                          scrollController: scrollController,
-                        ),
-                        // Special styling for Contact button
-                        _ContactNavButton(
-                          // Use the new StatefulWidget
-                          sectionKey: contactKey,
-                          scrollToSection: _scrollToSection, // Pass the scroll helper
-                        ),
-                      ],
-                    ),
-                ],
+                ], // End of main Row's children list
               ),
             ), // Close AnimatedContainer
           ), // Close BackdropFilter
@@ -171,7 +220,7 @@ class NavMenu extends StatelessWidget {
       );
     }
   }
-}
+} // End of _NavMenuState class
 
 class NavItem extends StatefulWidget {
   final String title;

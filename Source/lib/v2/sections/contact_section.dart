@@ -167,20 +167,54 @@ class _ContactSectionState extends State<ContactSection> {
                 minFontSize: 10, // Added minFontSize
               ),
               SizedBox(height: V2Theme.spacingMd.h),
-              Row(
-                children: [
-                  _FooterSocialIcon(
-                    icon: Icons.link,
-                    url: linkedInUrl,
-                    launchUrlHelper: _launchUrlHelper,
-                  ),
-                  SizedBox(width: 16.w),
-                  _FooterSocialIcon(
-                    icon: Icons.code,
-                    url: githubUrl,
-                    launchUrlHelper: _launchUrlHelper,
-                  ),
-                ],
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  double maxWidth = constraints.maxWidth;
+
+                  // Calculate scaled sizes
+                  double scaledContainerSize;
+                  double scaledIconSize;
+                  double spacing;
+
+                  if (maxWidth >= 800) {
+                    scaledContainerSize = 56.w;
+                    scaledIconSize = 28.sp;
+                    spacing = 24.w;
+                  } else if (maxWidth >= 500) {
+                    scaledContainerSize = 48.w;
+                    scaledIconSize = 24.sp;
+                    spacing = 20.w;
+                  } else {
+                    scaledContainerSize = 48.w;
+                    scaledIconSize = 24.sp;
+                    spacing = 16.w;
+                  }
+
+                  // Enforce minimum pixel sizes regardless of scaling
+                  double containerSize = scaledContainerSize.clamp(48.0, 80.0);
+                  double iconSize = scaledIconSize.clamp(24.0, 40.0);
+
+                  return Wrap(
+                    spacing: spacing,
+                    runSpacing: spacing / 2,
+                    children: [
+                      _FooterSocialIcon(
+                        icon: Icons.link,
+                        url: linkedInUrl,
+                        launchUrlHelper: _launchUrlHelper,
+                        size: containerSize,
+                        iconSize: iconSize,
+                      ),
+                      _FooterSocialIcon(
+                        icon: Icons.code,
+                        url: githubUrl,
+                        launchUrlHelper: _launchUrlHelper,
+                        size: containerSize,
+                        iconSize: iconSize,
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
@@ -385,10 +419,10 @@ class _ContactInfoCardState extends State<_ContactInfoCard> {
           children: [
             // Icon Container (doesn't change on hover)
             Container(
-              width: 50.w,
-              height: 50.h,
+              width: 100.sp,
+              height: 100.sp,
               decoration: const BoxDecoration(color: V2Colors.secondary, shape: BoxShape.circle),
-              child: Icon(widget.icon, color: V2Colors.primary, size: 24.sp),
+              child: Icon(widget.icon, color: V2Colors.primary, size: 90.sp),
             ),
             SizedBox(width: V2Theme.spacingMd.w),
             // Text Content
@@ -422,8 +456,16 @@ class _FooterSocialIcon extends StatefulWidget {
   final IconData icon;
   final String url;
   final Future<void> Function(String) launchUrlHelper; // Pass helper function
+  final double size; // Container size
+  final double iconSize; // Icon size
 
-  const _FooterSocialIcon({required this.icon, required this.url, required this.launchUrlHelper});
+  const _FooterSocialIcon({
+    required this.icon,
+    required this.url,
+    required this.launchUrlHelper,
+    this.size = 48,
+    this.iconSize = 24,
+  });
 
   @override
   State<_FooterSocialIcon> createState() => _FooterSocialIconState();
@@ -452,12 +494,12 @@ class _FooterSocialIconState extends State<_FooterSocialIcon> {
               shape: BoxShape.circle,
               boxShadow: _isHovered ? [V2Theme.shadowSm] : [], // Optional shadow on hover
             ),
-            width: 40.w,
-            height: 40.h,
+            width: widget.size,
+            height: widget.size,
             child: Icon(
               widget.icon,
-              color: _isHovered ? V2Colors.primary : V2Colors.text, // Change icon color on hover
-              size: 20.sp,
+              color: _isHovered ? V2Colors.primary : V2Colors.text,
+              size: widget.iconSize,
             ),
           ),
         ),

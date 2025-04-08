@@ -4,10 +4,9 @@ import 'package:auto_size_text/auto_size_text.dart'; // Import AutoSizeText
 import 'package:myportfolio/v2/theme/v2_theme.dart'; // Import theme
 import 'package:myportfolio/v2/widgets/section_header.dart'; // Import SectionHeader
 import 'package:flutter_animate/flutter_animate.dart'; // Import flutter_animate
-import 'package:intl/intl.dart'; // Import for date formatting
-
-import '../models/project.dart'; // Import the Project model
+import '../models/project_modelv2.dart'; // Import the Project model
 import '../widgets/project_card.dart'; // Import ProjectCard
+import '../data/personal_datas.dart'; // Import projectList
 
 class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key});
@@ -21,139 +20,58 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   String _currentFilter = 'all';
   String _selectedSort = 'date-desc';
   bool _isAscending = false; // false = descending, true = ascending
-  List<Project> _allProjects = []; // Holds all projects
-  List<Project> _filteredSortedProjects = []; // Holds the full filtered/sorted list
-  List<Project> _displayedProjects = []; // Holds projects currently visible
+  List<ProjectModel> _allProjects = []; // Holds all projects
+  List<ProjectModel> _filteredSortedProjects = []; // Holds the full filtered/sorted list
+  List<ProjectModel> _displayedProjects = []; // Holds projects currently visible
   int _itemsToShow = 6; // Initial number of projects to show
   static const int _itemsPerLoad = 6; // Number of projects to load each time
-
-  // Actual project data from v1, mapped to v2 Project model
-  final List<Project> _actualProjects = [
-    Project(
-      title: "Angry Bird Game Clone",
-      imagePath:
-          "assets/images/games/angrybird-1.png", // Assuming single image for simplicity in v2 card
-      date: DateFormat('yyyy-MM-dd').format(DateTime(2022)), // Format date
-      category: 'made', // Map from ProjectCategory.madeByMe
-      platforms: ['desktop'], // Map from ProjectPlatform.desktop
-      links: {
-        'github': "https://github.com/Sonderman/AngryBirdGameUnity",
-        // 'playable': // v1 had a widget, ignore for now
-      },
-    ),
-    Project(
-      title: "Platformer Game",
-      imagePath: "assets/images/games/platformer-1.png",
-      date: DateFormat('yyyy-MM-dd').format(DateTime(2021)),
-      category: 'made',
-      platforms: ['desktop'],
-      links: {
-        'github': "https://github.com/Sonderman/PlatformerUnityGame",
-        // 'playable': // v1 had a widget, ignore for now
-      },
-    ),
-    Project(
-      title: "Sky Wars Online: Istanbul",
-      imagePath: "assets/images/games/skw-1.png",
-      date: DateFormat('yyyy-MM-dd').format(DateTime(2023)),
-      category: 'contributed', // Map from ProjectCategory.contributed
-      platforms: ['android'], // Map from ProjectPlatform.android
-      links: {
-        'playstore':
-            "https://play.google.com/store/apps/details?id=com.atlasyazilim.SkyConqueror&hl=en_US",
-      },
-    ),
-    Project(
-      title: "Zombie Rush Drive",
-      // Using first image for v2 card, v1 had multiple
-      imagePath: "assets/images/games/zrd-1.png",
-      date: DateFormat('yyyy-MM-dd').format(DateTime(2023)),
-      category: 'contributed',
-      platforms: ['android'],
-      links: {
-        'playstore':
-            "https://play.google.com/store/apps/details?id=com.AtlasGameStudios.ZombieRushDrive&hl=en",
-      },
-    ),
-    Project(
-      title: "Yaren: Tanışma・Sohbet",
-      imagePath: "assets/images/apps/yaren-1.png",
-      date: DateFormat('yyyy-MM-dd').format(DateTime(2024, 11, 26)),
-      category: 'contributed',
-      platforms: ['android'],
-      links: {'playstore': "https://play.google.com/store/apps/details?id=com.yaren.chatapp"},
-    ),
-    Project(
-      title: "Collector: Haberin Merkezi",
-      imagePath: "assets/images/apps/collector-1.png",
-      date: DateFormat('yyyy-MM-dd').format(DateTime(2024, 12, 20)),
-      category: 'contributed',
-      platforms: ['android', 'ios'], // Map from list
-      links: {
-        'playstore':
-            "https://play.google.com/store/apps/details?id=com.collector.collector.mobile&hl=tr",
-        'appstore': "https://apps.apple.com/tr/app/collector-haberin-merkezi/id6450546836?l=tr",
-      },
-    ),
-    Project(
-      title: "Tekx - Flört ve Arkadaşlık",
-      imagePath: "assets/images/apps/tekx-1.png",
-      date: DateFormat('yyyy-MM-dd').format(DateTime(2024, 12, 29)),
-      category: 'contributed',
-      platforms: ['android'],
-      links: {'playstore': "https://play.google.com/store/apps/details?id=com.tekx.chatapp&hl=tr"},
-    ),
-  ];
 
   @override
   void initState() {
     super.initState();
     // Initialize with actual data
-    _allProjects = List.from(_actualProjects);
+    _allProjects = List.from(projectList);
     _itemsToShow = 6; // Reset items to show on init
     _applyFiltersAndSort(); // Apply initial filter/sort and update displayed list
   }
 
   // Method to filter and sort projects
   void _applyFiltersAndSort() {
-    List<Project> filtered = [];
+    List<ProjectModel> filtered = [];
 
     // Apply Filter
     if (_currentFilter == 'all') {
       filtered = List.from(_allProjects);
     } else {
-      filtered = _allProjects.where((p) => p.category == _currentFilter).toList();
+      filtered =
+          _allProjects
+              .where(
+                (p) =>
+                    (_currentFilter == 'made' && p.category == ProjectCategory.madeByMe) ||
+                    (_currentFilter == 'contributed' && p.category == ProjectCategory.contributed),
+              )
+              .toList();
     }
 
     // Apply Sort
     filtered.sort((a, b) {
-      // Assuming date format YYYY-MM-DD for comparison
-      final dateA = DateTime.tryParse(a.date) ?? DateTime(1900);
-      final dateB = DateTime.tryParse(b.date) ?? DateTime(1900);
-      int comparison = dateA.compareTo(dateB);
+      int comparison = a.createdDate.compareTo(b.createdDate);
 
       // Handle sort criteria (only date for now)
       if (_selectedSort == 'date-desc' || _selectedSort == 'date-asc') {
-        // The direction is handled separately after sorting
         return comparison;
       }
-      // Add other sort criteria here if needed
       return 0;
     });
 
     // Handle sort direction toggle
     if ((_selectedSort == 'date-desc' && !_isAscending) ||
         (_selectedSort == 'date-asc' && _isAscending)) {
-      // Descending order needed (compareTo sorts ascending by default)
       filtered = filtered.reversed.toList();
     }
-    // If ascending needed, the default compareTo order is correct
 
-    // Store the full filtered list
     _filteredSortedProjects = filtered;
-    // Reset items to show when filters/sort change
     _itemsToShow = 6;
-    // Update the displayed list based on itemsToShow
     _updateDisplayedProjects();
   }
 
@@ -365,7 +283,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
         crossAxisCount: crossAxisCount,
         crossAxisSpacing: V2Theme.spacingMd.w,
         mainAxisSpacing: V2Theme.spacingMd.h,
-        childAspectRatio: 0.85, // Adjusted aspect ratio slightly
+        childAspectRatio: 1.3,
       ),
       // Use the length of the *currently displayed* projects
       itemCount: _displayedProjects.length,
