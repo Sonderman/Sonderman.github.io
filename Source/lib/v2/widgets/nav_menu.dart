@@ -99,7 +99,8 @@ class _NavMenuState extends State<NavMenu> {
                           style: TextStyle(
                             fontSize: 50.sp,
                             fontWeight: FontWeight.bold,
-                            color: _isWelcomeHovered ? Colors.amber.shade300 : Colors.amber,
+
+                            color: _isWelcomeHovered ? Colors.amber.shade300 : Colors.white,
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

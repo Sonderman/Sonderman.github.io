@@ -309,11 +309,11 @@ class _ProjectCardState extends State<ProjectCard> {
                           alignment: Alignment.centerRight,
                           child: OutlinedButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text("Close"),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: V2Colors.text,
                               side: BorderSide(color: V2Colors.secondary),
                             ),
+                            child: Text("Close"),
                           ),
                         ),
                       ],
