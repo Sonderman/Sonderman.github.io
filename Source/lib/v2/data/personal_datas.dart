@@ -172,6 +172,24 @@ final List<ResumeItem> experienceHistory = const [
 
 final List<ProjectModel> projectList = [
   ProjectModel(
+    title: "FreeAi Hub",
+    description:
+        "Welcome to FreeAi Hub – Your Pocket AI Companion \nNo sign‑up or credits required. Just open the app and dive into AI related tools!",
+    type: ProjectType.app,
+    category: ProjectCategory.madeByMe,
+    platforms: [ProjectPlatform.android],
+    createdDate: DateTime(2025, 4, 21),
+    storeLinks: ["https://play.google.com/store/apps/details?id=com.sondermium.freeaihub"],
+    images: [
+      "assets/images/apps/freeaihub-1.png",
+      "assets/images/apps/freeaihub-2.png",
+      "assets/images/apps/freeaihub-3.png",
+      "assets/images/apps/freeaihub-4.png",
+      "assets/images/apps/freeaihub-5.png",
+      "assets/images/apps/freeaihub-6.png",
+    ],
+  ),
+  ProjectModel(
     title: "Daysayar",
     description: "With this app you can challenge with time to reach your targets.",
     type: ProjectType.app,
@@ -194,7 +212,7 @@ final List<ProjectModel> projectList = [
     type: ProjectType.app,
     category: ProjectCategory.madeByMe,
     platforms: [ProjectPlatform.android],
-    createdDate: DateTime(2025),
+    createdDate: DateTime(2025, 3, 16),
     storeLinks: [
       "https://play.google.com/store/apps/details?id=com.sondermium.macrodatarefinement",
     ],
