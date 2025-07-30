@@ -30,7 +30,7 @@ class _CustomCursorState extends State<CustomCursor> {
     _showCursor =
         kIsWeb && // Only on web
         ![TargetPlatform.iOS, TargetPlatform.android] // Exclude touch platforms
-        .contains(defaultTargetPlatform);
+            .contains(defaultTargetPlatform);
   }
 
   void _updatePosition(PointerEvent event) {
@@ -64,10 +64,6 @@ class _CustomCursorState extends State<CustomCursor> {
       // If not showing custom cursor, just return the child
       return widget.child;
     }
-
-    // Use ScreenUtil context if available, otherwise fallback
-    final screenWidth = ScreenUtil().screenWidth;
-    final screenHeight = ScreenUtil().screenHeight;
 
     // Calculate cursor sizes based on original CSS (8px dot, 40px outline)
     // Using .w for potentially responsive sizing, adjust if needed

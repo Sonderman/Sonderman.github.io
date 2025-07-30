@@ -154,7 +154,7 @@ ThemeData buildV2Theme() {
         borderRadius: BorderRadius.all(Radius.circular(V2Theme.borderRadiusSm)), // Use constant
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: V2Colors.card,
       elevation: 4, // Approximating --shadow-md (Consider using AppTheme.shadowMd.blurRadius / 2 ?)
       shape: RoundedRectangleBorder(

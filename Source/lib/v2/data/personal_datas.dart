@@ -179,14 +179,14 @@ final List<ProjectModel> projectList = [
     category: ProjectCategory.madeByMe,
     platforms: [ProjectPlatform.android],
     createdDate: DateTime(2025, 4, 21),
-    storeLinks: ["https://play.google.com/store/apps/details?id=com.sondermium.freeaihub"],
+    githubLink: "https://github.com/Sonderman/OpenFreeAiHub",
+    //storeLinks: ["https://play.google.com/store/apps/details?id=com.sondermium.freeaihub"],
     images: [
       "assets/images/apps/freeaihub-1.png",
       "assets/images/apps/freeaihub-2.png",
       "assets/images/apps/freeaihub-3.png",
       "assets/images/apps/freeaihub-4.png",
       "assets/images/apps/freeaihub-5.png",
-      "assets/images/apps/freeaihub-6.png",
     ],
   ),
   ProjectModel(
@@ -196,7 +196,7 @@ final List<ProjectModel> projectList = [
     category: ProjectCategory.madeByMe,
     platforms: [ProjectPlatform.android],
     createdDate: DateTime(2024),
-    storeLinks: ["https://play.google.com/store/apps/details?id=com.sondermium.daysayar"],
+    //storeLinks: ["https://play.google.com/store/apps/details?id=com.sondermium.daysayar"],
     images: [
       "assets/images/apps/daysayar-1.png",
       "assets/images/apps/daysayar-2.png",
@@ -232,7 +232,7 @@ final List<ProjectModel> projectList = [
     category: ProjectCategory.madeByMe,
     platforms: [ProjectPlatform.android],
     createdDate: DateTime(2024),
-    storeLinks: ["https://play.google.com/store/apps/details?id=com.sondermium.taskmanager"],
+    //storeLinks: ["https://play.google.com/store/apps/details?id=com.sondermium.taskmanager"],
     images: [
       "assets/images/apps/taskmanager-1.png",
       "assets/images/apps/taskmanager-2.png",
