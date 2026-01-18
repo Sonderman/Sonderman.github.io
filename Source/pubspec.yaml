@@ -4,8 +4,8 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.8.1
-
+  sdk: ^3.10.7
+  
 dependencies:
   get: ^4.7.2
   intl: ^0.20.2
@@ -20,13 +20,15 @@ dependencies:
   animated_text_kit: ^4.2.3
   flutter_markdown: ^0.7.7+1
   font_awesome_flutter: ^10.8.0
+
+  
   flutter:
     sdk: flutter
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

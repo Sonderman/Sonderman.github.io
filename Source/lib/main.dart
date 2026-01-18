@@ -6,7 +6,7 @@ import 'package:myportfolio/app_routes.dart';
 import 'package:myportfolio/my_test_page.dart';
 
 /// Main entry point of the Flutter application
-main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   setupServices();
@@ -31,6 +31,9 @@ class MyTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(debugShowCheckedModeBanner: false, home: TestPage());
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: TestPage(),
+    );
   }
 }
