@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { projects } from '../../data/projects';
-import { VscHome, VscLoading, VscChevronLeft, VscChevronRight } from 'react-icons/vsc';
+import { VscHome, VscLoading, VscChevronLeft, VscChevronRight, VscGithubAlt } from 'react-icons/vsc';
+import { FaGooglePlay, FaApple } from 'react-icons/fa';
 
 const UnityContainer = () => {
   const [activeGame, setActiveGame] = useState(null);
@@ -159,9 +160,10 @@ const UnityContainer = () => {
                     <div className="relative w-full px-[4cqw] group/carousel">
                         <div 
                             ref={scrollRef}
-                            className="flex gap-[2cqw] overflow-x-auto no-scrollbar py-[4cqw] px-[1cqw] scroll-smooth"
+                            className="overflow-x-auto no-scrollbar py-[4cqw] px-[1cqw] scroll-smooth"
                             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                         >
+                            <div className="flex gap-[2cqw] min-w-full w-fit justify-center">
                             {games.map((game, idx) => (
                                 <button 
                                     key={idx}
@@ -179,7 +181,7 @@ const UnityContainer = () => {
                                     >
                                         {game.images && game.images.length > 0 ? (
                                             <img 
-                                                src={new URL(`../../assets/projects/${game.images[0]}`, import.meta.url).href} 
+                                                src={game.images[0]} // Already has full path from personalData
                                                 alt={game.title} 
                                                 className="w-full h-full object-cover"
                                             />
@@ -191,8 +193,37 @@ const UnityContainer = () => {
                                         
                                         {/* Title on card */}
                                         <div className="absolute bottom-[2cqw] left-[2cqw] right-[2cqw]">
-                                            <div className="text-[1cqw] text-blue-400 font-bold uppercase tracking-widest mb-[0.4cqw]">Playable</div>
+
                                             <div className="text-white text-[2cqw] font-bold truncate">{game.title}</div>
+                                            
+                                            {/* Action Buttons */}
+                                            <div className="flex gap-[1cqw] mt-[0.5cqw]">
+                                                {game.githubLink && (
+                                                    <a 
+                                                        href={game.githubLink}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className="p-[0.5cqw] bg-white/10 hover:bg-white/30 rounded-full text-white transition-colors"
+                                                        title="View Source"
+                                                    >
+                                                        <VscGithubAlt size="1.5cqw" />
+                                                    </a>
+                                                )}
+                                                {game.storeLinks && game.storeLinks.map((link, i) => (
+                                                    <a 
+                                                        key={i}
+                                                        href={link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className="p-[0.5cqw] bg-white/10 hover:bg-white/30 rounded-full text-white transition-colors"
+                                                        title="Store Link"
+                                                    >
+                                                        {link.includes('play.google.com') ? <FaGooglePlay size="1.2cqw" /> : <FaApple size="1.5cqw" />}
+                                                    </a>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -202,6 +233,7 @@ const UnityContainer = () => {
                                     )}
                                 </button>
                             ))}
+                            </div>
                         </div>
 
                         {/* Carousel Navigation */}

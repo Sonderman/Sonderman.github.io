@@ -1,4 +1,5 @@
 import React from 'react';
+import { personalData } from '../../data/personalData';
 
 const ContactPreview = () => {
     return (
@@ -17,9 +18,9 @@ const ContactPreview = () => {
                     <div className="text-sm leading-7 font-mono w-full">
                         <span className="text-[#ff9e64]">.socials</span> <span className="text-[#d4d4d4]">{`{`}</span><br/>
                         &nbsp;&nbsp;<span className="text-[#9cdcfe]">website</span>: <a href="https://github.com/Sonderman" target="_blank" rel="noopener noreferrer" className="text-[#ce9178] hover:underline hover:text-[#ff9e64] transition-colors">'sonderman.github.io'</a><span className="text-[#d4d4d4] ;">;</span><br/>
-                        &nbsp;&nbsp;<span className="text-[#9cdcfe]">email</span>: <a href="mailto:alihaydar338@gmail.com" className="text-[#ce9178] hover:underline hover:text-[#ff9e64] transition-colors">'alihaydar338@gmail.com'</a><span className="text-[#d4d4d4] ;">;</span><br/>
+                        &nbsp;&nbsp;<span className="text-[#9cdcfe]">email</span>: <a href={`mailto:${personalData.contact.email}`} className="text-[#ce9178] hover:underline hover:text-[#ff9e64] transition-colors">'{personalData.contact.email}'</a><span className="text-[#d4d4d4] ;">;</span><br/>
                         &nbsp;&nbsp;<span className="text-[#9cdcfe]">github</span>: <a href="https://github.com/sonderman" target="_blank" rel="noopener noreferrer" className="text-[#ce9178] hover:underline hover:text-[#ff9e64] transition-colors">'github.com/sonderman'</a><span className="text-[#d4d4d4] ;">;</span><br/>
-                        &nbsp;&nbsp;<span className="text-[#9cdcfe]">linkedin</span>: <a href="https://linkedin.com/in/ali-haydar-ayar-b45a4315b/" target="_blank" rel="noopener noreferrer" className="text-[#ce9178] hover:underline hover:text-[#ff9e64] transition-colors">'Ali Haydar AYAR'</a><span className="text-[#d4d4d4] ;">;</span><br/>
+                        &nbsp;&nbsp;<span className="text-[#9cdcfe]">linkedin</span>: <a href={personalData.contact.socials.find(s => s.name === 'LinkedIn')?.url} target="_blank" rel="noopener noreferrer" className="text-[#ce9178] hover:underline hover:text-[#ff9e64] transition-colors">'{personalData.name}'</a><span className="text-[#d4d4d4] ;">;</span><br/>
                         <span className="text-[#d4d4d4]">{`}`}</span>
                     </div>
                 </div>

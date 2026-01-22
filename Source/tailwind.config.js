@@ -20,7 +20,14 @@ export default {
           'accent': '#f9826c',
           'text': '#efefef',
           'text-secondary': 'rgba(56, 58, 61, 0.35)',
-        }
+        },
+        // Mobile V2 Colors
+        background: "#050a18", // Deep Navy
+        primary: "#ffcc00", // Bright Yellow
+        secondary: "#94a3b8", // Slate-400 equivalent for text
+        card: "#111a28", // Dark Blue-Grey
+        navy: "#050a18",
+        mobileAccent: "#ffcc00",
       }
     },
   },

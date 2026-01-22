@@ -41,7 +41,7 @@ const EditorWindow = ({ activeFile }) => {
   }
 
    return (
-    <div className="w-full h-full overflow-auto custom-scrollbar bg-vscode-bg p-0">
+    <div className="w-full h-full overflow-auto custom-scrollbar bg-vscode-bg p-0" spellCheck="false">
          {/* Breadcrumbs (Optional, matching VSCode look) */}
          <div className="h-6 flex items-center px-4 text-[11px] text-gray-400/80 bg-vscode-bg sticky top-0 z-10 select-none border-b border-[#2b2b2b]">
             <span className="hover:text-gray-200 cursor-pointer">src</span>
@@ -73,13 +73,14 @@ const EditorWindow = ({ activeFile }) => {
                   <ReactMarkdown
                      rehypePlugins={[rehypeRaw]}
                      components={{
-                            h1: ({node, ...props}) => <h1 className="text-3xl md:text-5xl font-bold text-vscode-accent text-center mb-2 mt-4 w-full" {...props} />,
-                            h6: ({node, ...props}) => <h6 className="text-xl text-gray-400 font-normal text-center mb-12 block w-full" {...props} />,
+                            h1: ({node, ...props}) => <h1 className="text-3xl md:text-5xl font-bold text-vscode-accent text-center mb-2 mt-4 w-full select-none" {...props} />,
+                            h6: ({node, ...props}) => <h6 className="text-xl text-gray-400 font-normal text-center mb-12 block w-full select-none" {...props} />,
                             h2: ({node, ...props}) => <h2 className="text-2xl font-semibold text-vscode-accent text-center mt-12 mb-4 w-full" {...props} />,
                             p: ({node, ...props}) => <p className="text-gray-300 leading-relaxed mb-6 text-lg text-center w-full" {...props} />,
                             a: ({node, ...props}) => <a className="text-vscode-accent hover:text-vscode-accent/80 hover:underline decoration-vscode-accent/30 transition-colors" {...props} />,
                             ul: ({node, ...props}) => <ul className="list-none space-y-2 text-gray-300 flex flex-col items-center w-full" {...props} />,
-                            li: ({node, ...props}) => <li className="text-center w-full" {...props} />
+                            li: ({node, ...props}) => <li className="text-center w-full" {...props} />,
+                            hr: () => null
                      }}
                   >
                     {activeFile.content}

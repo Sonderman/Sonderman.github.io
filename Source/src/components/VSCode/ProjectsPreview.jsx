@@ -51,7 +51,7 @@ const ProjectsPreview = () => {
             >
                {project.images && project.images.length > 0 ? (
                 <img 
-                    src={`/images/projects/${project.images[0]}`} 
+                    src={project.images[0]} // Already has full path from personalData
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                  />

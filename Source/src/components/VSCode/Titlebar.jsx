@@ -1,4 +1,5 @@
 import React from 'react';
+import { personalData } from '../../data/personalData';
 
 const Titlebar = () => {
   return (
@@ -20,7 +21,7 @@ const Titlebar = () => {
       </div>
 
       {/* Title */}
-      <p className="font-medium text-[13px] opacity-80">Ali Haydar AYAR - Visual Studio Code</p>
+      <p className="font-medium text-[13px] opacity-80">{personalData.name} - Visual Studio Code</p>
 
       {/* Window Controls */}
       <div className="flex items-center absolute right-0 px-2 space-x-2">

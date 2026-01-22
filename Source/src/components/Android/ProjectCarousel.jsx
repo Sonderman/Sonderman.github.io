@@ -48,7 +48,7 @@ const ProjectCarousel = ({ images, title }) => {
                 <AnimatePresence mode="wait">
                     <motion.img
                         key={currentIndex}
-                        src={`/images/projects/${images[currentIndex]}`}
+                        src={images[currentIndex]} // Already has full path from personalData
                         alt={`${title} screenshot ${currentIndex + 1}`}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}

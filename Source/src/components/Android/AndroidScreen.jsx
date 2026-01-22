@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { projects } from '../../data/projects';
+import { personalData } from '../../data/personalData';
 import AppIcon from './AppIcon';
 import ProjectCarousel from './ProjectCarousel';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Wifi, Battery, Signal, Search, Mic, Phone, MessageSquare, Globe, Camera } from 'lucide-react';
+import { VscGithubAlt } from 'react-icons/vsc';
+import { FaGooglePlay, FaApple } from 'react-icons/fa';
 import chromeIcon from '../../assets/icons/chrome.png';
 import stockBg from '../../assets/stock_bg.jpg';
 
@@ -35,11 +37,11 @@ const AndroidScreen = () => {
         { id: 'sys-4', name: 'Camera', icon: Camera, color: 'bg-gray-700' },
     ];
 
-    const mobileApps = projects.filter(p => p.type === 'app' && p.images?.length > 1).map((app, index) => ({
+    const mobileApps = personalData.projects.filter(p => p.type === 'app' && p.images?.length > 1).map((app, index) => ({
         ...app,
         id: `project-${index}`,
         name: app.title, // AppIcon expects "name"
-        icon: `/images/projects/${app.images[0]}` // Use first image as icon
+        icon: app.images[0] // Use first image as icon (already has full path from personalData)
     }));
 
     return (
@@ -130,6 +132,33 @@ const AndroidScreen = () => {
                             <div className="mt-2 text-white text-center max-w-md">
                                 <h2 className="text-xl font-bold mb-2">{openApp.name}</h2>
                                 <p className="text-gray-400 text-sm">{openApp.description}</p>
+                                
+                                {/* Action Buttons */}
+                                <div className="flex gap-3 justify-center mt-6">
+                                    {openApp.githubLink && (
+                                        <a 
+                                            href={openApp.githubLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+                                        >
+                                            <VscGithubAlt size={18} />
+                                            <span>GitHub</span>
+                                        </a>
+                                    )}
+                                    {openApp.storeLinks && openApp.storeLinks.map((link, idx) => (
+                                        <a 
+                                            key={idx}
+                                            href={link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+                                        >
+                                            {link.includes('play.google.com') ? <FaGooglePlay size={16} /> : <FaApple size={18} />}
+                                            <span>{link.includes('play.google.com') ? 'Play Store' : 'App Store'}</span>
+                                        </a>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </motion.div>
