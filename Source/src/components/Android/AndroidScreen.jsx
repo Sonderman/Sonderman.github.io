@@ -31,7 +31,7 @@ const AndroidScreen = () => {
     const systemApps = [
         { id: 'sys-1', name: 'Phone', icon: Phone, color: 'bg-green-600' },
         { id: 'sys-2', name: 'Messages', icon: MessageSquare, color: 'bg-blue-600' },
-        { id: 'sys-3', name: 'Chrome', icon: chromeIcon, color: '' },
+        { id: 'sys-3', name: 'Chrome', icon: chromeIcon, color: '', url: 'https://www.google.com' },
         { id: 'sys-4', name: 'Camera', icon: Camera, color: 'bg-gray-700' },
     ];
 
@@ -87,7 +87,16 @@ const AndroidScreen = () => {
             {/* Dock - Standard System Apps (Non-interactive) */}
             <div className="h-16 bg-white/20 backdrop-blur-xl mb-4 mx-2 rounded-[20px] flex items-center justify-around px-4 gap-2 z-20 border border-white/10 shadow-2xl">
                 {systemApps.map((app) => (
-                    <AppIcon key={app.id} app={app} interactive={false} />
+                    <AppIcon 
+                        key={app.id} 
+                        app={app} 
+                        interactive={true} 
+                        onClick={(clickedApp) => {
+                            if (clickedApp.url) {
+                                window.open(clickedApp.url, '_blank', 'noopener,noreferrer');
+                            }
+                        }}
+                    />
                 ))}
             </div>
 

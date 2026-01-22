@@ -179,7 +179,7 @@ const UnityContainer = () => {
                                     >
                                         {game.images && game.images.length > 0 ? (
                                             <img 
-                                                src={`/src/assets/projects/${game.images[0]}`} 
+                                                src={new URL(`../../assets/projects/${game.images[0]}`, import.meta.url).href} 
                                                 alt={game.title} 
                                                 className="w-full h-full object-cover"
                                             />

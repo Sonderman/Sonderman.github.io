@@ -50,8 +50,8 @@ const ProjectsPreview = () => {
               style={{ height: '320px' }}
             >
                {project.images && project.images.length > 0 ? (
-                 <img 
-                    src={`/src/assets/projects/${project.images[0]}`} 
+                <img 
+                    src={`/images/projects/${project.images[0]}`} 
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                  />
