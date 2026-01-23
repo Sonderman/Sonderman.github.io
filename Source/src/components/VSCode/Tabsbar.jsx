@@ -23,16 +23,18 @@ const Tabsbar = ({ openFiles, activeFile, onCloseFile, onSetActiveFile }) => {
           <div
             key={file.name}
             onClick={() => onSetActiveFile(file)}
-            className={`flex items-center px-4 min-w-[120px] max-w-[200px] flex-shrink-0 cursor-pointer border-r border-[#191d20] text-[13px] group transition-colors ${
+            className={`flex items-center px-4 min-w-[120px] max-w-[200px] flex-shrink-0 cursor-pointer border-r border-[#191d20] border-t-2 text-[13px] group transition-colors ${
                activeFile?.name === file.name 
-                ? 'bg-vscode-tab-active text-white border-t-2 border-t-vscode-accent' 
-                : 'text-gray-500 hover:bg-[#2d2d2d] bg-[#1f2428]'
+                ? 'bg-vscode-tab-active text-white border-t-[#f9826c]' 
+                : 'text-gray-500 hover:bg-[#2d2d2d] bg-[#1f2428] border-t-transparent'
             }`}
           >
              <img 
                src={
                    file.name.endsWith('.md') ? '/markdown_icon.svg' : 
                    file.name.endsWith('.js') ? '/js_icon.svg' : 
+                   file.name.endsWith('.html') ? '/html_icon.svg' : 
+                   file.name.endsWith('.css') ? '/css_icon.svg' : 
                    file.name.endsWith('.pdf') ? '/pdf_icon.png' : '/code_icon.svg'
                } 
                alt="icon" 

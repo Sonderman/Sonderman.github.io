@@ -1,18 +1,20 @@
-import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { Github, Linkedin, Mail, AppWindow, Gamepad2 } from 'lucide-react';
 
 export const personalData = {
     // Basic information
     name: "Ali Haydar AYAR",
-    title: "Software Developer",
+    title: "Computer Engineer",
     jobTitles: [
-        "Flutter & Unity Game Developer",
-        "Mobile App Developer",
+        "Unity Game Developer",
+        "Flutter Developer",
         "Software Engineer",
+        "Computer Engineer",
     ],
+    heroDescription: "Passionate about building high-performance applications and immersive gaming experiences.",
     
     // About paragraphs
     about: [
-        "Hello! I am Ali Haydar. I graduated from Karabük University in computer engineering and I am passionate about software development. I have been working with the Flutter framework for more than 2 years and I am constantly improving myself in this field. Additionally, I have 1 year of work experience with Unity Engine and took part in mobile game development processes.",
+        "Hello! I am Ali Haydar. I graduated from Karabük University in computer engineering and I am passionate about software development. I have been working with the Flutter framework for more than 3 years and I am constantly improving myself in this field. Additionally, I have 1 year of work experience with Unity Engine and took part in mobile game development processes.",
         "The complex application I developed with Flutter and the mobile games I published with Unity gave me the opportunity to showcase my talents and creativity in the software world. These experiences encouraged me to further my technical skills and develop further in new projects.",
         "I am currently improving myself further in Flutter and looking for new job opportunities in this field. I look forward to contributing and developing unique applications as part of an innovative team.",
         "I am someone who likes to take responsibility, is prone to teamwork and is willing to constantly learn. I look forward to collaborating on new projects and achieving great success together. Feel free to contact me!"
@@ -22,16 +24,20 @@ export const personalData = {
     services: [
         {
             title: "Mobile Applications",
-            description: "Professional development of applications for iOS and Android."
+            description: "Professional development of applications for iOS and Android.",
+            icon: AppWindow
         },
         {
             title: "Mobile Games",
-            description: "Professional development of Casual/Hypercasual games for iOS and Android."
+            description: "Professional development of Casual/Hypercasual games for iOS and Android.",
+            icon: Gamepad2
         }
     ],
     
     // Skills with percentages
     skills: [
+        { name: "Network", percentage: 20 },
+        { name: "System Administration", percentage: 20 },
         { name: "Flutter", percentage: 90 },
         { name: "Dart", percentage: 85 },
         { name: "Unity Engine", percentage: 75 },
@@ -41,7 +47,7 @@ export const personalData = {
     // Contact information
     contact: {
         email: "alihaydar338@gmail.com",
-        location: "Remote/Turkey",
+        location: "Ankara/Turkey",
         socials: [
             { 
                 name: "LinkedIn", 
@@ -72,7 +78,12 @@ export const personalData = {
         ],
         experience: [
             {
-                date: 'Apr 2024 - Present',
+                date: 'Dec 2025 - Present',
+                title: 'System And Network Specialist',
+                details: ['Working in a Ministry of the interior of the Republic of Türkiye as a System And Network Specialist.']
+            },
+            {
+                date: 'Apr 2024 - Dec 2025',
                 title: 'Flutter & Unity Game Developer | Freelancer',
                 details: ['Have published 80+ apps on mobile platforms.']
             },

@@ -35,7 +35,7 @@ const About = () => {
                         {personalData.services.map((service, index) => (
                             <div key={index} className="bg-card p-6 rounded-2xl border border-slate-800 hover:border-primary/50 transition-colors flex gap-6 items-start group hover:-translate-y-1 duration-300">
                                 <div className="p-4 rounded-xl bg-navy border border-slate-700 text-primary group-hover:bg-primary group-hover:text-black transition-colors shadow-lg">
-                                    {index === 0 ? <AppWindow size={32} /> : <Gamepad2 size={32} />}
+                                    <service.icon size={32} />
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>

@@ -38,7 +38,7 @@ const ProjectsPreview = () => {
       </div>
 
       {/* Projects Grid - Adjusted for better spacing and scrolling */}
-      <div className="flex-1 overflow-y-auto p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto p-8 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-8 custom-scrollbar">
         {filteredProjects.map((project, index) => (
           <div 
             key={index} 
@@ -47,7 +47,7 @@ const ProjectsPreview = () => {
             {/* Project Image Banner - Forced height with non-shrink behavior */}
             <div 
               className="relative overflow-hidden bg-[#1a1a1a] flex-shrink-0 group/img" 
-              style={{ height: '320px' }}
+              style={{ height: '240px' }}
             >
                {project.images && project.images.length > 0 ? (
                 <img 
@@ -77,27 +77,27 @@ const ProjectsPreview = () => {
             </div>
 
             {/* Content - Increased padding and breathing room */}
-            <div className="p-6 flex-1 flex flex-col">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-xl font-bold text-gray-100 group-hover:text-vscode-accent transition-colors">
+            <div className="p-5 flex-1 flex flex-col min-w-0">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-3">
+                <h3 className="text-lg md:text-xl font-bold text-gray-100 group-hover:text-vscode-accent transition-colors line-clamp-2 w-full sm:w-auto">
                   {project.title}
                 </h3>
-                <span className="text-xs text-gray-500 font-mono bg-[#1e1e1e] px-2 py-1 rounded">{project.createdDate}</span>
+                <span className="text-[10px] text-gray-500 font-mono bg-[#1e1e1e] px-2 py-0.5 rounded flex-shrink-0">{project.createdDate}</span>
               </div>
               
-              <p className="text-sm text-gray-400 leading-relaxed mb-6 flex-1">
+              <p className="text-sm text-gray-400 leading-relaxed mb-4 line-clamp-3">
                 {project.description || "No description provided."}
               </p>
 
               {/* Game Actions */}
               {(project.playableAssetPath || (project.type === 'game' && project.githubLink)) && (
-                <div className="flex gap-3 mb-4">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {project.playableAssetPath && (
                     <button
                       onClick={() => setPlayingGame(project)}
-                      className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+                      className="flex-1 min-w-[120px] px-3 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-sm font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
                     >
-                      <VscPlay size={20} />
+                      <VscPlay size={18} />
                       <span>Play Game</span>
                     </button>
                   )}
@@ -106,26 +106,26 @@ const ProjectsPreview = () => {
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 px-4 py-3 bg-[#3c3c3c] hover:bg-[#4c4c4c] text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-[#555]"
+                      className="flex-1 min-w-[120px] px-3 py-2 bg-[#3c3c3c] hover:bg-[#4c4c4c] text-white text-sm font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-[#555]"
                     >
-                      <VscGithubAlt size={20} />
+                      <VscGithubAlt size={18} />
                       <span>Source</span>
                     </a>
                   )}
                 </div>
               )}
 
-              {/* Links - More prominent */}
-              <div className="flex items-center gap-6 mt-auto pt-5 border-t border-[#3c3c3c]">
+              {/* Links - Responsive wrapping */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-auto pt-4 border-t border-[#3c3c3c] flex-shrink-0">
                 {project.githubLink && (
                   <a 
                     href={project.githubLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-vscode-accent transition-all flex items-center gap-2 text-sm font-medium group/link"
+                    className="text-gray-400 hover:text-vscode-accent transition-all flex items-center gap-2 text-xs md:text-sm font-medium group/link"
                   >
-                    <VscGithubAlt size={20} className="group-hover/link:rotate-12 transition-transform" />
-                    <span>View Source</span>
+                    <VscGithubAlt size={18} className="group-hover/link:rotate-12 transition-transform" />
+                    <span>Source</span>
                   </a>
                 )}
                 {project.storeLinks && project.storeLinks.map((link, idx) => (
@@ -134,14 +134,14 @@ const ProjectsPreview = () => {
                     href={link} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-vscode-accent transition-all flex items-center gap-2 text-sm font-medium"
+                    className="text-gray-400 hover:text-vscode-accent transition-all flex items-center gap-2 text-xs md:text-sm font-medium"
                   >
-                    {link.includes('play.google.com') ? <FaGooglePlay size={18} /> : <FaApple size={18} />}
+                    {link.includes('play.google.com') ? <FaGooglePlay size={16} /> : <FaApple size={16} />}
                     <span>{link.includes('play.google.com') ? 'Play Store' : 'App Store'}</span>
                   </a>
                 ))}
                 {!project.githubLink && !project.storeLinks && (
-                   <span className="text-gray-600 text-[11px] italic tracking-wide">Private Repository</span>
+                   <span className="text-gray-600 text-[10px] italic tracking-wide">Private Repository</span>
                 )}
               </div>
             </div>

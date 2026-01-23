@@ -55,7 +55,7 @@ const Hero = () => {
     };
 
     return (
-        <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+        <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 short:pt-24">
             <Particles
                 id="tsparticles"
                 init={particlesInit}
@@ -77,12 +77,7 @@ const Hero = () => {
                     <div className="text-2xl md:text-3xl font-light text-slate-300 mb-8 h-[60px] flex items-center justify-center md:justify-start gap-2">
                         <span className="text-slate-400">I am a</span>
                         <TypeAnimation
-                            sequence={[
-                                'Software Developer', 2000,
-                                'Flutter Developer', 2000,
-                                'Game Developer', 2000,
-                                'Mobile App Developer', 2000,
-                            ]}
+                            sequence={personalData.jobTitles.flatMap(title => [title, 2000])}
                             wrapper="span"
                             speed={50}
                             className="font-semibold text-primary"
@@ -91,7 +86,7 @@ const Hero = () => {
                     </div>
 
                     <p className="text-slate-400 text-lg mb-8 max-w-lg leading-relaxed mx-auto md:mx-0">
-                        Passionate about building high-performance applications and immersive gaming experiences.
+                        {personalData.heroDescription}
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start w-full">
@@ -131,7 +126,8 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                     className="order-1 md:order-2 flex justify-center relative"
                 >
-                    <div className="relative w-72 h-72 md:w-96 md:h-96">
+                    {/* Added max-h queries for small height screens like landscape mobile */}
+                    <div className="relative w-64 h-64 xs:w-72 xs:h-72 md:w-96 md:h-96 short:w-56 short:h-56">
                         {/* Profile Image Container */}
                         <div className="absolute inset-0 rounded-full border-4 border-primary shadow-[0_0_50px_rgba(255,204,0,0.2)] overflow-hidden bg-navy z-20">
                              <img 
@@ -143,19 +139,19 @@ const Hero = () => {
 
                         {/* Floating Icons mimicking the original site */}
                         <motion.div
-                            animate={{ y: [0, -20, 0] }}
+                            animate={{ y: [0, -15, 0] }}
                             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute -top-4 -right-4 w-20 h-20 bg-card border-2 border-primary rounded-full flex items-center justify-center z-30 shadow-lg overflow-hidden"
+                            className="absolute -top-2 -right-2 xs:-top-4 xs:-right-4 w-16 h-16 xs:w-20 xs:h-20 short:w-14 short:h-14 bg-card border-2 border-primary rounded-full flex items-center justify-center z-[45] shadow-lg overflow-hidden"
                         >
-                             <img src={flutterIcon} alt="Flutter" className="w-12 h-12 object-contain" />
+                             <img src={flutterIcon} alt="Flutter" className="w-10 h-10 xs:w-12 xs:h-12 short:w-8 short:h-8 object-contain" />
                         </motion.div>
 
                         <motion.div
-                            animate={{ y: [0, 20, 0] }}
+                            animate={{ y: [0, 15, 0] }}
                             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                            className="absolute -bottom-4 -left-4 w-20 h-20 bg-card border-2 border-primary rounded-full flex items-center justify-center z-30 shadow-lg overflow-hidden"
+                            className="absolute -bottom-2 -left-2 xs:-bottom-4 xs:-left-4 w-16 h-16 xs:w-20 xs:h-20 short:w-14 short:h-14 bg-card border-2 border-primary rounded-full flex items-center justify-center z-[45] shadow-lg overflow-hidden"
                         >
-                            <img src={unityIcon} alt="Unity" className="w-12 h-12 object-contain" />
+                            <img src={unityIcon} alt="Unity" className="w-10 h-10 xs:w-12 xs:h-12 short:w-8 short:h-8 object-contain" />
                         </motion.div>
                     </div>
                 </motion.div>

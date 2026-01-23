@@ -1,1 +1,29 @@
-export default "# Projects\n\n## Made By Me\n\n### FreeAi Hub\n*App (Android) - 2025*\nWelcome to FreeAi Hub – Your Pocket AI Companion. No sign‑up or credits required. Just open the app and dive into AI related tools!\n- [GitHub](https://github.com/Sonderman/OpenFreeAiHub)\n\n### Daysayar\n*App (Android) - 2024*\nWith this app you can challenge with time to reach your targets.\n\n### Macro Data Refinement\n*App (Android) - 2025*\nDive into the world of Macro Data Refinement, a unique puzzle game where numbers meet strategy! Your mission is to meticulously refine complex data grids to unlock famous cities around the globe.\n- [Store Link](https://play.google.com/store/apps/details?id=com.sondermium.macrodatarefinement)\n\n### Task Manager\n*App (Android) - 2024*\nYou can manage your routine tasks with this app.\n\n### Angry Bird Game Clone\n*Game (Desktop) - 2022*\n- [GitHub](https://github.com/Sonderman/AngryBirdGameUnity)\n\n### Platformer Game\n*Game (Desktop) - 2021*\n- [GitHub](https://github.com/Sonderman/PlatformerUnityGame)\n\n## Contributed\n\n### Sky Wars Online: Istanbul\n*Game (Android) - 2023*\n- [Store Link](https://play.google.com/store/apps/details?id=com.atlasyazilim.SkyConqueror&hl=en_US)\n\n### Zombie Rush Drive\n*Game (Android) - 2023*\n- [Store Link](https://play.google.com/store/apps/details?id=com.AtlasGameStudios.ZombieRushDrive&hl=en)\n\n### Yaren: Tanışma・Sohbet\n*App (Android) - 2024*\n- [Store Link](https://play.google.com/store/apps/details?id=com.yaren.chatapp)\n\n### Collector: Haberin Merkezi\n*App (Android, iOS) - 2024*\n- [Store Link](https://play.google.com/store/apps/details?id=com.collector.collector.mobile&hl=tr)\n- [Store Link](https://apps.apple.com/tr/app/collector-haberin-merkezi/id6450546836?l=tr)\n\n### Tekx - Flört ve Arkadaşlık\n*App (Android) - 2024*\n- [Store Link](https://play.google.com/store/apps/details?id=com.tekx.chatapp&hl=tr)";
+import { personalData } from '../personalData';
+
+const generateProjectsMarkdown = () => {
+    const categories = [...new Set(personalData.projects.map(p => p.category))];
+    
+    let markdown = "# Projects\n\n";
+    
+    categories.forEach(category => {
+        markdown += `## ${category}\n\n`;
+        const categoryProjects = personalData.projects.filter(p => p.category === category);
+        
+        categoryProjects.forEach(project => {
+            markdown += `### ${project.title}\n`;
+            markdown += `*${project.type.charAt(0).toUpperCase() + project.type.slice(1)} (${project.platforms.join(', ')}) - ${project.createdDate}*\n`;
+            markdown += `${project.description}\n`;
+            
+            if (project.links && project.links.length > 0) {
+                project.links.forEach(link => {
+                    markdown += `- [${link.label}](${link.url})\n`;
+                });
+            }
+            markdown += "\n";
+        });
+    });
+    
+    return markdown.trim();
+};
+
+export default generateProjectsMarkdown();
