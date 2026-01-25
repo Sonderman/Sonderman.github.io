@@ -2,6 +2,7 @@ import aboutContent from './files/about';
 import experiencesContent from './files/experiences';
 import projectsContent from './files/projects';
 import { skills } from './files/skills';
+import { certificates } from './files/certificates';
 import resumeContent from './files/resume';
 
 export const files = [
@@ -24,6 +25,11 @@ export const files = [
     name: "skills.js",
     content: skills,
     language: "custom", // We'll handle this in EditorWindow
+  },
+  {
+    name: "certificates.js",
+    content: certificates,
+    language: "custom",
   },
   {
     name: "resume.pdf",

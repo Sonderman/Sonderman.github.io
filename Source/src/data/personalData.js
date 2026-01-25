@@ -11,7 +11,7 @@ export const personalData = {
         "Computer Engineer",
     ],
     heroDescription: "Passionate about building high-performance applications and immersive gaming experiences.",
-    
+
     // About paragraphs
     about: [
         "Hello! I am Ali Haydar. I graduated from Karabük University in computer engineering and I am passionate about software development. I have been working with the Flutter framework for more than 3 years and I am constantly improving myself in this field. Additionally, I have 1 year of work experience with Unity Engine and took part in mobile game development processes.",
@@ -19,7 +19,7 @@ export const personalData = {
         "I am currently improving myself further in Flutter and looking for new job opportunities in this field. I look forward to contributing and developing unique applications as part of an innovative team.",
         "I am someone who likes to take responsibility, is prone to teamwork and is willing to constantly learn. I look forward to collaborating on new projects and achieving great success together. Feel free to contact me!"
     ],
-    
+
     // Services offered
     services: [
         {
@@ -33,7 +33,7 @@ export const personalData = {
             icon: Gamepad2
         }
     ],
-    
+
     // Skills with percentages
     skills: [
         { name: "Network", percentage: 20 },
@@ -43,30 +43,30 @@ export const personalData = {
         { name: "Unity Engine", percentage: 75 },
         { name: "C#", percentage: 70 }
     ],
-    
+
     // Contact information
     contact: {
         email: "alihaydar338@gmail.com",
         location: "Ankara/Turkey",
         socials: [
-            { 
-                name: "LinkedIn", 
-                url: "https://www.linkedin.com/in/ali-haydar-ayar-b45a4315b/", 
-                icon: Linkedin 
+            {
+                name: "LinkedIn",
+                url: "https://www.linkedin.com/in/ali-haydar-ayar-b45a4315b/",
+                icon: Linkedin
             },
-            { 
-                name: "GitHub", 
-                url: "https://github.com/sonderman", 
-                icon: Github 
+            {
+                name: "GitHub",
+                url: "https://github.com/sonderman",
+                icon: Github
             },
-            { 
-                name: "Email", 
-                url: "mailto:alihaydar338@gmail.com", 
-                icon: Mail 
+            {
+                name: "Email",
+                url: "mailto:alihaydar338@gmail.com",
+                icon: Mail
             },
         ]
     },
-    
+
     // Resume - Education and Experience
     resume: {
         education: [
@@ -98,7 +98,7 @@ export const personalData = {
             }
         ]
     },
-    
+
     // Projects - Unified format supporting both mobile and desktop views
     projects: [
         {
@@ -274,6 +274,30 @@ export const personalData = {
             links: [
                 { label: "Play Store", url: "https://play.google.com/store/apps/details?id=com.tekx.chatapp&hl=tr" }
             ]
+        }
+    ],
+    // Certificates
+    certificates: [
+        {
+            title: "Implementing And Administering Cisco Solutions (CCNA)",
+            issuer: "Morten - BT Eğitim Cisco Gold Partner",
+            date: "2025",
+            image: "/images/certificates/morten_ccna.jpg",
+            verificationUrl: ""
+        },
+        {
+            title: "Implementing And Comfiguring Cisco Identity Services Engine (SISE)",
+            issuer: "Morten - BT Eğitim Cisco Gold Partner",
+            date: "2025",
+            image: "/images/certificates/morten_sise.jpg",
+            verificationUrl: ""
+        },
+        {
+            title: "Game Development Bootcamp",
+            issuer: "Techcareer.net",
+            date: "2022",
+            image: "/images/certificates/gamedev_bootcamp_cert.png",
+            verificationUrl: "https://verified.sertifier.com/tr/verify/11780862821577/"
         }
     ]
 };
