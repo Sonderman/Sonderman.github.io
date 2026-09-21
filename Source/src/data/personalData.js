@@ -1,4 +1,6 @@
-import { Github, Linkedin, Mail, AppWindow, Gamepad2 } from 'lucide-react';
+import { Mail, AppWindow, Gamepad2 } from 'lucide-react';
+// lucide-react 1.x marka ikonlarini kaldirdi; GitHub ve LinkedIn react-icons'tan alinir.
+import { FaGithub, FaLinkedinIn } from 'react-icons/fa6';
 
 export const personalData = {
     // Basic information
@@ -52,12 +54,12 @@ export const personalData = {
             {
                 name: "LinkedIn",
                 url: "https://www.linkedin.com/in/ali-haydar-ayar-b45a4315b/",
-                icon: Linkedin
+                icon: FaLinkedinIn
             },
             {
                 name: "GitHub",
                 url: "https://github.com/sonderman",
-                icon: Github
+                icon: FaGithub
             },
             {
                 name: "Email",

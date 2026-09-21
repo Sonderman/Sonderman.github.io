@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { X, ExternalLink, Github, Smartphone, Gamepad2 } from 'lucide-react';
+import { X, ExternalLink, Smartphone, Gamepad2 } from 'lucide-react';
+import { FaGithub } from 'react-icons/fa6';
 import MobileProjectCarousel from './MobileProjectCarousel';
 import appStoreIcon from '../../assets/icons/app_store.png';
 import googlePlayIcon from '../../assets/icons/google_play.png';

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { personalData } from '../../data/personalData';
-import { ExternalLink, Github, Smartphone, Gamepad2 } from 'lucide-react';
+import { ExternalLink, Smartphone, Gamepad2 } from 'lucide-react';
 import ProjectDetailModal from './ProjectDetailModal';
 
 const Projects = () => {

@@ -1,14 +1,17 @@
 import { useCallback } from "react";
-import Particles from "@tsparticles/react";
+import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { personalData } from '../../data/personalData';
 import { TypeAnimation } from 'react-type-animation';
-import { Github, Linkedin, Mail } from 'lucide-react';
 
 import profileImage from '../../assets/profileImage.png';
 import flutterIcon from '../../assets/icons/flutter.png';
 import unityIcon from '../../assets/icons/unity.png';
+
+// Hover interactions are meaningless on touch devices and cost CPU on low-end phones.
+const supportsHover =
+    typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
 
 const Hero = () => {
     const { scrollY } = useScroll();
@@ -19,10 +22,10 @@ const Hero = () => {
     }, []);
     const particlesOptions = {
         background: { color: { value: "transparent" } },
-        fpsLimit: 120,
+        fpsLimit: 60,
         interactivity: {
             events: {
-                onHover: { enable: true, mode: "grab" },
+                onHover: { enable: supportsHover, mode: "grab" },
                 resize: true,
             },
             modes: {
@@ -56,12 +59,14 @@ const Hero = () => {
 
     return (
         <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 short:pt-24">
-            <Particles
-                id="tsparticles"
-                init={particlesInit}
-                options={particlesOptions}
-                className="absolute inset-0 -z-10"
-            />
+            {/* @tsparticles/react 4: motor baslatma (init) artik ParticlesProvider uzerinden yapilir. */}
+            <ParticlesProvider init={particlesInit}>
+                <Particles
+                    id="tsparticles"
+                    options={particlesOptions}
+                    className="absolute inset-0 -z-10"
+                />
+            </ParticlesProvider>
 
             <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10">
                 <motion.div
