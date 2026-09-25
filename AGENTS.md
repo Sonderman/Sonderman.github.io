@@ -28,6 +28,7 @@ Aynı dosyanın birden fazla kopyası bulunmaz; her assetin tek bir kaynak konum
 
 - `Source/` Vite + React 19 projesidir. `Source/src/App.jsx` 1024px eşiğinde mobil (`mobile/MobileApp.jsx`) ve masaüstü (`DesktopApp.jsx`) görünümü seçer.
 - Kişisel içerik tek noktadan yönetilir: `Source/src/data/personalData.js`. Dosya gezgini içeriği `Source/src/data/files/` altındadır.
+- Sürüm numarası tek kaynaktan gelir: `Source/package.json` içindeki `version`. `vite.config.js` bu değeri `__APP_VERSION__` olarak derlemeye enjekte eder; sayfanın köşesinde (masaüstünde alt durum çubuğunda, mobilde sağ altta) `VersionBadge` bileşeni ile görünür. Her yayın öncesi bu numara artırılır.
 - SEO meta etiketleri `Source/index.html`, `Source/public/robots.txt` ve `Source/public/sitemap.xml` içindedir. Alan adı değişirse canonical, og:url ve sitemap adresleri güncellenmelidir.
 
 ## Bağımlılık yükseltme

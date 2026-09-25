@@ -5,6 +5,7 @@ import Contact from './components/Contact';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import VersionBadge from '../components/VersionBadge';
 import './mobile.css';
 
 
@@ -99,6 +100,8 @@ function App() {
         <Projects />
         <Contact />
       </main>
+
+      <VersionBadge />
     </div>
   );
 }

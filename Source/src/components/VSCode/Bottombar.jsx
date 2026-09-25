@@ -6,6 +6,7 @@ import {
   VscWarning,
   VscSourceControl,
 } from 'react-icons/vsc';
+import { APP_VERSION_LABEL } from '../../version';
 
 const Bottombar = () => {
   return (
@@ -30,6 +31,9 @@ const Bottombar = () => {
           </div>
           <div className="flex items-center hover:bg-white/10 px-2 h-full cursor-pointer">
              <VscBell />
+          </div>
+          <div className="flex items-center px-2 h-full">
+             <p>{APP_VERSION_LABEL}</p>
           </div>
        </div>
     </footer>
