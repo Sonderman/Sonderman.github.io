@@ -39,7 +39,7 @@
   - **StatusBar:** Saat, pil ve sinyal göstergeleri.
   - **NavigationBar:** Geri, Ana Ekran ve Uygulamalar tuşları.
   - **HomeScreen:**
-    - Uygulama ikonları ızgarası (`src/data/apps.js` üzerinden beslenir).
+    - Uygulama ikonları ızgarası (`src/data/personalData.js` içindeki projelerden beslenir).
     - Kaydırılabilir sayfa yapısı.
 - **Etkileşim:**
   - İkonlara tıklayınca uygulama açılış animasyonu.
@@ -61,8 +61,8 @@
   - `Tablet/`: Tablet çerçevesi ve Unity container.
   - `common/`: Ortak kullanılan buton, ikon vb. bileşenler.
 - `src/data/`:
-  - `apps.js`: Android simülasyonundaki uygulamaların verisi.
-  - `files.js`: VS Code simülasyonundaki dosya ve klasör yapısı.
+  - `personalData.js`: Site içeriğinin tamamı (projeler, sertifikalar, iletişim).
+  - `files.js` ve `files/`: VS Code simülasyonundaki dosya ve klasör yapısı.
 - `public/`: Statik dosyalar, resimler ve ikonlar.
 
 **Kurulum ve Çalıştırma:**
