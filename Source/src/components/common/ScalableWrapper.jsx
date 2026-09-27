@@ -15,15 +15,11 @@ import React, { useRef, useState, useEffect } from 'react';
 const ScalableWrapper = ({ children, referenceWidth, referenceHeight, className = '' }) => {
   const containerRef = useRef(null);
   const [scale, setScale] = useState(1);
-  const [parentWidth, setParentWidth] = useState(0);
 
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
-        const currentWidth = containerRef.current.offsetWidth;
-        setParentWidth(currentWidth);
-        const newScale = currentWidth / referenceWidth;
-        setScale(newScale);
+        setScale(containerRef.current.offsetWidth / referenceWidth);
       }
     };
 

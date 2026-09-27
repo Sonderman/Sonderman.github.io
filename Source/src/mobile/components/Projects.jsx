@@ -49,7 +49,7 @@ const Projects = () => {
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
                     <AnimatePresence>
-                        {filteredProjects.map((project, index) => (
+                        {filteredProjects.map((project) => (
                             <motion.div
                                 layout
                                 key={project.title} // better key than index for filtering

@@ -92,7 +92,7 @@ const ProjectDetailModal = ({ project, onClose }) => {
                                 }`}
                             >
                                 {link.label.toLowerCase().includes('github') ? (
-                                    <Github size={20} />
+                                    <FaGithub size={20} />
                                 ) : link.label.toLowerCase().includes('app store') ? (
                                     <img src={appStoreIcon} alt="App Store" className="w-6 h-6 object-contain" />
                                 ) : link.label.toLowerCase().includes('google play') || link.label.toLowerCase().includes('play store') ? (

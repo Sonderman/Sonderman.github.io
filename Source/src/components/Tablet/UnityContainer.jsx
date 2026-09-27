@@ -1,7 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { projects } from '../../data/projects';
 import { VscHome, VscLoading, VscChevronLeft, VscChevronRight, VscGithubAlt } from 'react-icons/vsc';
 import { FaGooglePlay, FaApple } from 'react-icons/fa';
+
+// Unity loader'ini serbest birakir: global factory ve enjekte edilen loader script'i kaldirilir.
+// Oyun degisimlerinde eski loader bellekte kalmasin diye modul seviyesinde tutulur (AGENTS.md: memory leak).
+function releaseUnityLoader(playableAssetPath) {
+  try {
+    if (window.createUnityInstance) {
+      window.createUnityInstance = null;
+    }
+    if (playableAssetPath) {
+      const loaderScript = document.querySelector(`script[src*="${playableAssetPath}/Build/Web.loader.js"]`);
+      if (loaderScript) loaderScript.remove();
+    }
+  } catch (e) {
+    console.warn('Cleanup error:', e);
+  }
+}
 
 const UnityContainer = () => {
   const [activeGame, setActiveGame] = useState(null);
@@ -23,34 +39,25 @@ const UnityContainer = () => {
     return () => { isMountedRef.current = false; };
   }, []);
 
-  useEffect(() => {
-    return () => {
-      cleanupUnity();
-    };
+  const cleanupUnity = useCallback(async () => {
+    const instance = unityInstanceRef.current;
+    unityInstanceRef.current = null;
+    if (instance) {
+      try {
+        await instance.Quit();
+      } catch (e) {
+        console.error('Error quitting Unity:', e);
+      }
+    }
+
+    releaseUnityLoader(activeGame?.playableAssetPath);
   }, [activeGame]);
 
-  const cleanupUnity = async () => {
-    if (unityInstanceRef.current) {
-        try {
-            await unityInstanceRef.current.Quit();
-        } catch (e) {
-            console.error('Error quitting Unity:', e);
-        }
-        unityInstanceRef.current = null;
-    }
-
-    try {
-        if (window.createUnityInstance) {
-            window.createUnityInstance = null;
-        }
-        if (activeGame) {
-             const loaderScript = document.querySelector(`script[src*="${activeGame.playableAssetPath}/Build/Web.loader.js"]`);
-             if (loaderScript) loaderScript.remove();
-        }
-    } catch (e) {
-        console.warn('Cleanup error:', e);
-    }
-  };
+  useEffect(() => {
+    return () => {
+      void cleanupUnity();
+    };
+  }, [cleanupUnity]);
 
   const loadGame = (game) => {
     setActiveGame(game);
@@ -117,7 +124,7 @@ const UnityContainer = () => {
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current;
+      const { scrollLeft } = scrollRef.current;
       const scrollTo = direction === 'left' ? scrollLeft - 300 : scrollLeft + 300;
       scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
     }

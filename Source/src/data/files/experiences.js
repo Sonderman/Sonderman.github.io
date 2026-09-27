@@ -29,7 +29,7 @@ const generateExperiencesHTML = () => {
            <span class="text-blue-500">⚡</span> Experiences
         </h2>
 
-        ${resume.experience.map((exp, idx) => `
+        ${resume.experience.map((exp) => `
         <div class="relative pl-6 border-l-2 border-[#444c56] hover:border-blue-500 transition-colors duration-300">
            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#24292e] border-2 border-blue-500"></div>
            <div class="bg-[#24292e] p-6 rounded-lg border border-[#444c56] hover:border-blue-500/50 hover:shadow-lg transition-all group">

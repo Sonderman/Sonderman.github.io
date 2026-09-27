@@ -40,7 +40,7 @@ Aynı dosyanın birden fazla kopyası bulunmaz; her assetin tek bir kaynak konum
 ## Yayın akışı
 
 1. Depo kökünden `deploy.bat` çalıştırılır.
-2. Betik `Source` içinde `npm install` (gerekirse) ve `npm run build` yapar.
+2. Betik `Source` içinde `npm install` (gerekirse), `npm run lint` ve `npm run build` yapar; lint hatası yayını durdurur.
 3. `node Source/scripts/verify-dist.mjs Source/dist` ile build doğrulanır.
 4. `robocopy Source\dist . /MIR` ile çıktı köke yansıtılır; kökteki eski hash'li dosyalar bu adımda silinir.
 5. Kök dizin tekrar doğrulanır, ardından değişiklikler commit edilir.

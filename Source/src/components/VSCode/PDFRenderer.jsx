@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ZoomIn, ZoomOut, Download, RotateCcw, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -11,11 +11,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 const PDFRenderer = ({ url }) => {
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(1.2);
-  const [loading, setLoading] = useState(true);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
-    setLoading(false);
   };
 
   const handleZoomIn = () => setScale(prev => Math.min(prev + 0.1, 3.0));
