@@ -281,6 +281,13 @@ export const personalData = {
     // Certificates
     certificates: [
         {
+            title: "H3C Advanced Switching and Routing",
+            issuer: "Ultron Akademi",
+            date: "Jul 2026",
+            image: "/images/certificates/ultron_h3c_switching.jpg",
+            verificationUrl: ""
+        },
+        {
             title: "Implementing And Administering Cisco Solutions (CCNA)",
             issuer: "Morten - BT Eğitim Cisco Gold Partner",
             date: "2025",
