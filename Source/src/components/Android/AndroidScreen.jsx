@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { personalData } from '../../data/personalData';
+import { projects } from '../../data/projects';
 import AppIcon from './AppIcon';
 import ProjectCarousel from './ProjectCarousel';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,7 +37,8 @@ const AndroidScreen = () => {
         { id: 'sys-4', name: 'Camera', icon: Camera, color: 'bg-gray-700' },
     ];
 
-    const mobileApps = personalData.projects.filter(p => p.type === 'app' && p.images?.length > 1).map((app, index) => ({
+    // data/projects.js `links` alanindan githubLink/storeLinks turetir; uygulama modali bunlari kullanir.
+    const mobileApps = projects.filter(p => p.type === 'app' && p.images?.length > 1).map((app, index) => ({
         ...app,
         id: `project-${index}`,
         name: app.title, // AppIcon expects "name"
@@ -126,38 +127,40 @@ const AndroidScreen = () => {
                         </div>
 
                         {/* App Content */}
-                        <div className="flex-1 flex flex-col items-center justify-center p-4 bg-gray-900 border-t border-white/10">
-                            <ProjectCarousel images={openApp.images} title={openApp.name} />
-                            
-                            <div className="mt-2 text-white text-center max-w-md">
-                                <h2 className="text-xl font-bold mb-2">{openApp.name}</h2>
-                                <p className="text-gray-400 text-sm">{openApp.description}</p>
-                                
-                                {/* Action Buttons */}
-                                <div className="flex gap-3 justify-center mt-6">
-                                    {openApp.githubLink && (
-                                        <a 
-                                            href={openApp.githubLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
-                                        >
-                                            <VscGithubAlt size={18} />
-                                            <span>GitHub</span>
-                                        </a>
-                                    )}
-                                    {openApp.storeLinks && openApp.storeLinks.map((link, idx) => (
-                                        <a 
-                                            key={idx}
-                                            href={link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
-                                        >
-                                            {link.includes('play.google.com') ? <FaGooglePlay size={16} /> : <FaApple size={18} />}
-                                            <span>{link.includes('play.google.com') ? 'Play Store' : 'App Store'}</span>
-                                        </a>
-                                    ))}
+                        <div className="flex-1 min-h-0 overflow-y-auto p-4 bg-gray-900 border-t border-white/10 flex flex-col items-center">
+                            <div className="w-full my-auto flex flex-col items-center">
+                                <ProjectCarousel images={openApp.images} title={openApp.name} heightClass="h-[300px]" />
+
+                                <div className="mt-2 text-white text-center max-w-md">
+                                    <h2 className="text-xl font-bold mb-2">{openApp.name}</h2>
+                                    <p className="text-gray-400 text-sm">{openApp.description}</p>
+
+                                    {/* Action Buttons */}
+                                    <div className="flex gap-3 justify-center mt-6">
+                                        {openApp.githubLink && (
+                                            <a
+                                                href={openApp.githubLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+                                            >
+                                                <VscGithubAlt size={18} />
+                                                <span>GitHub</span>
+                                            </a>
+                                        )}
+                                        {openApp.storeLinks && openApp.storeLinks.map((link, idx) => (
+                                            <a
+                                                key={idx}
+                                                href={link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+                                            >
+                                                {link.includes('play.google.com') ? <FaGooglePlay size={16} /> : <FaApple size={18} />}
+                                                <span>{link.includes('play.google.com') ? 'Play Store' : 'App Store'}</span>
+                                            </a>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

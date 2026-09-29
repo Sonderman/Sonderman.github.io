@@ -18,7 +18,7 @@ const HTMLRenderer = ({ content }) => {
         title="HTML Preview"
         srcDoc={content}
         className="w-full h-full border-none"
-        sandbox="allow-scripts allow-top-navigation-by-user-activation allow-popups allow-forms allow-same-origin"
+        sandbox="allow-same-origin"
       />
     </div>
   );

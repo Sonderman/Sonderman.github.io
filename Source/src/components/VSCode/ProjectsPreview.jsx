@@ -79,7 +79,7 @@ const ProjectsPreview = () => {
             {/* Content - Increased padding and breathing room */}
             <div className="p-5 flex-1 flex flex-col min-w-0">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-3">
-                <h3 className="text-lg md:text-xl font-bold text-gray-100 group-hover:text-vscode-accent transition-colors line-clamp-2 w-full sm:w-auto">
+                <h3 className="text-lg md:text-xl font-bold text-gray-100 group-hover:text-vscode-accent transition-colors w-full sm:w-auto min-w-0 break-words">
                   {project.title}
                 </h3>
                 <span className="text-[10px] text-gray-500 font-mono bg-[#1e1e1e] px-2 py-0.5 rounded flex-shrink-0">{project.createdDate}</span>

@@ -201,7 +201,7 @@ const UnityContainer = () => {
                                         {/* Title on card */}
                                         <div className="absolute bottom-[2cqw] left-[2cqw] right-[2cqw]">
 
-                                            <div className="text-white text-[2cqw] font-bold truncate">{game.title}</div>
+                                            <div className="text-white text-[2cqw] font-bold leading-tight line-clamp-2">{game.title}</div>
                                             
                                             {/* Action Buttons */}
                                             <div className="flex gap-[1cqw] mt-[0.5cqw]">

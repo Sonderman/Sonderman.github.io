@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const ProjectCarousel = ({ images, title }) => {
+const ProjectCarousel = ({ images, title, heightClass = 'h-[420px]' }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [key, setKey] = useState(0); // Used to reset the interval
 
@@ -44,7 +44,7 @@ const ProjectCarousel = ({ images, title }) => {
 
     return (
         <div className="w-full flex flex-col items-center touch-none">
-            <div className="relative w-full h-[420px] overflow-hidden rounded-xl shadow-2xl bg-black/40 mb-6">
+            <div className={`relative w-full ${heightClass} overflow-hidden rounded-xl shadow-2xl bg-black/40 mb-6`}>
                 <AnimatePresence mode="wait">
                     <motion.img
                         key={currentIndex}
